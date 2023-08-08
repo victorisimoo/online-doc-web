@@ -1,0 +1,521 @@
+<div ng-controller="patientCtrl" data-ng-init="loading()"
+    style="margin-top: 0% !important; margin-left: 0% !important; margin-bottom: 0% !important; margin-right: 0% !important; width: 100% !important;">
+    <div class="row" align="center" ng-show="showLoading" style="padding-top: 25px;">
+        <div class="col-md-2"></div>
+        <div class="col-md-8">
+            <div class="card" ng-hide="$root.redirect">
+                <div class="card-header bgm-bluegray">
+                </div>
+                <div class="card-body card-padding">
+                    <span>
+                        <h2 ng-if="isPass" style="text-align: center; margin-bottom: 2%;">
+                            {{ 'LO_SENTIMOS' | translate }}</h2>
+                        <h2>{{waitingMessage}}
+                        </h2>
+                        <br />
+                        <br />
+                    </span>
+
+                    <div ng-show="minutesRemaining>9" style="display: block;">
+                        {{ 'HOME_CALLBACK' | translate }} <br />
+                        <i class="fa fa-home" ng-click="waitHome()" style="font-size:60px; "></i>
+                    </div>
+
+                    <div ng-show="!isPass" class="preloader pls-green" style="margin-top: 10px; margin-bottom: 10px;">
+                        <svg class="pl-circular" viewbox="25 25 50 50">
+                            <circle class="plc-path" cx="50" cy="50" r="20" />
+                        </svg>
+                    </div>
+                    <br/>
+                    <button id="appointment"
+                            class="btn btn-default btn-primary" ng-show="showAppointmentButton" ng-click="showCalendar()" style="margin-bottom: 10px">Agendar orientación programada</button>
+                    <div ng-show="!isPass" id="btn-cancelar" style="display: block;">
+                        <button id="cancelar" ng-click="cancelAppointment()"
+                            class="btn btn-default btn-cancel">{{ 'CANCELAR_CONS' | translate }}</button>
+                    </div>
+                    <div ng-show="isPass" id="btn-volver" style="display: block;">
+                        <button id="volver" ng-click="updateProfilePhone()"
+                            class="btn btn-action">{{ 'UPDATE_CONTACT_INFO' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row tipContainer" id="tipDiv" ng-show="tipObject">
+                <i class="fa fa-stethoscope text-corporate" aria-hidden="true"
+                    style="font-size: 2.5em; padding-bottom: 5px"></i>
+                <div class="col-md-12" style="font-weight: bold; font-size: 15px">
+                    {{tipObject.tip}}
+                </div>
+                <span class="author">
+                    <span>{{tipObject.doctorName}}</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <section class="content" ng-show="showCalendar1">
+        <div class="container-fluid">
+            <div class="row center-calendar">
+                <div class="col-lg-6">
+                    <div class="card card-primary">
+                        <div class="card-body p-0">
+                            <div id="calendar" style="height: 100% !important;"></div>
+                            <br/>
+                            <button class="btn btn-default btn-cancel center-calendar" style="margin: -10px auto; bottom: 20px" ng-show="showCalendar1" ng-click="cancelCalendar()">Cancelar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="row" ng-show="showAppointment">
+        <div class="col-md-2 hidden-xs hidden-sm"
+            style="padding-left: 0px !important;padding-right: 0px !important; height: 100%; background-color: #fff;">
+            <img ng-src="{{imageUrl}}" class="brand logo-medical-appointment"
+                style="width: 100% !important; padding: 5px;">
+            <div id="doctor-info">
+
+                <div class="ms-block">
+                    <div class="dropdown" uib-dropdown>
+                        <div class="card"
+                            style="border-bottom-right-radius: 15px; border-bottom-left-radius: 15px; box-shadow: none;">
+                            <div id="messages-main" class="card-header"
+                                style="margin:0;text-align: center;font-weight: bold;font-size: 15px; padding: 15px 15px 0px 15px;">
+                                <div class="ms-user">
+                                    <p style="width: 100%; text-align: center; font-weight: bold;">{{doctorName}}</p>
+                                    <img class="img-thumbnail" style="width: 50%; margin-left: 25%"
+                                        ng-src="{{doctorPhotoURL}}">
+                                    <h5><span class="doctor-name"></span></h5>
+                                </div>
+                            </div>
+                            <div class="card-body card-padding">
+                                <div class="pmo-contact">
+                                    <ul>
+                                        <div>
+                                            <li class="ng-binding"><i class="zmdi zmdi-graduation-cap zmdi-hc-fw"></i>
+                                                <strong id='espe'>{{ 'ESPECIALIDAD' | translate }}</strong><br><span
+                                                    ng-repeat="item in doctorInfo.docDoctorDocSpecialityList">{{item.specialityId.name}}
+                                                    <br /></span></li>
+                                        </div>
+                                        <div>
+                                            <li class="ng-binding"><i class="zmdi zmdi-pin-account zmdi-hc-fw"></i>
+                                                <strong
+                                                    id='cole'>{{(corporateName != 'sercomed')? 'NUM_PROF' : 'LOGIN_RUT' | translate }}</strong><br><span
+                                                    id="doctor-professional-id">{{doctorInfo.professionalId}}</span>
+                                            </li>
+                                        </div>
+                                        <!--li class="ng-binding"><i class="zmdi zmdi-email zmdi-hc-fw"></i><span id="doctor-email"></span></li-->
+                                        <div>
+                                            <li class="ng-binding"
+                                                style="min-height: 100px; max-height: 200px; overflow: hidden;text-overflow: initial;">
+                                                <i class="zmdi zmdi-info zmdi-hc-fw"></i>
+                                                <p id="doctor-summary" style="max-height: 13%;">{{doctorInfo.summary}}
+                                                </p>
+                                            </li>
+                                        </div>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <a id="view-doctor-profile" class="btn btn-default btn-block"
+                                        style="margin-top: 20px;" ng-click="viewDoctorProfile()"
+                                        uib-dropdown-toggle>{{ 'VER_PERFIL' | translate }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+</div>
+</div>
+<div id="iframe-container" class="col-md-8 without">
+    <div class="row" ng-style="{ 'height' : (attachments.length>0) ? '80%' : '100%' }">
+
+        <div id="remainingTime"
+            ng-class="appointmentInformation.serviceType==2? 'remainingTimeVideo' : 'remainingTimeChat'"
+            ng-show="remainingSeconds>0">{{remainingTime}}</div>
+        <div id="waitOpponent" ng-show="remainingSeconds<=0 && !AppointmentAttended">
+            {{ 'CONNECTING_LOADING' | translate }}
+        </div>
+        <div id="waitOpponent"
+            ng-show="remainingSeconds<=0 && AppointmentAttended && appointmentInformation.serviceType==2">
+            {{ 'VIDEO_FIN' | translate }}</div>
+        <div id="waitOpponent"
+            ng-show="remainingSeconds<=0 && AppointmentAttended && appointmentInformation.serviceType==1">
+            {{ 'CHAT_FIN' | translate }}</div>
+        <iframe id="iframe" ng-src="{{urlAppointment}}" frameborder="0" ng-show="true"
+            ng-class="appointmentInformation.serviceType==2? 'video-frame' : 'chat-frame'" allowfullscreen>
+        </iframe>
+        <div ng-show="false" id="reconnectionText" class="reconnectingMessage">
+            Conectado llamada, porfavor espere...
+            <br>
+            <br>
+            <img src='../img/loading-short.gif' width="40%" style="vertical-align:middle"></img>
+        </div>
+    </div>
+    <div class="row" style="height: 20%; overflow-y: scroll; background-color: white" ng-show="attachments.length>0">
+        <div class="row" style="text-align: center;">
+            <p class="corporate-color" style="display: inline-block; vertical-align: super; margin-top: 10px">
+                <b>
+                    {{ 'SHARED_FILES' | translate }}
+                </b>
+            </p>
+        </div>
+        <div class="row">
+            <div ng-repeat="a in attachments | orderBy : '-uploadDate'">
+                <div class="clearfix" ng-if="$index % 3 == 0"></div>
+                <div class="col-sm-4">
+                    <div class="card"
+                        style="margin-bottom: 10px !important; border-radius: 10px; border: solid 1px #bababa; cursor: pointer;"
+                        ng-click="openAttachment(a)">
+                        <div style="padding: 15px 20px 15px 20px;">
+                            <div class="row">
+                                <div class="col-sm-2 whitout-padding">
+                                    <i class="zmdi zmdi-hc-2x corporate-color"
+                                        ng-class="a.type==1?'zmdi-image':'zmdi-file-text'"></i>
+                                </div>
+                                <div class="col-sm-10 whitout-padding"
+                                    style="display: inline; overflow-wrap: break-word;">
+                                    {{a.name}}
+                                    <br>
+                                    <small><b>{{a.uploadDate | date: 'hh:mm a'}}</b></small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+     
+
+    <div class="col-md-2 right-div" style="background-color: #fff;">
+        <button id="end-appointment" ng-click="hangupByPatient()" class="btn btn-default btn-cancel"
+            style="width: 100%; margin-top: 3%;">{{ 'FINALIZAR' | translate }}</button>
+        <br><br>
+        <div class="ms-block">
+            <div class="card" style="border-radius: 15px; box-shadow: none; margin-top: 30px;">
+                <div class="card-body" style="text-align: center;">
+                    <strong style="font-size: 12px;">{{ 'RESUMEN_SINCORR' | translate }}</strong><br />
+                    <form name="emailUpdateForm">
+                        <input type="email" class="form-control appointmentInputs"
+                            placeholder="{{ 'CORREO' | translate }}" name="patientEmail" ng-model="patientEmail"
+                            style="width: 100%; margin: 10px 0px; text-align: center;" ng-maxlength="254"
+                            ng-required="hasEmail" autocomplete="email">
+                        <p ng-show="emailUpdateForm.patientEmail.$error.required" class="help-block">
+                            {{ 'EMAIL_REQUIRED' | translate }}</p>
+                        <p ng-show="emailUpdateForm.patientEmail.$invalid && !emailUpdateForm.patientEmail.$error.required"
+                            class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+                        <input type="tel" name="patientPhone" class="form-control appointmentInputs"
+                            placeholder="{{ 'NUM_TELE' | translate }}" ng-model="patientPhone"
+                            style="text-align: center;" ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/"
+                            ng-required="hasPhone" autocomplete="tel">
+                        <small translate="PHONE_INFO"></small>
+                        <p class="help-block" ng-show="emailUpdateForm.patientPhone.$error.required">
+                            {{ 'MOVIL_REQUIRED' | translate }}</p>
+                        <p class="help-block" ng-show="emailUpdateForm.patientPhone.$error.pattern">
+                            {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                        <p class="help-block" ng-show="(emailUpdateForm.patientPhone.$error.maxlength)">
+                            {{ 'MOVIL_LENGTH' | translate }}</p>
+                        <br /><br />
+                        <input type="text" name="patientAddress" class="form-control appointmentInputs"
+                            placeholder="{{ 'DIRECCION' | translate }}" ng-model="patientAddress"
+                            style="text-align: center;" autocomplete="address" ng-pattern="/^[^<>\[\]\{\}]*$/">
+                        <p class="help-block" ng-show="emailUpdateForm.patientAddress.$error.pattern">
+                            {{ 'INVALID_FORMAT' | translate }}
+                        </p>
+                        <button id="end-appointment" ng-click="changePatientEmail()"
+                            ng-disabled="!emailUpdateForm.$valid" class="btn btn-default"
+                            style="width: 100%; margin-top: 15px;">{{ 'ACTUALIZAR' | translate }}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="ms-block" ng-show="appointmentInformation.serviceType==2">
+            <!-- appointmentInformation.serviceType==2 -->
+            <div class="card" style="border-radius: 15px; box-shadow: none; margin-top: 30px;">
+                <div class="card-body" style="text-align: center;">
+                    <form name="fileUploaderForm">
+                        <label class="btn btn-default ng-binding waves-effect" style="width: 100%">
+                            <input id="patientUploader" class="form-control" type="file" nv-file-select=""
+                                uploader="patientUploader" options="{clearInputAfterAddedToQueue: true}"
+                                accept="image/*,.pdf">
+                                {{ 'SHARE_FILES' | translate }}
+                        </label>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="view-container">
+        <div class="modal fade" id="calendar-modal" data-backdrop="static" tabindex="-1" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title"> {{ "SCHEDULLER_TEXT" | translate }} </h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="date" id="dateScheduller" hidden>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <label class="corporate-color">{{ "PATIENT_SELECTED" | translate }}</label> <br>
+                                <input class="form-input form-readonly" id="patientSelected" type="text" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="corporate-color">{{ "DATE_SELECTED" | translate }} </label>
+                                <input class="form-input form-readonly" id="dateSelected" type="text" readonly>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-6">
+                                <label class="corporate-color"> {{ "HOUR_SELECTED" | translate }}</label>
+                                <input class="form-input form-readonly" id="timeSelected" type="text" readonly>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="corporate-color">{{ "GENERAL_ORIENTATION_TYPE" | translate }}</label> <br>
+                                <input class="form-input form-readonly" id="" type="text" ng-if="appointmentType == 1" value="{{ 'CHAT_WITH_PHOTOS' | translate }}" readonly>
+                                <input class="form-input form-readonly" id="" type="text" ng-if="appointmentType == 2" value="{{ 'VIDEOLLAMADA' | translate }}" readonly>
+                            </div>
+                        </div>
+                        <div class="row mt-4">
+                            <div class="col-md-12">
+                                <div class="text-center">
+                                    <button ng-if="!loadingAppointment" class="btn btn-default" ng-click="programar12()"> {{ "SCHEDULE_TEXT" | translate}} </button>
+                                    <div style="text-align: center;" ng-if="loadingAppointment">
+                                        <div class="preloader pls-green" style="margin-top: 10px; margin-bottom: 10px; width: 55px;">
+                                            <svg class="pl-circular" viewbox="25 25 50 50">
+                                                <circle class="plc-path" cx="50" cy="50" r="20" />
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" ng-click="clearModal()" class="btn btn-cancel" data-dismiss="modal">{{ "CERRAR" | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $("#patient-logo").attr('src', getCookie("logo"));
+        //$("#doctor-logo").attr('src', getCookie("logo"));
+        $("#patient-logo-lg").attr('src', getCookie("logo"));
+    });
+</script>
+
+<style type="text/css">
+    input[type="file"] {
+        display: none;
+    }
+
+    .remainingTimeVideo {
+        position: absolute;
+        width: 10%;
+        margin-left: 45%;
+        background-color: black !important;
+        z-index: 100;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+        margin-top: 1.5%;
+    }
+    .reconnectingMessage {
+        margin-top: 20%;
+        position: absolute;
+        top: 40%;
+        left: 30%;
+        width: 40%;
+        color: red;
+        font-weight: bold;
+        font-size: 40px;
+        text-align: center;
+        background-color: white !important;
+    }
+    
+    .remainingTimeChat {
+        position: absolute;
+        width: 10%;
+        background-color: black !important;
+        z-index: 100;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+        border-radius: 15px;
+        margin-top: 1.5%;
+        right: 5%;
+    }
+
+    #waitOpponent {
+        position: absolute;
+        width: 97%;
+        background-color: black !important;
+        z-index: 100;
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+        border-bottom-right-radius: 10px;
+        border-bottom-left-radius: 10px;
+    }
+
+    #doctor-title:hover {
+        background-color: transparent !important;
+    }
+
+    .medic {
+        padding-top: 0px !important;
+    }
+
+    .medic-video {
+        padding-top: 0px !important;
+    }
+
+    .without {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .chat-size {
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    .no-top {
+        padding-top: 0 !important;
+    }
+
+    iframe {
+        width: 100% !important;
+        z-index: 99;
+    }
+
+    .chat-frame {
+        height: 100% !important;
+        padding: 0;
+    }
+
+    .video-frame {
+        height: 95% !important;
+        padding: 0;
+        margin-top: 1.5%;
+    }
+
+    .center-calendar {
+        display: flex;
+        justify-content: center;
+    }
+    #calendar .fc-header-toolbar {
+        background-color: #F6F7F7 !important;
+    }
+    .fc-event-title {
+        height: 4rem !important;
+    }
+
+    .fc-timegrid-slots > table > tbody > tr {
+        height: 4rem !important;
+    }
+
+    .fc-scrollgrid-liquid > tbody > tr:nth-child(1) .fc-scroller-harness {
+        height: 1px !important;
+    }
+
+    .fc-scrollgrid-liquid > thead > tr > th > div {
+        height: 1px !important;
+    }
+    #calendar {
+        height: 95% !important;
+        box-shadow: none !important;
+    }
+    #calendar .fc-toolbar {
+        height: auto;
+        background-image: none !important;
+    }
+    .fc-toolbar-title {
+        color: black !important;
+        margin-right: 2.5rem !important;
+    }
+    #calendar .fc-toolbar:before {
+        background: transparent !important;
+        height: 0px;
+    }
+    .fc-toolbar h2 {
+        font-weight: 500;
+    }
+    .fc-col-header-cell-cushion {
+        color: white !important;
+    }
+    .modal-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 1rem;
+        border-bottom: 1px solid #e9ecef;
+        border-top-left-radius: 0.3rem;
+        border-top-right-radius: 0.3rem;
+    }
+    .modal-title {
+        margin-bottom: 0;
+        line-height: 1.5;
+        font-family: inherit;
+        font-weight: 500;
+        line-height: 1.2;
+        color: inherit;
+        font-size: 24px;
+        color: black;
+    }
+    .close {
+        padding: 1rem;
+        margin: -1rem -1rem -1rem auto;
+        background-color: transparent;
+        border: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        float: right;
+        font-size: 2.5rem;
+        font-weight: 700;
+        line-height: 1;
+        color: #000;
+        text-shadow: 0 1px 0 #ffffff;
+        opacity: .5;
+    }
+</style>
+<script>
+    (function ($) {
+        $.fn.inputFilter = function (inputFilter) {
+            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }
+            });
+        };
+    }(jQuery));
+
+
+    // Install input filters.
+    $("#inputEmail3").inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+</script>

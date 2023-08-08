@@ -1,0 +1,765 @@
+.btn-action, .btn-action-sm {
+    background-color: #00A080 !important;
+    border-radius: 10px;
+    color: #FFF;
+    font-weight: bold;
+    border-bottom: none !important;
+}
+
+.centerContainer {
+    margin: 0 auto 15px;
+    max-width: 978px;
+    box-sizing: border-box;
+    padding: 20px 32px 60px;
+}
+
+.planContainer {
+    max-width: 340px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.planStepLogo {
+    width: 50px;
+    height: 50px;
+    margin: 0px 0 10px;
+}
+
+.stepHeader {
+    text-align: center;
+}
+
+.submitBtnContainer {
+    max-width: 340px;
+    padding-top: 24px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.checkedList .bullet {
+    position: relative;
+    list-style-type: none;
+    margin-left: 0;
+    padding: 0 0 1em 2em;
+    text-align: left;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.checkedList .bullet:before {
+    color: rgba(0, 0, 0, 0);
+    display: block;
+    position: absolute;
+    top: 0.3em;
+    height: 0.3em;
+    width: 0.8em;
+    content: '✓';
+    left: 0.2em;
+    border-bottom: 2px solid #00A080;
+    border-left: 2px solid #00A080;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+ul>li {
+    margin-bottom: 5px;
+}
+
+.stepTitle {
+    font-weight: bold;
+    font-size: 23px;
+}
+
+div.basicLayout .planContainer .contextBody {
+    font-size: 17px;
+}
+
+.planContainer .contextRow {
+    max-width: 300px;
+    display: inline-block;
+}
+
+.planTable .row {
+    display: table-row;
+    border-bottom: 1px solid #cccccc;
+}
+
+.planSelectionContainer {
+    display: table;
+    width: 100%;
+}
+.centerContainer .planTable {
+text-align: right;
+}
+
+.planTable {
+    display: table;
+    width: 100%;
+    margin: 0;
+    border-collapse: collapse;
+}
+
+.planTable .columnHeader {
+display: table-cell;
+padding: 12px 15px;
+height: 60px;
+-webkit-box-sizing: border-box;
+-moz-box-sizing: border-box;
+box-sizing: border-box;
+vertical-align: middle;
+}
+
+.planTable .columnHeader {
+text-align: left;
+font-size: 16px;
+}
+
+.selected{
+    color: #00A080;
+    fill: #00A080;
+    opacity: 1 !important;
+}
+
+.planTable .cell {
+display: table-cell;
+text-align: center;
+vertical-align: middle;
+width: 25%;
+opacity: 0.6;
+}
+
+.planTable .headerRow .cellContent {
+    width: 100%;
+    height: 70px;
+    line-height: 70px;
+    background-color: #00A080;
+    color: #fff;
+}
+
+div.basicLayout .planTable .headerRow .selected .cellContent {
+background: #e50914;
+color: #ffffff;
+height: 70px;
+line-height: 70px;
+background-color: #a6a6a6;
+color: #fff;
+}
+
+.planSelectionContainer .headerRow {
+display: table-row;
+padding-top: 5px;
+font-size: 19px;
+}
+
+.planTable .bodyCell .svg-icon {
+    display: inline-block;
+    height: 18px;
+    width: 18px;
+    -webkit-transform: translateY(2px);
+    -moz-transform: translateY(2px);
+    -ms-transform: translateY(2px);
+    -o-transform: translateY(2px);
+    transform: translateY(2px);
+    font-size: 16px;
+}
+
+.bodyCell span {
+    font-size: 16px;
+}
+
+.planNameContainer{
+    width: 75% !important;
+    margin: 0 auto;
+}
+
+.btn-action{
+    min-height: 45px; 
+    width: 100%;
+}
+
+.planSelectionContainer .arrow {
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #00A080;
+    margin: -3px auto 0;
+    width: 0;
+    height: 0;
+}
+
+.demoForm {
+    max-width: 50%; margin: 0 auto;
+}
+@media only screen and (min-width: 950px) {
+    .planTable .cell {
+        width: 25% !important;
+    }
+
+    .planNameContainer{
+        width: 75% !important;
+        margin: 0 auto;
+    }
+  }
+@media only screen and (max-width: 950px) {
+    .planTable .headerRow .cellContent {
+      font-size: 13px;
+    }
+
+    .changePlanContainer{
+        display: flex;
+    }
+
+    .couponButton{
+        margin-top: 0px;
+    }
+    .demoForm {
+        max-width: 80%; margin: 0 auto;
+    }
+  }
+  @media only screen and (max-width: 600px) {
+    .planTable .headerRow .cellContent {
+      height: 75px;
+      line-height: 75px;
+    }
+
+    .changePlanContainer{
+        display: block !important;
+    }
+
+    .couponButton{
+        margin-top: 10px;
+    }
+    .demoForm {
+        max-width: 75%; margin: 0 auto;
+    }
+
+    .planTable .cell {
+        width: 30% !important;
+    }
+
+    .planNameContainer{
+        width: 90% !important;
+        margin: 0 auto;
+    }
+  }
+  @media screen and (max-width: 500px), screen and (orientation: landscape) and (max-width: 740px) {
+    .svg-icon-netflix-logo {
+      padding-top: 0;
+    }
+
+    .changePlanContainer{
+        display: block !important;
+    }
+    .couponButton{
+        margin-top: 10px;
+    }
+
+    .testitNow{
+        border: 2px solid #00A080 !important;
+        max-width: 75% !important;
+    }
+
+    .demoForm {
+        max-width: 100%; margin: 0 auto;
+    }
+
+    .planTable .cell {
+        width: 30% !important;
+    }
+
+    .planNameContainer{
+        width: 90% !important;
+        margin: 0 auto;
+    }
+  }
+
+  .hdAvail{
+      margin-top: 10px;
+  }
+
+  .regContainer{
+    text-align: center;
+    max-width: 340px;
+    margin: 0 auto;
+  }
+
+  .regStepLogo {
+    width: 100%;
+    margin: 50px 0 20px;
+   }
+
+   .regContainer .contextBody{
+       margin: 0;
+       font-size: 17px;
+   }
+
+   .regFormContainer {
+    text-align: left;
+    max-width: 440px;
+    margin: 0 auto;
+}
+.regFormContainer .contextRow {
+    font-size: 19px;
+}
+
+.regFormContainer .regFormTitle {
+    font-size: 19px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.nfInput .nfTextField {
+    height: 48px;
+    padding: 5px;
+    width: 100%;
+}
+
+.form-control:not(.fc-alt) {
+     height: 48px;
+     border: 1px solid rgba(0,0,0,0.12);
+     border-radius: 5px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+     padding: 5px;
+}
+input.form-control:focus {
+     border-color: #0071eb;
+}
+
+.paymentContainer {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.paymentCard{
+    max-width: 500px;
+    margin: 0 auto;   
+}
+
+.paymentContainer .narrowContainer {
+    max-width: 205px;
+    margin: 0 auto;
+}
+
+.paymentContainer .contextRowFirst {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.paymentContainer .contextRow {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+#appMountPoint .paymentPicker {
+    min-height: 60px;
+    height: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+.paymentPicker {
+    text-align: left;
+    padding: 0;
+    position: relative;
+}
+.paymentPicker .logosContainer {
+    margin: 0 15px;
+    min-height: 20px;
+    line-height: 20px;
+}
+.nfTabSelection {
+    display: block;
+    color: #333333;
+    background-color: #ffffff;
+    padding: 20px 3px 20px;
+    margin: 5px 0;
+    border: 2px solid #cccccc;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    -webkit-transition: position 0.5s ease-in;
+    -o-transition: position 0.5s ease-in;
+    -moz-transition: position 0.5s ease-in;
+    transition: position 0.5s ease-in;
+}
+
+.nfTabSelection:hover{
+    border-color: #00A080;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.16), 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.nfTabSelection-retail:hover{
+    color: #00A080 !important;
+}
+
+.checkedList .bulletPay {
+    position: relative;
+    list-style-type: none;
+    margin-left: 0;
+    padding: 0 0 0em 2em;
+    text-align: left;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.checkedList .bulletPay:before {
+    color: rgba(0, 0, 0, 0);
+    display: block;
+    position: absolute;
+    top: 0.3em;
+    height: 0.3em;
+    width: 0.8em;
+    content: '✓';
+    left: 0.2em;
+    border-bottom: 2px solid #00A080;
+    border-left: 2px solid #00A080;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+#appMountPoint .paymentPicker .mopNameAndLogos {
+    height: auto;
+    padding: 15px 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: start;
+    -webkit-justify-content: flex-start;
+    -moz-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.paymentPicker .mopNameAndLogos {
+    width: 90%;
+    display: inline-block;
+}
+.card-type-text {
+    margin-right: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    margin-left: 15px;
+    float: none;
+    max-width: none;
+    min-height: 20px;
+    line-height: 20px;
+}
+
+#appMountPoint .logosContainer .logos-inline {
+    float: none;
+    white-space: nowrap;
+    margin-top: -4px;
+}
+
+.paymentPicker.standardHeight .logos-inline {
+    max-height: 60px;
+    line-height: normal;
+}
+.logos.logos-inline {
+    vertical-align: middle;
+    display: inline-block;
+    overflow: auto;
+}
+.logos {
+    position: relative;
+}
+
+.logos .logoIcon {
+    height: 25px;
+    width: 39px;
+    margin: 1px 6px 1px 0;
+    float: left;
+}
+
+.ui-svg-icon.ui-svg-icon--chevron {
+    background-image: url(../../../img/arrow.svg);
+}
+
+.nfTabSelection .ui-svg-icon.ui-svg-icon--chevron {
+    font-size: 19px;
+}
+.paymentPicker .pickerArrow {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    -webkit-transform: translateY(-50%) /*rtl:append:rotate(180deg)*/;
+    -moz-transform: translateY(-50%) /*rtl:append:rotate(180deg)*/;
+    -ms-transform: translateY(-50%) /*rtl:append:rotate(180deg)*/;
+    -o-transform: translateY(-50%) /*rtl:append:rotate(180deg)*/;
+    transform: translateY(-50%) /*rtl:append:rotate(180deg)*/;
+}
+.nfTabSelection .ui-svg-icon {
+    font-size: 23px;
+    margin-right: 10px;
+    vertical-align: bottom;
+}
+.ui-svg-icon.pull-right {
+    float: right;
+}
+.ui-svg-icon {
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    height: 1em;
+    width: 1em;
+    margin: 0 .2em;
+    display: inline-block;
+    -webkit-background-size: contain;
+    -moz-background-size: contain;
+    -o-background-size: contain;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    position: relative;
+    top: 2px;
+}
+
+.paymentFormContainer {
+    text-align: left;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.paymentFormContainer .fieldContainer {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.paymentFormContainer .logos-block {
+    display: inline-block;
+}
+
+.paymentFormContainer .simpleForm {
+    text-align: left;
+    margin-top: 10px;
+    padding: 0px;
+}
+
+ul.structural > li {
+    list-style: none;
+    margin-left: 0;
+}
+
+.nfFormSpace {
+    margin-bottom: 10px;
+}
+
+.input_id{
+    width: 100%;
+}
+
+.nfInput .tooltipWrapperErr {
+    position: absolute;
+    top: 29px;
+    right: 10px;
+}
+
+.inputError {
+    font-size: 13px;
+    color: #b92d2b;
+}
+
+.changePlanContainer {
+    background-color: #f4f4f4;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding: 14px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: justify;
+    -webkit-justify-content: space-between;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+}
+
+.planName {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.planDesc {
+    font-size: 16px;
+    font-weight: normal;
+    color: #737373;
+    display: inline;
+}
+
+.changePlanAction {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -moz-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+
+.cvvTooltip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.97);
+}
+
+.cvvTooltipFree{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.close-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.tooltipDesc {
+    text-align: center;
+    margin: auto;
+    padding-top: 80px;
+    max-width: 270px;
+}
+
+.otherCvvHelp {
+    background: url(https://assets.nflxext.com/ffe/siteui/acquisition/payment/tooltip/visa_cvv.png) no-repeat 0 0;
+    width: 200px;
+    height: 130px;
+    margin: 30px auto;
+    opacity: 1;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    font-family: 'nf-icon';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-transform: translateZ(0);
+    -moz-transform: translateZ(0);
+    transform: translateZ(0);
+}
+
+.ng-valid:not(.fc-alt) {
+    border-color: #00A080 !important;
+}
+
+.coupon{
+    border-radius: 0px 0px 5px 5px;
+}
+
+.amount{
+    border-radius: 5px 5px 0px 0px;
+}
+
+.authLinks {
+    float: right;
+    color: #333;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 90px;
+    cursor: pointer;
+}
+
+.authLinks:hover{
+    color: #00A080 !important;
+}
+
+.priceLineThrough{
+    text-decoration: line-through;
+}
+
+.alert-warning {
+    background-color: rgba(248, 183, 63, 1);
+}
+
+.retailBackground{
+    background-color:  #00A080 !important;
+    color: #ffffff !important;
+}
+
+.freeAppointment{
+    margin-top: 10px !important;
+}
+
+.retailBorder{
+    border: 2px solid #00A080 !important;
+}
+
+.retailColor{
+    color: #00A080 !important;
+}
+
+.rotated{
+    -moz-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+}

@@ -1,0 +1,77 @@
+<div class="simpleContainer" ng-controller="successConfirmController">
+    <div class="centerContainer contextStep firstLoad with-mobile-mop-logos" style="max-width: none;">
+        <div class="paymentContainer" data-uia="payment-container" style="max-width: none;">
+            <div class="row h-100">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div ng-show="isDoctor">
+                        <h3>¡Bienvenido a Doctor Online!</h3>
+                    </div>
+                    <div nw-show="!isDoctor">
+                        <h3>¡Bienvenido a Doctor Virtual!</h3>
+                    </div>
+                    <div class="retailColor">
+                        <p style="font-size: 15px;"><i class="zmdi zmdi-check-circle"></i><b style="padding-left: 5px;">Suscripción exitosa</b></p>
+                        <h4>¡Gracias por preferirnos! Hemos creado un servicio especial para ti y tu familia.</h4>
+                    </div>
+                    <div>
+                        <div ng-show="isDoctor">
+                            <img src="../img/Doctor_Dispositivos.png" class="img-fluid" alt="" style="max-width: 100%; height: auto;"> 
+                        </div>
+                        <div ng-show="!isDoctor">
+                            <img src="../img/DoctorVirtual_Dispositivos.png" class="img-fluid" alt="" style="max-width: 100%; height: auto;"> 
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div style="text-align: center;">
+                        <h4 style="margin-bottom: 15px; font-size: 15px;">Completa los siguientes datos para mejorar tu experiencia.</h4>
+                        <form role="form" name="registerForm" novalidate>
+                            <div class="demoForm">
+                                <div class="nfInput nfInputOversize" style="margin-bottom: 10px;">
+                                    <div class="nfInputPlacement">
+                                        <input data-uia="field-email" class="nfTextField form-control" name="personName" id="id_nombre"
+                                            type="text" ng-model="personName" tabindex="0" placeholder="Nombre completo" autocomplete="name"
+                                            maxlength="100" minlength="5" dir="" value="" required
+                                            ng-pattern="/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*$/">
+                                    </div>
+                                    <div ng-show="registerForm.personName.$error.required && (registerForm.personName.$touched || registerForm.$submitted)"
+                                        class="inputError" style="text-align: end;">El nombre es obligatorio.</div>
+                                    <div ng-show="registerForm.personName.$error.pattern && (registerForm.personName.$touched || registerForm.$submitted)"
+                                        class="inputError" style="text-align: end;">Formato inválido.</div>
+                                </div>
+                                <div class="nfInput nfInputOversize">
+                                    <div class="nfInputPlacement">
+                                        <input type="tel" data-uia="field-phone" class="nfTextField form-control" name="personPhone" id="id_phone"
+                                            ng-model="personPhone" tabindex="0" placeholder="Teléfono" 
+                                            ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" autocomplete="tel" required>
+                                        <small><i class="zmdi zmdi-info-outline"></i> Te recomendamos colocar el código de area.</small>
+                                    </div>
+                                    <div ng-show="registerForm.personPhone.$error.required && (registerForm.personPhone.$touched || registerForm.$submitted)"
+                                        class="inputError" style="text-align: end;">El teléfono es obligatorio.</div>
+                                    <div ng-show="registerForm.personPhone.$error.pattern && !registerForm.personPhone.$pristine"
+                                        class="inputError" style="text-align: end;">El formato del teléfono es inválido.</div>
+                                    <div ng-show="registerForm.personPhone.$error.maxlength && !registerForm.personPhone.$pristine"
+                                        class="inputError" style="text-align: end;">Longitud máxima de 30 caracteres.</div>
+                                </div>
+                            </div>
+                            <div class="nfTabSelectionWrapper" id="testitbutton"
+                                data-uia="payment-choice+creditOrDebitOption" style="margin-top: 3%; margin-bottom: 2%;">
+                                <button id="registerButton" type="submit" autocomplete="off"
+                                    class="btn btn-action demoForm" data-uia="cta-registration" placeholder="regForm_button_continue"
+                                    ng-disabled="registerForm.$invalid || loadingProcess" ng-click="finishSubscription()">
+                                    <i class="fa fa-circle-o-notch fa-pulse fa-2x fa-fw buttonIcon hide" aria-hidden="true"></i>
+                                    <span class="buttonText">Ir a la plataforma</span>
+                                </button>                          
+                            </div>
+                            <div class="nfTabSelectionWrapper" id="testitbutton"
+                                data-uia="payment-choice+creditOrDebitOption" style="margin-bottom: 3%;">                          
+                                <a ng-click="goToHome()" style="cursor: pointer;">¡Ir a la plataforma ahora!</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

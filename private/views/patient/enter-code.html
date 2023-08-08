@@ -1,0 +1,107 @@
+<div class="container enter-code-page" ng-controller="patientCtrl">
+
+  <div class="row"
+    ng-hide="hasQueue || hasInvitation || isOnCall || (disableAppointment && $root.corpAttentionType == 1)">
+    <div class="col-12" align="center">
+      <h3>{{ 'BIENVENIDO' | translate }}</h3>
+      <h1>
+        <strong>{{currentUser}}</strong>
+      </h1>
+      <div ng-If="admdron.parentCorporateInformation.corporateName !== 'dronlinetdb'">
+        <h3>{{ 'COUPON_VIYA_TEXT' | translate }}</h3>
+      </div>
+      <div ng-If="admdron.parentCorporateInformation.corporateName == 'dronlinetdb'">
+        <h3>{{ 'COUPON_RETAIL_TEXT' | translate }}</h3>
+      </div>
+      <br />
+    </div>
+  </div>
+
+  <!-- INICIO BLOQUE SOLICITAR CONSULTA -->
+
+  <div class="row justify-content-center align-items-center" style="display: flex;
+  justify-content: center;">
+    <div class="col-sm-9">
+      <form name="frmEnterSecretCode" class="text-center" ng-submit="sendForm()">
+        <div class="form-group m-b-20"> 
+          <div ng-If="admdron.parentCorporateInformation.corporateName =='dronlinetdb'">
+            <div class="fg-line">
+              <input type="text" id="code" ng-model="code" class="form-control input-lg" placeholder="{{ 'COUPON_VALUE' | translate }}" name="code"
+              ng-maxlength="254" required>
+            </div>
+            <p ng-show="frmEnterSecretCode.code.$touched && frmEnterSecretCode.code.$error.required" class="help-block"><b>{{ 'LABEL_REQUIRED' | translate }}</b></p>
+          </div>
+          <div ng-If="admdron.parentCorporateInformation.corporateName !== 'dronlinetdb'">
+            <div class="fg-line">
+              <input type="number" id="codeviya" max="999999999999" min="111111111111" ng-model="codeviya" class="form-control input-lg" placeholder="{{ 'COUPON_VALUE' | translate }}" name="codeviya" required>
+            </div>
+            <p ng-show="frmEnterSecretCode.codeviya.$touched && frmEnterSecretCode.codeviya.$error.required" class="help-block"><b>{{ 'LABEL_REQUIRED' | translate }}</b></p>
+          </div>
+        </div>
+        <div ng-If="admdron.parentCorporateInformation.corporateName == 'dronlinetdb'">
+          <div class="m-b-20">
+            <img style="width: 60%;" src="../img/tarjeta-raspable.png" alt="">
+          </div>
+        </div>
+        <div ng-If="admdron.parentCorporateInformation.corporateName !== 'dronlinetdb'">
+          <div class="m-b-20">
+            <img style="width: 40%;" src="../img/viya-card.png" alt="">
+          </div>
+        </div>
+        <button class="btn btn-default btn-lg"  type="submit" ng-disabled="frmEnterSecretCode.$invalid" >
+          {{ 'CONFIRMAR' | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+
+</div>
+<style>
+  
+.enter-code-page .form-control{
+	padding: 5px !important;
+	font-size: 20px;
+	border: 1px solid #ccc !important;
+	border-radius: 5px !important;
+	text-align: center;
+	color: #000;
+	font-size: 35px;
+	height: 60px;
+    line-height: 1.3333333;
+  text-transform: uppercase;
+}
+.enter-code-page .form-control::placeholder{
+  text-transform:none;
+}
+.enter-code-page .form-control::-webkit-input-placeholder { /* WebKit browsers */
+    text-transform: none;
+}
+.enter-code-page .form-control:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    text-transform: none;
+}
+.enter-code-page .form-control::-moz-placeholder { /* Mozilla Firefox 19+ */
+    text-transform: none;
+}
+.enter-code-page .form-control:-ms-input-placeholder { /* Internet Explorer 10+ */
+    text-transform: none;
+}
+.enter-code-page .form-control::placeholder { /* Recent browsers */
+    text-transform: none;
+}
+
+ /* Chrome, Safari, Edge, Opera */
+ input::-webkit-outer-spin-button,
+ input::-webkit-inner-spin-button {
+   -webkit-appearance: none;
+   margin: 0;
+ }
+ 
+ /* Firefox */
+ input[type=number] {
+   -moz-appearance: textfield;
+ }
+</style>
+<script>
+  $('#code').mask('00-000-00', {'translation': {0: {pattern: /[a-zA-Z0-9*]/}}});
+  $('#codeviya').mask('000000000000', {'translation': {0: {pattern: /[^\d+$]/}}});
+</script>

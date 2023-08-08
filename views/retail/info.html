@@ -1,0 +1,21 @@
+<div class="simpleContainer" ng-controller="RegisterController">
+    <div class="centerContainer contextStep"
+        style="display: block; transform: none; opacity: 1; transition-duration: 250ms;">
+        <div class="regContainer" data-uia="context-registration">
+            <div class="stepLogoContainer">
+                <img class="stepLogo regStepLogo" src="../img/devices.png">
+            </div>
+            <div class="stepHeader-container" data-uia="header">
+                <div class="stepHeader" data-a11y-focus="true" tabindex="0"><span class="stepIndicator">PASO
+                        <b>2</b> DE <b>3</b></span>
+                    <h1 class="stepTitle" data-uia="stepTitle">Crea tu cuenta.</h1>
+                </div>
+            </div>
+            <div class="contextBody contextRow">{{corporateNameText}} está personalizado para ti. Usa tu email y crea una
+                contraseña para utilizar el servicio en cualquier momento, desde cualquier dispositivo.</div>
+        </div>
+        <div class="submitBtnContainer"><button type="button" autocomplete="off" class="btn btn-action"
+                data-uia="cta-continue-registration" placeholder="registration_button_continue" ng-click="nextStep3()">CONTINUAR</button>
+        </div>
+    </div>
+</div>

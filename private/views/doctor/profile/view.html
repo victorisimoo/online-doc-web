@@ -1,0 +1,128 @@
+<div class="container" ng-controller="ViewDocAccountController">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="card">
+                <div class="card-header ch-alt">
+                    <h2>{{ 'CONFIG_YOUR_PROFILE' | translate }}</h2>
+                </div>
+                <div class="card-body card-padding" class="container">
+                    <form name="frm">
+                        <p class="c-black f-500">{{ 'PERSONAL_DATA' | translate }}</p>
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                            <input type="text" class="form-control" placeholder="{{ 'FIRSTNAME' | translate }}" name="firstName"
+                                    ng-model="doctor.admUser.admPerson.firstName" ng-maxlength="100" 
+                                    ng-minlength="3" required>
+                            <div class="has-error" ng-if="frm.firstName.$invalid">
+                                <small class="help-block">{{ 'INVALID_MIN_CHART' | translate }}</small>
+                            </div>
+                        </div>
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                            <input type="text" class="form-control" placeholder="{{ 'LASTNAME' | translate }}" name="lastName"
+                                    ng-model="doctor.admUser.admPerson.lastName" ng-minlength="3"
+                                    ng-maxlength="100" required>
+                            <div class="has-error" ng-if="frm.lastName.$invalid">
+                                <small class="help-block">{{ 'INVALID_MIN_CHART' | translate }}</small>
+                            </div>
+                        </div> 
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                            <input type="email" class="form-control" placeholder="{{ 'CORREO' | translate }}" name="emailPerson"
+                                    ng-model="doctor.admUser.admPerson.emailPerson" required>
+                            <div class="has-error" ng-if="frm.emailPerson.$invalid">
+                                <small class="help-block">{{ 'INVALID_MIN_CHART' | translate }}</small>
+                            </div>
+                        </div> 
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-male-female"></i></span>
+                            <div class="checkbox">                                        
+                                <label class="radio radio-inline m-r-20">
+                                    <input type="radio" name="inlineRadioOptions" value="1" ng-model="doctor.admUser.admPerson.gender">
+                                    <i class="input-helper"></i> {{ 'MASCULINO' | translate }}
+                                </label>
+                                <label class="radio radio-inline m-r-20">
+                                    <input type="radio" name="inlineRadioOptions" value="0" ng-model="doctor.admUser.admPerson.gender">
+                                    <i class="input-helper"></i> {{ 'FEMENINO' | translate }}
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                            <md-datepicker name="birthday"
+                                        ng-model="doctor.admUser.admPerson.birthday" 
+                                        tooltip="Fecha de nacimiento"
+                                        md-hide-icons="calendar" 
+                                        md-min-date="minBirthday"
+                                        md-max-date="maxBirthday" 
+                                        required
+                                        md-placeholder="{{ 'FECHA_NAC' | translate }}">
+                            </md-datepicker>
+                            <div class="has-error" ng-if="frm.birthday.$invalid">
+                                <small class="help-block"  translate="FECHA_NAC_ERROR"
+                                translate-value-date="{{maxBirthday| date : 'dd/MM/yyyy'}}"></small>
+                            </div>
+                        </div>  
+                        
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-phone-in-talk"></i></span>
+                            <input type="tel" name="mobilePhone"
+                                class="form-control" placeholder="{{ 'EMERGENCY_NUMBER' | translate }}"
+                                ng-model="doctor.admUser.admPerson.mobilePhone" style="text-align: left;"
+                                ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" autocomplete="tel">
+                            <small translate="PHONE_INFO"></small>
+                            <div class="has-error" ng-if="frm.mobilePhone.$invalid">
+                                <small class="help-block" ng-if="frm.mobilePhone.$error.pattern">{{ 'INVALID_FORMAT_PHONE' | translate }}</small>
+                                <small class="help-block" ng-if="frm.mobilePhone.$error.maxlength">{{ 'MOVIL_LENGTH' | translate }}</small>
+                            </div>
+                        </div> 
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
+                            <input type="tel" name="officePhone"
+                                class="form-control" placeholder="{{ 'OFFICE_NUMBER' | translate }}"
+                                ng-model="doctor.admUser.admPerson.officePhone" style="text-align: left;"
+                                ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" autocomplete="tel">
+                            <small translate="PHONE_INFO"></small>
+                            <div class="has-error" ng-if="frm.officePhone.$invalid">
+                                <small class="help-block" ng-if="frm.officePhone.$error.pattern">{{ 'INVALID_FORMAT_PHONE' | translate }}</small>
+                                <small class="help-block" ng-if="frm.officePhone.$error.maxlength">{{ 'MOVIL_LENGTH' | translate }}</small>
+                            </div>
+                        </div> 
+
+                        <p class="c-black f-500">{{ 'PERSONAL_PROFESSIONAL_DATA' | translate }}</p>
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-graduation-cap"></i></span>
+                            <input type="text" class="form-control" placeholder="{{ 'NUM_PROF' | translate }}" name="professionalId"
+                                    ng-model="doctor.professionalId"  ng-minlength="2" ng-maxlength="2500" style="z-index: 1;">
+                            <div class="has-error" ng-if="frm.professionalId.$invalid">
+                                <small class="help-block">{{ 'INVALID_FORMAT_PROFILE' | translate }}</small>
+                            </div>
+                        </div> 
+
+                        <div class="input-group m-b-20">
+                            <span class="input-group-addon"><i class="zmdi zmdi-comment-alert"></i></span>
+                            <textarea class="form-control autofit" placeholder="{{ 'DOCTOR_SUMMARY' | translate }}" name="summary" ng-model="doctor.summary" ng-minlength="15" ng-maxlength="2500" style="z-index: 1;">
+                            </textarea>
+                                <div class="has-error" ng-if="frm.summary.$invalid">
+                                <small class="help-block">{{ 'INVALID_FORMAT_PROFILE' | translate }}</small>
+                            </div>
+                        </div> 
+
+                        <button type="submit" class="btn btn-action-sm waves-effect" ng-click="save()"
+                                ng-disabled="frm.$invalid">{{ 'GUARDAR' | translate }}</button>
+                        <button class="btn waves-effect btn-cancel" ng-click="cancel()">{{ 'CANCELAR' | translate }}</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

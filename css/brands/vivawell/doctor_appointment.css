@@ -1,0 +1,167 @@
+/* GLOBAL VARIABLES FOR CORPORATION MAIN AND SECONDARY COLORS */
+:root {
+  --main-color: #2EAACD;
+	--secondary-color: #2EAACD;
+  --btn-text-color: #243E97;
+	--btn-text-hover: #2EAACD;
+}
+/* END GLOBAL VARIABLES */
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+/* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+/* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: grey; 
+    border-radius: 10px;
+  }
+  
+/* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: grey; 
+  }
+
+#PatientInfo div div img {
+    max-height:200px !important;
+    max-width: 100% !important;
+}
+
+.corporate-background{
+    background-color: white !important;
+}
+
+.bg-corporate-text {
+  background-color: var(--main-color) !important ;
+}
+.corporate-color{
+    color: var(--main-color) !important;
+}
+
+.bd-callout-warning {
+    border-left-color: var(--main-color) !important;
+}
+
+.corporate-button{
+    background-color: var(--main-color) !important;
+	border-radius: 10px;
+	color: #FFF !important;
+	border-bottom: 5px solid var(--main-color);
+	font-weight: bold;
+}
+
+.opposite-color{
+    color: var(--main-color) !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: var(--main-color);
+}
+
+.fg-line:not([class*=has-]):after {
+    background: var(--main-color) !important;
+}
+
+.form-control:focus{
+    border-color: var(--main-color) !important;
+}
+
+:root{
+    --corporate-color : #243E97;
+}
+#form-medical-prescription input[type="text"]:disabled,
+#form-medical-prescription .form-control[disabled]{
+	padding: 0 0 0 8px!important;
+    border: 1px solid #aaa!important;
+    text-decoration: none;
+    /* white-space: nowrap; */
+    /* cursor: pointer; */
+    height: 30px!important;
+    border-radius: 5px!important;
+	background-color: #eeeeee!important;
+    opacity: 1!important;
+    width: 100%;
+}
+#form-medical-prescription .form-control{
+  padding: 0 0 0 8px!important;
+  border: 1px solid #aaa!important;
+  height: 30px!important;
+  border-radius: 5px!important;
+}
+
+
+/*tooltip*/
+.tooltip-custom {
+	display: none;
+	position: absolute;
+  bottom: -57px;
+  text-align: center;
+  left: 1px;
+  background-color: var(--main-color);
+  color: white;
+  padding: 5px;
+  border-radius: 11px;
+}
+
+.tooltip-custom-show {
+	display: block;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+.tooltip .tiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 3px;
+    padding: 6px 0;
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+.tooltip:hover .tiptext {
+    visibility: visible;
+}
+
+.tooltip-custom::after {
+    content: "";
+    position: absolute;
+    border-width: 5px;
+    border-style: solid;
+}
+
+.tooltip-custom::after{
+  margin-top: -5px;
+  top: -5px;
+  left: 49px;
+  border-color: transparent var(--main-color) transparent transparent;
+  transform: rotate(90deg);
+  z-index: 100;  
+}
+
+.not-allowed{
+	cursor: not-allowed! important;
+	opacity: 0.65;
+}
+
+.margin-top-bottom-tooltip {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}

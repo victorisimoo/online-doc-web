@@ -1,0 +1,28 @@
+<div class="view-container" ng-controller="PharmacyCtrl">
+    <div class="container-fluid p-0">
+        <div class="row">
+            <div class="col-md-12 p-0">
+                <iframe id="pharmacy"
+                    loading="lazy" 
+                    ng-src="{{urlPharmacy}}" 
+                    frameborder="0" 
+                    sandbox="allow-top-navigation-by-user-activation allow-top-navigation allow-same-origin allow-scripts allow-popups allow-forms"
+                    allowfullscreen 
+                    allow="clipboard-read; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                </iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .page-view {
+        padding-top: 0px !important;
+    }
+    iframe {
+        width: 100%;
+    }
+    #main {
+        padding-top: 82px !important;
+    }
+</style>

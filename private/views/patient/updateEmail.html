@@ -1,0 +1,52 @@
+<form name="emailUpdateForm">
+    <div class="container" ng-controller="UpdateEmailPatientController">
+         <div class="row" align="center" ng-show="showLoading">
+            <div class="col-sm-2" ></div>
+            <div class="col-sm-8" >
+                <div class="card">
+                    <div class="card-header bgm-bluegray">
+                      <h2>{{ 'CORREO_TEXT' | translate }}</h2>
+                    </div>
+                    <div class="card-body card-padding">
+                      <span>
+                        <br/>
+                          <!--<img id="patient-logo" src="img/mapfre.png" alt="">-->
+                          <br/>
+                      </span>
+                        <br/>
+                        <div class="preloader pls-green" style="margin-top: 15px;">
+                            <svg class="pl-circular" viewBox="25 25 50 50">
+                            <circle class="plc-path" cx="50" cy="50" r="20" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" align="center" ng-if="render">
+             <div class="col-sm-3"></div>
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>¿{{ 'CORREO_ASK' | translate }}?</h2>
+                    </div>
+                    <div class="card-body card-padding" class="container">
+                    <span>{{ 'CORREO_INFO' | translate }}</span>                    
+                        <br>
+                        <br>
+                         <div class="">
+                            <input type="email" name="input" class="form-control input-sm" id="inputEmail3" placeholder="{{ 'CORREO' | translate }}" required="true" minlength="5" ng-model="userEmail.email">                            
+                            <div class="has-error" ng-if="!emailUpdateForm.input.$valid">
+                                <small class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</small>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                        <button class="btn btn-action-sm" ng-click="updatePatientEmail()" ng-disabled="!emailUpdateForm.input.$valid">{{ 'CAMBIAR' | translate }}</button>
+                        <button class="btn btn-demo btn-cancel" ng-click="cancel()">{{ 'CANCELAR' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

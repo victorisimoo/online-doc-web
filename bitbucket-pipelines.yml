@@ -1,0 +1,30 @@
+image: node:14.4.0
+
+pipelines:
+  branches:
+    '{release/master,release/qa}':
+      - step:
+          name: "Initial"
+          script:
+            - echo "Default step" 
+      - step:
+          name: "Build and push images"
+          trigger: manual
+          caches:
+            - node
+          script:
+            - git clone git@bitbucket.org:devdronline/dronline-corporate-web.git
+            - cd dronline-corporate-web
+            - git checkout $BITBUCKET_BRANCH-movil
+            - echo "ls dentro de dronline-corporate-web-movil"
+            - cd ..
+            - echo "ls dentro de dronline-corporate-web"
+            - ls
+            - docker login --username $DOCKER_USER --password $DOCKER_PASSWORD
+            - BRANCH_NAME=$(echo $BITBUCKET_BRANCH | sed "s/[^a-zA-Z0-9]/-/g")
+            - TAG_NAME=$BRANCH_NAME.$(date +%Y%m%d.%H%M%S)
+            - IMAGE_NAME=dronline/corporate-web:$TAG_NAME
+            - docker build -t $IMAGE_NAME .
+            - docker push $IMAGE_NAME
+          services:
+            - docker

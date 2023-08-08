@@ -1,0 +1,88 @@
+<section id="content" ng-controller="doctorCtrl" ng-cloak>
+    <script type="text/javascript" src="js/devices.js"></script>
+    <div class="container">
+        <div class="block-header">
+            <h2 style="color: black; text-transform: initial !important;"><STRONG>{{ 'DR_WELCOME' | translate }}</STRONG></h2>
+        </div>
+
+            
+            <div class="row">
+            <div class="col-sm-12" style="padding-left: 0; padding-right: 0;">
+                <div class="card">
+           <!-- <div class="card-header">
+                <h2>Medical Appointments</h2>
+            </div>!-->
+                    <div class="card-body">
+                        <div class="chart-edge">
+                            <div class="flot-chart" data-curvedline-chart></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        <div class="row">
+            <div class="alert alert-danger col-sm-12 curved-borders" role="alert" id="divAlert" style="display: none">
+                <a class="zmdi zmdi-alert-triangle" style="color: white"></a>
+                {{ 'DR_DOCTOR_CAMERA_MIC_NOT_CONNECTED' | translate }}
+            </div>
+            <div class="col-sm-6" style="padding-left: 0; padding-right: 0;">
+                <div class="card" align="center" style="min-height: 200px;">
+
+                    <div class="card-header bgm-bluegray" ng-show="hasUnprocessed">
+                        <h2>{{ 'INFORMATION' | translate }}<small>{{ 'DR_END_APPOINTMENT_INFO_DETAIL' | translate }}</small></h2>
+                        <br /><br />
+                        <button class="btn btn-action" style="background-color: #A0162F !important"
+                            ng-click=goRating()><i class="zmdi zmdi-check-circle"></i> {{ 'END_APPOINTMENT' | translate }}</button>
+                    </div>
+
+                    <div class="card-header bgm-bluegray" ng-hide="hasUnprocessed">
+                        <h2>{{ 'CHAT_AND_VIDEOCONFERENCIA' | translate }}<small> {{ 'DR_SEARCH_SUITABLE_APPOINTMENT' | translate }} </small>
+                        </h2>
+                        <br /><br />
+                        <button class="btn btn-action" ng-click=viewMedicalAppointments() ng-hide="hasUnprocessed"><i
+                                class="zmdi zmdi-search"></i> {{ 'SEARCH_APPOINTMENTS' | translate }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6" ng-show="timePassed">
+                <div class="card red-border" align="center" style="min-height: 200px;">
+                    <div class="card-header bgm-bluegray red-border">
+                        <h1><i class="glyphicon glyphicon-warning-sign"></i> {{ 'GENERAL_ATTENTION' | translate }}</h1>
+                        <h4>{{ 'DR_REFRESH_APPOINTMENT' | translate }}</h4>
+                        <p>{{ 'THANKS_SO_MUCH' | translate }}</p>
+                        <br />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                checkDevices();
+            });
+        </script>
+
+        <style type="text/css">
+            .page-view {
+                padding-top: 0px !important;
+            }
+
+            #footer {
+                max-height: 4% !important;
+                padding-top: 0px !important;
+                padding-bottom: 0px !important;
+            }
+
+            .red-border,
+            h1,
+            h4 {
+                border-style: solid !important;
+                border-color: #d9534f;
+                background-color: #d9534f !important;
+                color: white !important;
+            }
+        </style>
+
+    </div>
+</section>

@@ -1,0 +1,972 @@
+<div class="container" ng-controller="ViewPatProfileController" uploader="uploader" filters="imageFilter">
+    <div class="row">
+        <div class="no-padding" ng-class="showMedia?'col-sm-9':'col-sm-12'">
+            <div class="card" style="overflow: auto;" id="appointmentCard">
+                <div class="row" style="margin-bottom: 15px;">
+                    <div style="background-color: white; padding: 30px 40px;" class="border">
+                        <div class="col-lg-8 col-md-8 col-sm-8" style="padding-bottom: 10px;">
+                            <h2 ng-show="!newProfile"
+                                style="display: inline-block;  font-weight: bold !important; font-size: 17px; margin: 4px 0px 5px 0px;">
+                                {{ 'PROFILE_OF' | translate}} {{profile.admPerson.firstName + ' '+ profile.admPerson.lastName }}
+                            </h2>
+                            <h2 ng-show="newProfile"
+                                style="display: inline-block;  font-weight: bold !important; font-size: 17px; margin: 4px 0px 5px 0px;">
+                                {{ 'ADD_PERFIL' | translate }}</h2>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4" style="text-align: right;">
+                            <button class="btn btn-action-sm" ng-show="!newProfile && !editProfile" ng-click="cancel()"
+                                style="border-bottom: 0px; padding: 4px 12px; box-shadow: none !important; margin-left: 10px; margin-bottom: 5px;"><i
+                                    class="zmdi zmdi-arrow-back" aria-hidden="true"></i>
+                                {{ 'REGRESAR' | translate }}</button>
+                            <button class="btn btn-action-sm btn-cancel" ng-show="newProfile || editProfile" ng-click="cancel()"
+                                style="border-bottom: 0px; padding: 4px 12px; box-shadow: none !important; margin-left: 10px; margin-bottom: 5px;"><i
+                                    class="zmdi zmdi-arrow-back" aria-hidden="true"></i>
+                                {{ 'CANCELAR' | translate }}</button>
+                            <button class="btn btn-action-sm-mirror" ng-show="!newProfile && !editProfile"
+                                ng-click="changeView()" style="padding: 4px 12px; box-shadow: none !important; margin-bottom: 5px;"><i
+                                    class="zmdi zmdi-edit" aria-hidden="true"></i> {{ 'EDITAR' | translate }}</button>
+                            <button class="btn btn-action-sm-mirror" ng-show="newProfile || editProfile"
+                                ng-click="save()" style="padding: 4px 12px; box-shadow: none !important; margin-bottom: 5px;"
+                                ng-disabled="profileForm.$invalid || saving || historyForm.$invalid"><i class="zmdi zmdi-save"
+                                    aria-hidden="true"></i>
+                                {{ 'GUARDAR' | translate }}</button>                                
+
+                            <button ng-class="showMedia?'btn btn-action-sm':'btn btn-action-sm-mirror'" style="padding: 4px 12px; box-shadow: none!important; margin-bottom: 5px;" ng-click="showMedia = !showMedia" ng-hide="addingProfile"><i ng-class="showMedia?'zmdi zmdi-eye':'zmdi zmdi-eye-off'"></i> {{'ATTACHMENTS' | translate}}</button>
+                            <form name="fileUploaderForm">
+                                <label ng-class="showUpload?'btn btn-action-sm':'btn btn-action-sm-mirror'" style="padding: 4px 12px; box-shadow: none!important; margin-bottom: 5px;">
+                                    <input id="patientUploader" class="form-control" type="file" nv-file-select=""
+                                        uploader="patientUploader" options="{clearInputAfterAddedToQueue: true}"
+                                        accept="image/*,.pdf" ng-click="showUpload = !showUpload">
+                                        <i ng-class="showUpload?'zmdi zmdi-upload':'zmdi zmdi-upload'"></i>
+                                        {{ 'UPLOAD_FILE' | translate }}
+                                </label>
+        
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="row">
+                        <div class="col-sm-3"> 
+                            <div class="patientpic-upload">
+                                <div class="patientpic-edit" ng-show="editProfile">
+                                    <input id="profilePhotoUploader" type="file" nv-file-select="" uploader="uploader" options="{clearInputAfterAddedToQueue: true}" accept="image/*">
+                                    <label for="profilePhotoUploader"></label>
+                                </div>
+                                <div class="patientpic-preview">
+                                    <div id="photoPreview"
+                                        style="background-image: url('img/notfound.png'); background-size: contain;">
+                                    </div>
+                                </div>
+                            </div>
+                            <img src="img/loading.gif" style="width: 30%; margin-left: 35%" ng-show="uploadingPhoto">
+                        </div>
+                        <div class="col-sm-9">
+                            <div ng-show="!editProfile && !newProfile">
+                                <div class="row">
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'NOMBRE' | translate }}</p>
+                                            <p style="font-weight: 500;">
+                                                {{profile.admPerson.firstName + ' '+ profile.admPerson.lastName}}</p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'FECHA_NAC' | translate }}</p>
+                                            <p style="font-weight: 500;">
+                                                {{profile.admPerson.birthday | date : 'dd/MM/yyyy' : '+00'}}
+                                            </p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'GENDER' | translate }}</p>
+                                            <p style="font-weight: 500;">
+                                                {{(profile.admPerson.gender == 1) ? 'MASCULINO' : 'FEMENINO' | translate }}</p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'PESO' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="profile.admPerson.weight">
+                                                {{profile.admPerson.weight}} {{ 'WEIGHT_LABEL' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="!profile.admPerson.weight">
+                                                -</p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'ALTURA' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="profile.admPerson.height">
+                                                {{profile.admPerson.height}} {{ 'HEIGHT_LABEL' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="!profile.admPerson.height">
+                                                -</p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'CORREO' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="profile.admPerson.emailPerson">{{profile.admPerson.emailPerson}}</p>
+                                            <p style="font-weight: 500;" ng-if="!profile.admPerson.emailPerson">-</p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'MOVIL' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="profile.admPerson.mobilePhone">{{profile.admPerson.mobilePhone}}</p>
+                                            <p style="font-weight: 500;" ng-if="!profile.admPerson.mobilePhone">-</p>
+                                        </b>
+                                    </div>
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">
+                                                {{(corporateParentName!='sercomed')? 'KINSHIP' : 'KINSHIP_SERCOMED' | translate }}</p>
+                                            <p ng-if="corporateParentName!='sercomed'" style="font-weight: 500; font-size: 13px;">
+                                                {{profile.kinshipId.name | translate }}</p>
+                                            <p ng-if="corporateParentName=='sercomed'" style="font-weight: 500; font-size: 13px;">
+                                                {{(profile.kinshipId.kinshipId == -1) ? 'Titular' : profile.kinshipId.name }}
+                                            </p>
+                                        </b>
+                                    </div>                                    
+                                    <div class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">{{ 'DIRECCION' | translate }}</p>
+                                            <p style="font-weight: 500;" ng-if="profile.admPerson.address">{{profile.admPerson.address}}</p>
+                                            <p style="font-weight: 500;" ng-if="!profile.admPerson.address">-</p>
+                                        </b>
+                                    </div>
+                                    <div ng-if="corporateParentName == 'sercomed'" class="col-lg-3 col-md-3 col-sm-6 col-xs-6">
+                                        <b>
+                                            <p style="margin-bottom: 10px;">RUT</p>
+                                            <p style="font-weight: 500;">{{(profile.admPerson.document)?profile.admPerson.document:'-'}}</p>
+                                        </b>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-show="editProfile || newProfile">
+                                <form name="profileForm">
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'FIRSTNAME' | translate }}</p>
+                                            </b>
+                                            <input type="text" class="form-control" name="firstName"
+                                                ng-disabled = "profile.corporateId.description == 'vivawell'"
+                                                ng-model="profile.admPerson.firstName" ng-maxlength="99"
+                                                ng-pattern="/^[a-zA-ZáéíóúÁÉÍÓÚÑñ\u0370-\u03ff\u1f00-\u1fff\s]*$/" required autocomplete="given-name">
+                                            <p ng-show="profileForm.firstName.$error.required && (!profileForm.firstName.$pristine || editProfile)"
+                                                class="help-block">{{ 'FIRSTNAME_REQUIRED' | translate }}</p>
+                                            <p ng-show="profileForm.firstName.$error.pattern && (!profileForm.firstName.$pristine || editProfile)"
+                                                class="help-block">{{ 'INVALID_FORMAT_LETTERS' | translate }}</p>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'LASTNAME' | translate }}</p>
+                                            </b>
+                                            <input type="text" class="form-control" name="lastName"
+                                                ng-disabled = "profile.corporateId.description == 'vivawell'"
+                                                ng-model="profile.admPerson.lastName" ng-maxlength="99"
+                                                ng-pattern="/^[a-zA-ZáéíóúÁÉÍÓÚÑñ\u0370-\u03ff\u1f00-\u1fff\s]*$/" required autocomplete="family-name">
+                                            <p ng-show="profileForm.lastName.$error.required && (!profileForm.lastName.$pristine || editProfile)"
+                                                class="help-block">{{ 'LASTNAME_REQUIRED' | translate }}</p>
+                                            <p ng-show="profileForm.lastName.$error.pattern && (!profileForm.lastName.$pristine || editProfile)"
+                                                class="help-block">{{ 'INVALID_FORMAT_LETTERS' | translate }}</p>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'FECHA_NAC' | translate }}</p>
+                                            </b>
+                                            <input type="date" name="birthday" class="form-control"
+                                                ng-model="profile.admPerson.birthday" max='{{rootMaxBirthday}}' value="{{profile.admPerson.birthday | date : 'dd/MM/yyyy' : '+00'}}"
+                                                required>
+                                            <div ng-if="profileForm.birthday.$invalid">
+                                                <small class="help-block" translate="FECHA_NAC_ERROR"
+                                                    translate-value-date="{{rootMaxBirthday| date : 'dd/MM/yyyy' : '+00'}}"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" style="margin-bottom: 10px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'GENDER' | translate }}</p>
+                                            </b>
+                                            <div class="select">
+                                                <select class="form-control select" ng-model="profile.admPerson.gender"
+                                                    ng-init='' ng-value="profile.admPerson.gender" name="gender">
+                                                    <option value="1" ng-selected="profile.admPerson.gender == 1">
+                                                        {{ 'MASCULINO' | translate }}</option>
+                                                    <option value="0" ng-selected="profile.admPerson.gender == 0">
+                                                        {{ 'FEMENINO' | translate }}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'PESO' | translate }}</p>
+                                            </b>
+                                            <div class="row">
+                                                <div class="col-sm-10" style="padding: 0px;">
+                                                    <input type="number" class="form-control" name="weight"
+                                                        ng-model="profile.admPerson.weight" min="1" max="500" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-2" style="padding-top: 10px;">
+                                                   {{ 'WEIGHT_LABEL' | translate }}
+                                                </div>
+                                            </div>
+                                            <p class="help-block"
+                                                ng-show="profileForm.weight.$invalid && (!profileForm.weight.$pristine || editProfile)"
+                                                translate="INVALID_FORMAT_ZERO" translate-value-max="500"></p>
+
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'ALTURA' | translate }}</p>
+                                            </b>
+                                            <div class="row">
+                                                <div class="col-sm-10" style="padding: 0px;">
+                                                    <input type="number" class="form-control" name="height"
+                                                        ng-model="profile.admPerson.height" min="1" max="300"  autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-2" style="padding-top: 10px;">
+                                                   {{ 'HEIGHT_LABEL' | translate }}
+                                                </div>
+                                            </div>
+                                            <p class="help-block"
+                                                ng-show="profileForm.height.$invalid && (!profileForm.height.$pristine || editProfile)"
+                                                translate="INVALID_FORMAT_ZERO" translate-value-max="300"></p>
+                                        </div>
+                                    </div>
+                                    <div class="row"  style="margin-bottom: 10px;">
+                                        <div class="col-lg-4 col-md-4 col-sm-12">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'CORREO' | translate }}</p>
+                                            </b>
+                                            <input type="email" class="form-control"
+                                                placeholder="{{ 'CORREO' | translate}}" name="email"
+                                                ng-model="profile.admPerson.emailPerson" style="text-align: center;"
+                                                ng-maxlength="254" ng-required="hasEmail" autocomplete="email">
+                                            <p ng-show="profileForm.email.$error.required && (profileForm.email.$touched || editProfile)"
+                                                class="help-block">{{ 'EMAIL_REQUIRED' | translate }}</p>
+                                            <p ng-show="profileForm.email.$invalid && !profileForm.email.$error.required && (profileForm.email.$touched || editProfile)"
+                                                class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'MOVIL' | translate }}</p>
+                                            </b>
+                                            <input type="tel" name="currentPhone"
+                                                class="form-control" placeholder="{{ 'NUM_TELE' | translate }}"
+                                                ng-model="profile.admPerson.mobilePhone" style="text-align: left;"
+                                                ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/"
+                                                ng-required="hasPhone" autocomplete="tel">
+                                                <small translate="PHONE_INFO"></small>
+                                            <p class="help-block"
+                                                ng-show="profileForm.currentPhone.$error.required && (!profileForm.currentPhone.$pristine || editProfile)">
+                                                {{ 'MOVIL_REQUIRED' | translate }}</p>
+                                            <p class="help-block"
+                                                ng-show="profileForm.currentPhone.$error.pattern && (!profileForm.currentPhone.$pristine || editProfile)">
+                                                {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                                                <p class="help-block"
+                                                ng-show="(profileForm.currentPhone.$error.maxlength) && (!profileForm.currentPhone.$pristine || editProfile)">
+                                                {{ 'MOVIL_LENGTH' | translate }}</p>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">
+                                                    {{(corporateParentName!='sercomed')? 'KINSHIP' : 'KINSHIP_SERCOMED' | translate }}
+                                                </p>
+                                            </b>
+                                            <div ng-if="profile.kinshipId.kinshipId > 0 || !profile.kinshipId">
+                                                <div class="select">
+                                                    <select class="form-control" ng-model="profile.kinshipId"
+                                                        name="kinship" required
+                                                        tooltip="{{(corporateParentName!='sercomed')?'KINSHIP':'KINSHIP_SERCOMED' | translate}}"
+                                                        ng-options="option.name for option in kinships track by option.kinshipId | translate">
+                                                    </select>
+                                                </div>
+                                                <p class="help-block"
+                                                    ng-show="profileForm.kinship.$invalid && (!profileForm.kinship.$pristine && editProfile)">
+                                                    {{(corporateParentName!='sercomed')? 'KINSHIP_REQUIRED' : 'KINSHIP_REQUIRED_SERCOMED' | translate }}
+                                                </p>
+                                            </div>
+                                            <p ng-if="corporateParentName!='sercomed' && profile.kinshipId.kinshipId === -1"
+                                                style="font-weight: 500; font-size: 13px;">
+                                                {{profile.kinshipId.name | translate }}</p>
+                                            <p ng-if="corporateParentName=='sercomed' && profile.kinshipId.kinshipId === -1"
+                                                style="font-weight: 500; font-size: 13px;">
+                                                {{ 'TITULAR' | translate }}</p>
+                                        </div>                                        
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">{{ 'DIRECCION' | translate }}</p>
+                                            </b>
+                                            <input type="text" name="currentAddress"
+                                                class="form-control" placeholder="{{ 'DIRECCION' | translate }}"
+                                                ng-model="profile.admPerson.address" style="text-align: left;" ng-pattern="/^[^<>\[\]\{\}]*$/"                                               
+                                                ng-required="hasAddress">                            
+                                            <p class="help-block" ng-show="profileForm.currentAddress.$error.pattern">
+                                                {{ 'INVALID_FORMAT' | translate }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="row" ng-if="corporateParentName == 'sercomed'">
+                                        <div class="col-lg-4 col-md-4 col-sm-6">
+                                            <b>
+                                                <p style="margin-bottom: 10px;">RUT</p>
+                                            </b>
+                                            <input type="text" class="form-control" name="document"
+                                                ng-model="profile.admPerson.document"
+                                                ng-pattern="/^[a-zA-ZáéíóúÁÉÍÓÚÑñ0-9-_\u0370-\u03ff\u1f00-\u1fff\s]*$/" autocomplete="off">
+                                            <p class="help-block"
+                                                ng-show="profileForm.document.$invalid && (!profileForm.document.$pristine || editProfile)">
+                                                {{ 'INVALID_FORMAT_DOCUMENT' | translate }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="!editProfile && !newProfile"
+                    style="background-color: #FAFAFA !important; margin-top: 20px; margin-bottom: 30px; margin-left: 80px; margin-right: 80px; text-align: center;">
+                    <div class="border">
+                        <div class="col-lg-4 col-md-4">
+                            <b>
+                                <p style="margin-bottom: 10px; color: #828282;">{{ 'AUTH' | translate }}</p>
+                                <p style="font-weight: 500;">
+                                    {{profile.userId.admPerson.poliza}}</p>
+                            </b>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <b>
+                                <p style="margin-bottom: 10px; color: #828282;">{{ 'SUB_CORPORATE' | translate }}</p>
+                                <p style="font-weight: 500;">
+                                    {{profileNameCorporation}}</p>
+                            </b>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <b>
+                                <p style="margin-bottom: 10px; color: #828282;">{{ 'POLICY_TYPE' | translate }}</p>
+                                <p style="font-weight: 500;">
+                                    {{ 'INDIVIDUAL' | translate }}</p>
+                            </b>
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 30px;">
+                <div class="row"
+                    style="margin-top: 20px; margin-bottom: 30px; margin-left: 80px; margin-right: 80px; text-align: center;">
+                    <div class="border">
+                        <div class="row" style="margin-bottom: 20px;">
+                            <p style="font-size: 16px; color: #5E5E5E;" class="pull-left">{{ 'CLINICAL_ANT' | translate }}
+                            </p>
+                            <button class="btn btn-action-sm-mirror pull-right" ng-show="!newProfile && !editProfile" style="cursor: pointer; box-shadow: none !important;" ng-click="showHistory()"><i class="fa fa-clock-o" aria-hidden="true"></i> {{'ANT_HISTORY' | translate}}
+                            </button>
+                        </div>
+                        <form name="historyForm">
+                        <div class="row" ng-repeat="item in clinicalHistoryCategories" ng-if="$index % 2 == 0"
+                            ng-init="divIndex = $index">
+                            <div ng-repeat="n in [].constructor(2) track by $index">
+                                <div class="col-lg-6 col-md-6"
+                                    ng-if="clinicalHistoryCategories.length > (divIndex + $index)"
+                                    style="margin-bottom: 25px;">
+                                       
+                                        <ng-form name="urlForm{{divIndex+$index}}">
+                                            <p
+                                                style="font-weight: bold; font-size: 13px; color: #333333; margin-bottom: -10px; text-align: left;">
+                                                {{ getCategoryName(clinicalHistoryCategories[divIndex+$index].category.name) }}
+                                            </p>
+                                            <p style="font-size: 13px; color: #5E5E5E; text-align: justify; white-space: pre-line;"
+                                                ng-show="!editProfile && !newProfile">
+                                                {{(clinicalHistoryCategories[divIndex+$index].value != undefined && clinicalHistoryCategories[divIndex+$index].value != '') ? clinicalHistoryCategories[divIndex+$index].value : ( 'ADD_CLINICAL' | translate )}}
+                                            </p>
+                                            <textarea ng-show="editProfile || newProfile" class="form-control" rows="4"
+                                                style="margin-top: 15px;" placeholder="{{ 'ADD_DATA' | translate }}" tabindex="0"
+                                                style="font-weight: normal;" name="test{{divIndex+$index}}"
+                                                ng-model="clinicalHistoryCategories[divIndex+$index].value" maxlength="1000"
+                                                ng-trim="false" ng-pattern="/^[^<>\[\]\{\}]*$/"></textarea>
+                                            <p style="text-align: left;" class="help-block"
+                                                ng-show="urlForm{{divIndex+$index}}.test{{divIndex+$index}}.$invalid && (editProfile || newProfile)">
+                                                {{ 'INVALID_FORMAT_ANT' | translate }}
+                                            </p>
+                                        </ng-form>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row" ng-show="editProfile || newProfile" style="text-align: right;">
+                            <button type="submit" class="btn btn-action-sm waves-effect" style="margin-right: 5px;"
+                                ng-click="save()"
+                                ng-disabled="profileForm.$invalid || saving || historyForm.$invalid">{{ 'GUARDAR' | translate }}</button>
+                            <button class="btn waves-effect btn-cancel" ng-click="cancel()">{{ 'CANCELAR' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+                <hr style="margin-bottom: 30px;">
+                <div class="row"
+                    style="margin-top: 20px; margin-bottom: 30px; margin-left: 15px; margin-right: 15px; text-align: center;"
+                    ng-show="!editProfile && !newProfile">
+                    <div class="border">
+                        <div class="row">
+                            <p id="consText" style="font-size: 16px; color: #5E5E5E; padding-left: 30px;"
+                                class="pull-left">
+                                {{ 'TOOLTIP_LIST' | translate }}</p>
+                        </div>
+                        <div class="row" style="padding: 20px 30px 0px 30px;">
+                            <div class="card border" ng-repeat="row in medicalList" style="-webkit-box-shadow: 0px 0px 20px -16px rgba(0,0,0,0.75); margin-bottom: 10px !important;
+                        -moz-box-shadow: 0px 0px 20px -16px rgba(0,0,0,0.75);
+                        box-shadow: 0px 0px 20px -16px rgba(0,0,0,0.75);">
+                                <div class="row" style="padding: 20px 30px;">
+                                    <div>
+                                        <div class="col-lg-3 col-md-3">
+                                            <div style="text-align: left; margin-bottom: 20px;">
+                                                <b>
+                                                    <p class="text-corporate" style="margin-bottom: 5px;">
+                                                        {{ 'FECHA' | translate }}</p>
+                                                </b>
+                                                <p>{{row.medicalAppointment.startDate| date: 'dd/MM/yyyy hh:mm a'}}
+                                                </p>
+                                            </div>
+                                            <div style="text-align: left; margin-bottom: 20px;">
+                                                <b>
+                                                    <p class="text-corporate" style="margin-bottom: 5px;">
+                                                        {{ 'DOCTOR' | translate }}</p>
+                                                </b>
+                                                <p>{{row.medicalAppointment.doctorName}}
+                                                </p>
+                                            </div>
+                                            <div style="text-align: left;">
+                                                <div class="col-lg-10 col-md-10" ng-show="row.existPDF">
+                                                    <button 
+                                                        ng-click="openFile(row.medicalAppointment.medicalAppointmentId,1)"
+                                                        class="btn btn-action-sm"
+                                                        style="box-shadow: none; border-bottom: 5px; margin-top: 5px; margin-bottom: 5px;"><i
+                                                        class="zmdi zmdi-file-text"></i>&nbsp;{{ 'PDF_OVERVIEW' | translate }}
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-10 col-md-10" ng-show="!row.existPDF">
+                                                    <button 
+                                                        ng-disabled="true"
+                                                        class="btn btn-action-sm"
+                                                        style="box-shadow: none; border-bottom: 5px; margin-top: 5px; margin-bottom: 5px;"><i
+                                                        class="zmdi zmdi-file-text"></i>&nbsp;{{ 'APPOINTMENT_NO_PDF' | translate }}
+                                                    </button>
+                                                </div>
+                                                <button class="btn btn-action-sm pull-left hide"
+                                                    style="box-shadow: none; border-bottom: 0px; margin-left: 5px;"><i
+                                                        class="zmdi zmdi-attachment-alt"></i>&nbsp;{{ 'ATTACHMENTS' | translate }}</button>
+                                            </div>
+                                            <div style="text-align: left;">
+                                                <div class="col-lg-10 col-md-10" ng-show="row.existDiagnosticPDF">
+                                                    <button 
+                                                        ng-click="openFile(row.medicalAppointment.medicalAppointmentId,2)"
+                                                        class="btn btn-action-sm"
+                                                        style="box-shadow: none; border-bottom: 5px; margin-top: 5px; margin-bottom: 5px;"><i
+                                                        class="zmdi zmdi-file-text"></i>&nbsp;{{ 'PDF_DIAGNOSTIC' | translate }} 
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-10 col-md-10" ng-show="!row.existDiagnosticPDF">
+                                                    <button 
+                                                        ng-disabled="true"
+                                                        class="btn btn-action-sm"
+                                                        style="box-shadow: none; border-bottom: 5px; margin-top: 5px; margin-bottom: 5px;"><i
+                                                        class="zmdi zmdi-file-text"></i>&nbsp;{{ 'CONSULTATION_NO_PDF' | translate }} 
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9" ng-show="normalForm">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'DIAGNOSTIC' | translate }}</p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.diagnostic || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'RECOMMENDATION' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line;" ng-bind-html="row.recommendation">
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px; text-align: initial;">
+                                                            {{'EDUCATIONAL_PLAN' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.educationalPlan || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'PRESCRIPTION' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.prescription || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'DIAGNOSTIC_STUDY' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.diagnosticStudy || ('SIN_DETALLE' | translate)}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{(corporateParentName != 'sercomed') ? 'DRUGSTORE' : 'CERTIFICATE' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p ng-if="corporateParentName != 'sercomed'"
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.drugstore || ('SIN_DETALLE' | translate)}}
+                                                    </p>
+                                                    <p ng-if="corporateParentName == 'sercomed'"
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.certificate || ('SIN_DETALLE' | translate)}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-show = "row.docMedicalVitalSigns !== undefined">
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'TEMPERATURE' | translate }}</p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.docMedicalVitalSigns.temperature || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'SATURATION' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.docMedicalVitalSigns.saturation || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px; text-align: initial;">
+                                                            {{'PA' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.docMedicalVitalSigns.pa || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="row" ng-show = "row.docMedicalVitalSigns !== undefined">
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'FR' | translate }}</p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.docMedicalVitalSigns.fr || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'HEART_RATE' | translate }}</p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.docMedicalVitalSigns.fc || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;">
+                                                            {{'GLUCOMETRY' | translate }}
+                                                        </p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.docMedicalVitalSigns.glucometry || ( 'SIN_DETALLE' | translate )}}
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                        <div class="col-lg-9" style="border-left: 1px solid;" ng-show="!normalForm">
+                                            <div class="row">
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;  text-align: initial;">
+                                                            {{ 'NAME' | translate }}</p>
+                                                    </b>
+                                                    <p style="text-align: justify; overflow-wrap: break-word;">
+                                                        {{row.confirmName || ('SIN_DETALLE' | translate)}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;  text-align: initial;">
+                                                            {{ 'PRESCRIPTION' | translate }}</p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.reason || ('SIN_DETALLE' | translate)}}
+                                                    </p>
+                                                </div>
+                                                <div class="col-lg-4 col-md-4">
+                                                    <b>
+                                                        <p class="text-corporate"
+                                                            style="margin-bottom: 5px;  text-align: initial;  text-align: initial;">
+                                                            {{ 'RECOMMENDATION' | translate }}</p>
+                                                    </b>
+                                                    <p
+                                                        style="text-align: justify; overflow-wrap: break-word; white-space: pre-line; margin-top: -20px;">
+                                                        {{row.observation || ('SIN_DETALLE' | translate)}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="gifLoading" style="padding-bottom: 20px;">
+                            <img src="../img/loading-short.gif">
+                        </div>
+                        <div class="row" id="noCons" style="padding-bottom: 20px;">
+                            <b>
+                                <h4>{{ 'NO_CONS' | translate }}</h4>
+                            </b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-3 no-padding" ng-show="showMedia">
+            <div class="row no-padding" style="background-color: white; padding: 30px 40px;" id="mediaCard">
+                <div class="card-header brand media-header no-padding" ng-class="corporateParentName=='vivawell'?'corporate':''">
+                    <div class="row no-padding">
+                        <div class="col-xs-6 option" style="text-align: center; color: white" ng-class="viewPictures?'optionSelected':''"ng-click = "changeMediaView(0)">
+                            {{ 'IMAGES' | translate }}
+                        </div>
+                        <div class="col-xs-6 option" style="text-align: center; color: white" ng-class="viewFiles?'optionSelected':''" ng-click = "changeMediaView(1)">
+                            {{ 'FILES' | translate }}
+                        </div>
+                    </div>
+                </div>               
+                <div class="card-body media-body" ng-show="viewPictures" id="picturesDiv">                    
+                    <div class="row">
+                        <div id="showGifLoadingAttachment" ng-show="showGifLoadingAttachment">
+                            <img src="img/loading.gif" style="width: 30%; margin-left: 25%">
+                        </div>
+                        
+                        <ng-gallery images="images"></ng-gallery>
+                        <div class="col-xs-12" ng-show="picLimitReached">
+                            <div class="card no-more text-corporate">
+                                <div class="card-body text-corporate">
+                                    {{ 'NO_MORE_IMAGES' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>                   
+                </div>
+
+                <div class="card-body media-body" ng-show="viewFiles" id = "filesDiv">
+                    <div class="row no-padding">
+                        <div class="col-sm-12 divFile" ng-repeat="a in attachments | orderBy : '-uploadDate'">
+                            <div class="clearfix" ng-if="$index % 3 == 0"></div>
+                            <div class="card filecard">                                
+                                <div class="row no-padding">
+                                    <div class="col-xs-2">
+                                        <i class="zmdi zmdi-hc-5x corporate-color"
+                                                        ng-class="a.type==1?'zmdi-image':'zmdi-file-text'"></i>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        {{a.name.split('%20').join(' ')}} 
+                                    </div>
+
+                                    <div class="col-xs-2" ng-click="openAttachment(a)">
+                                        <i class="zmdi zmdi-download text-corporate" style="font-size: 2.5vw" ></i>
+                                    </div>                                        
+                                </div>
+                                <div class="row no-padding">
+                                    <div class="col-xs-2">
+                                        <small><b>{{a.fileExtension.toUpperCase()}}</b></small>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <small>{{showSize(a.fileSize)}}</small>
+                                    </div>
+                                </div>  
+                                <div class="row no-padding">
+                                    <div class="col-xs-12" style="text-align: right;">
+                                        <small><b>{{a.name}}</b></small>
+                                    </div>
+                                    <div class="col-xs-12" style="text-align: right;">
+                                        <small><b>{{a.uploadDate | date: 'hh:mm a'}}</b></small>
+                                    </div>                                    
+                                </div>                                                           
+                            </div>                            
+                        </div>      
+                        <div class="col-sm-12 divFile" ng-repeat="item in fileList">
+                            <div class="card filecard">                                
+                                <div class="row no-padding">
+                                    <div class="col-xs-2">
+                                        <i class="zmdi zmdi-file" style="font-size: 2.5vw"></i>
+                                    </div>
+                                    <div class="col-xs-8">
+                                        <b>{{item.fileName.split('%20').join(' ')}} </b>
+                                    </div>
+                                    <div class="col-xs-2">
+                                        <a ng-href="{{item.url}}" target="_blank">
+                                        <i class="zmdi zmdi-download text-corporate" style="font-size: 2.5vw" ></i>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="row no-padding">
+                                    <div class="col-xs-2">
+                                        <small><b>{{item.fileExtension.toUpperCase()}}</b></small>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <small>{{showSize(item.size)}}</small>
+                                    </div>
+                                </div>  
+                                <div class="row no-padding">
+                                    <div class="col-xs-12" style="text-align: right;">
+                                        <small><b>{{item.uploader}}</b></small>
+                                    </div>
+                                    <div class="col-xs-12" style="text-align: right;">
+                                        <small><b>{{item.timeStamp}}</b></small>
+                                    </div>                                    
+                                </div>                                                           
+                            </div>                            
+                        </div>
+                        
+                        <div class="col-xs-12" ng-show="fileLimitReached">
+                            <div class="card no-more text-corporate">
+                                <div class="card-body text-corporate">
+                                    {{ 'NO_MORE_FILES' | translate }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>                    
+                </div>
+            </div>            
+        </div>
+    </div>
+    <div class="modal fade" id="callMeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: center;">
+                    <h4 class="modal-title" id="exampleModalLabel">{{ 'BAD_LAST_ORIENTATION' | translate }}</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>{{ 'BAD_ORIENTATION' | translate }}</h4><br />
+                    <p>{{ 'CONFIRM_NUMBER' | translate }}</p>
+                    <p>{{ 'NUM_TELE' | translate }}: <b>{{profile.admPerson.mobilePhone }}</b></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" ng-click="callMe()"
+                        ng-disabled="disableCallMe">{{ 'CALLME' | translate }}</button>
+                    <button class="btn btn-link" data-dismiss="modal">{{ 'CANCELAR' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade bs-example-modal-lg" id="antHistory" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header" style="text-align: center;">
+                    <h4 class="modal-title" id="exampleModalLabel">{{ 'ANT_HISTORY' | translate }}</h4>
+                </div>
+                <div class="modal-body modal-body-scroll">
+                    <div style="text-align: center;">
+                        <div ng-if="loadingHistory" class="preloader pls-green" style="width: 65px;"><svg class="pl-circular" viewbox="25 25 50 50"><circle class="plc-path" cx="50" cy="50" r="20" /></svg></div>
+                        <div ng-show="((historyLog.length == 0))" style="padding-top: 25px;">
+                            <i class="zmdi zmdi-check zmdi-hc-3x"></i>
+                            <h3><b>{{ 'ANT_HISTORY_NULL' | translate }}</b></h3>
+                        </div>
+                    </div>
+                    <div ng-show="(historyLog.length > 0)" class="table-responsive scheduleTable">
+                        <table class="table smallTextSize">
+                            <thead>
+                            <tr>
+                                <th style="width: 35%;"><b>{{ 'ANT_BEFORE' | translate }}</b></th>
+                                <th style="width: 35%;"><b>{{ 'ANT_UPDATED' | translate }}</b></th>
+                                <th style="width: 15%;"><b>{{ 'ANT_USER_UPDATED' | translate }}</b></th>
+                                <th style="width: 15%;"><b>{{ 'FECHA' | translate }}</b></th>
+                            </tr>
+                            </thead>
+                            <tbody ng-repeat="history in historyLog">
+                            <td colspan="4" class="corporate" style="color: #ffffff;"><b>{{history.category | translate}}</b>
+                            </td>
+                            <tr ng-repeat="item in history.items">
+                                <td class="capitalize" style="white-space: pre-line;">{{item.oldValue}}</td>
+                                <td class="capitalize" style="white-space: pre-line;">{{item.newValue}}</td>
+                                <td class="capitalize">{{item.changedBy}}</td>
+                                <td><b>{{item.changeDate | date: 'dd/MM/yyyy hh:mm a'}}</b></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-link" data-dismiss="modal">{{ 'CERRAR' | translate }}</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+     input[type="file"] {
+        display: none;
+    }
+    p, div {
+        overflow-wrap: break-word;
+    }
+
+    .page-view {
+        padding-top: 0 !important;
+    }
+
+    @media (min-width: 1200px) {
+        .container {
+            width: 100%;
+        }
+    }
+
+    #appointmentCard, #mediaCard {
+        height: -moz-calc(100% - 90px);
+        height: -webkit-calc(100% - 90px);
+        height: -o-calc(100% - 90px);
+        height: calc(100% - 90px);
+    }
+
+    .card {
+        margin-bottom: 0px !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background-color: #cecac8 !important;
+    }
+
+    .media-header{
+        height: 50px;
+        padding: 10px 15px !important;
+    }
+
+    .media-body {
+        height: -moz-calc(100% - 50px);
+        height: -webkit-calc(100% - 50px);
+        height: -o-calc(100% - 50px);
+        height: calc(100% - 50px);
+        background-color: #f7f7f7;
+        overflow: auto;
+    }
+
+    .picDiv{
+        border-radius: 0px !important;
+        margin: 0px !important;
+    }
+
+    .divPicture{
+        padding: 2px !important;
+    }
+    .divFile{
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 10px;
+    }
+    .optionSelected{
+        font-weight: bold;
+        border: solid 1px;
+        border-radius: 10px;
+    }
+    .option{
+        padding: 5px;
+    }
+    .filecard{
+        padding: 5px; 
+        border-radius: 10px
+    }
+    .no-more{
+        background-color: white; 
+        text-align: center; 
+        padding: 5px !important; 
+        margin-bottom: 10px !important;
+        font-weight: bold;
+        border: solid 1px;
+        border-radius: 10px;
+        margin-top: 5px;
+    }
+    form p{
+        margin-bottom: 0px !important;
+    }
+</style>
+<script>
+    (function ($) {
+        $.fn.inputFilter = function (inputFilter) {
+            return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                if (inputFilter(this.value)) {
+                    this.oldValue = this.value;
+                    this.oldSelectionStart = this.selectionStart;
+                    this.oldSelectionEnd = this.selectionEnd;
+                } else if (this.hasOwnProperty("oldValue")) {
+                    this.value = this.oldValue;
+                    this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                }
+            });
+        };
+    }(jQuery));
+
+
+    // Install input filters.
+    $("#inputEmail3").inputFilter(function (value) {
+        return /^\d*$/.test(value);
+    });
+</script>

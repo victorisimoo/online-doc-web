@@ -1,0 +1,531 @@
+@import "../../general.css";
+/*
+#### BRAND: Doctor Online ######
+MainColor: #26ad6e;
+*/
+body {
+  background-color: #f6f7f7;
+  background-image: url("background.png");
+  background-repeat: repeat;
+}
+
+
+/*Adjusments*/
+
+
+/*End Adjusments*/
+
+.i-logo {
+	width: 20em;
+	display: initial !important;
+}
+
+#header{
+	background-color: #26ad6e !important;
+}
+
+.patient-logo {
+	width: 20em;
+}
+
+.brand{
+	background-color: #26ad6e;
+}
+
+#brand-header{
+	background-color: #26ad6e;
+	padding: 40px 0
+}
+
+.bgm-yellow{
+	background-color: #26ad6e !important;
+	border-radius: 10px;
+	color: #FFF;
+}
+.btn-login{
+	/* background-color: #ed1c24;*/
+	background-color:#26ad6e;
+	border-radius: 10px;
+	color: #FFF;
+	font-weight: bold;
+	border-bottom: 5px solid #0D683D;
+}
+
+.header-inner {
+	padding: 1px 0;
+}
+
+.btn-action, .btn-action-sm {
+  background-color: #26ad6e !important;
+	border-radius: 10px;
+	color: #FFF;
+	font-weight: bold;
+}
+
+.btn-default,.btn-default:focus, .btn-default:active{
+	background-color: #26ad6e !important;
+	border-radius: 10px;
+	color: #FFF !important;
+	font-weight: bold;
+}
+
+.btn-default:hover{
+	background-color: white !important;
+	border-radius: 10px;
+	color: #26ad6e !important;
+	font-weight: bold;
+}
+
+.btn-danger {
+	background-color: white !important;
+	border-radius: 10px;
+	color: #26ad6e !important;
+	font-weight: bold;
+}
+
+.form-control{
+	background-color: #FFF !important;
+}
+.btn-login:hover{
+	color: #FFF;
+}
+
+.lcb-form{
+	margin: 0;
+	padding: 0 !important;
+	border:0;
+	box-shadow: none;
+	background-color: transparent !important;
+}
+
+.lc-block:not(.lc-block-alt) .btn-login{
+	top:0;
+	margin-top: 0px;
+	right: inherit;
+}
+
+.lc-block{
+	margin-top: 50px;
+}
+
+.login-content{
+	background-color: transparent;
+	/*background-image: url("background.png");
+	background-repeat: repeat;*/
+}
+
+
+/**Login alignmnent*/
+
+.lc-block{
+	padding: 0px 0px 0px 0px;
+	max-width: 600px;
+	width: 75%;
+}
+
+#username{
+	font-size: 35px;
+}
+
+@media only screen and (max-width: 500px) {
+	.lc-block{
+			vertical-align: top;
+	}
+	.adsMargin{
+			margin-left: 0%;
+	}
+}
+
+@media only screen and (min-width: 500px) {
+	.adsMargin{
+			margin-left: 4.15%;
+	}
+}
+
+.page-view{
+	padding-top:3vh;
+}
+
+@media only screen and (min-width: 1200px) {
+	.btn-action-touch {
+		min-height: 160px;
+		min-width: 260px;
+	}
+}
+
+.card-trans {
+background: transparent;
+box-shadow: 0px 0px 0px 0px;
+}
+
+h1, .h1, h2, .h2, h3, .h3 {
+	margin-top: 1px;
+	margin-bottom: 5px;
+}
+
+#patient-logo {
+	max-height:40px;
+}
+
+#menu-icon {
+	color: #FFF;
+}
+
+li.logo .link-logo{
+	padding: 5px 0 15px 0 !important;
+}
+
+li.logo:nth-child(2){
+	padding: 15px 0 25px 0 !important;
+}
+#patient-logo-lg{
+		max-width: 140px;
+}
+
+#messages-main .ms-block {
+	padding: 23px 10px 0;
+}
+
+.panel-primary {
+	border-color: #ec1c24;
+}
+input.form-control {
+	border-color: #26ad6e;
+}
+
+.form-control:focus {
+  border-color: #0D683D;
+}
+
+.input-lg-login {
+	height: 60px;
+	line-height: 1.3333333;
+}
+
+
+.h2 {
+color:#cf0000;
+}
+
+#password_text{
+	font-size:35px;
+}
+
+.alert-danger {
+    background-color: #26ad6e;
+    color: #fff;
+    font-size:20px;
+}
+
+#btn-mis-pacientes
+{
+	background-color: pink !important;
+}
+
+.corporate
+{
+	background-color: #26ad6e !important;
+}
+
+/*nuevos estilos*/
+.text-login{/*texto en el login*/
+	color:#000 !important;
+}
+.letter-voucher-accept{/*mensaje cuando el voucher es aceptado*/
+	color:#666666 !important;
+	font-size:24px !important;
+	margin-top:1em;
+}
+.size-reconecta{/*tamaño para el texto de reconexcion*/
+	font-size:24px !important;
+}
+
+.txt-small-reconect{
+font-size:14px;color:#666666;
+}
+
+.confirm
+{ 	
+	background-color: #26ad6e !important;
+}  
+.lv-message .lv-item:not(.right) .ms-item
+{ 	
+	background-color: #26ad6e !important; 
+}
+
+.text-corporate
+{
+	color: #26ad6e !important;
+}
+
+.curved-borders{
+	border-radius: 10px;
+}
+
+.pagination > .active > a{
+	background-color: #26ad6e !important;
+}
+
+.fg-line:not([class*=has-]):after {
+    background: #26ad6e !important;
+}
+
+md-tabs .md-tab.md-active {
+	color: #0D683D !important;
+}
+
+.pagination > .active > a, md-ink-bar {
+	background-color: #0D683D !important;
+}
+
+.message__text_wrap{
+	padding: 6px;
+	background-color: #26ad6e;
+	color: white;
+	border-radius: 6px;
+	display: inline-block;
+}
+
+.message__text_me, .message__timestamp_me{
+	color: white;
+}
+
+.send_btn{
+	color: #26ad6e !important;
+}
+
+.seen{
+	opacity: 1 !important;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #26ad6e !important;
+}
+
+.preloader.pls-green .plc-path {
+	stroke: #26ad6e !important;
+}
+
+.carousel .carousel-indicators {
+	background: transparent !important;
+}
+
+.carousel .carousel-indicators li {
+	background: gray !important;
+	height: 15px !important;
+	border-radius: 50%;
+	cursor: pointer;
+}
+
+.carousel .carousel-indicators li.active {
+	background: #fff !important;
+	height: 15px !important;
+	width: 15px !important;
+}
+
+.radio .input-helper:after {
+	background: #26ad6e !important;
+}
+
+.checkbox .input-helper:after {
+	border-bottom: 2px solid #26ad6e !important;
+	border-left: 2px solid #26ad6e !important;
+}
+
+.md-calendar-date.md-calendar-selected-date .md-calendar-date-selection-indicator{
+	background: #26ad6e !important;
+}
+
+.md-datepicker-input-container.md-datepicker-focused{
+	border-bottom-color: #26ad6e !important;
+}
+
+.progress-bar-danger {
+background-color: #26ad6e !important;
+}
+
+.titular{
+	padding: 5px 10px;
+	background-color: #26ad6e;
+	color: white;
+	border-radius: 100px;
+}
+
+.appointmentInputs{
+	border-radius: 10px;
+	border: 1px solid #26ad6e !important;
+}
+
+.btn-action-sm-mirror {
+	background-color: #FFF !important;
+	border-radius: 10px;
+	color: #26ad6e;
+	border: 1px solid #26ad6e;
+	font-weight: bold;
+}
+
+.checkedList .bulletPay {
+    position: relative;
+    list-style-type: none;
+    margin-left: 0;
+    padding: 0 0 0em 2em;
+    text-align: left;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.checkedList .bulletPay:before {
+    color: rgba(0, 0, 0, 0);
+    display: block;
+    position: absolute;
+    top: 0.3em;
+    height: 0.3em;
+    width: 0.8em;
+    content: '✓';
+    left: 0.2em;
+    border-bottom: 2px solid #28B473;
+    border-left: 2px solid #28B473;
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.fg-line:not([class*=has-]):after {
+	background: #26ad6e;
+}
+
+/*CALENDAR*/
+#calendar {
+	height: 95% !important;
+	box-shadow: none !important;
+}
+#calendar .fc-toolbar {
+	height: auto;
+	background-image: none !important;
+}
+.fc-toolbar-title {
+	color: black !important;
+	margin-right: 2.5rem !important;
+}
+#calendar .fc-toolbar:before {
+	background: transparent !important;
+	height: 0px;
+}
+.fc-toolbar h2 {
+	font-weight: 500;
+}
+.fc-col-header-cell-cushion {
+	color: white !important;
+}
+.modal-header {
+	align-items: flex-start;
+	justify-content: space-between;
+	padding: 1rem;
+	border-bottom: 1px solid #e9ecef;
+	border-top-left-radius: 0.3rem;
+	border-top-right-radius: 0.3rem;
+}
+.modal-title {
+	margin-bottom: 0;
+	line-height: 1.5;
+	font-family: inherit;
+	font-weight: 500;
+	line-height: 1.2;
+	color: inherit;
+	font-size: 24px;
+	color: black;
+}
+.close {
+	padding: 1rem;
+	margin: -1rem -1rem -1rem auto;
+	background-color: transparent;
+	border: 0;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+	float: right;
+	font-size: 2.5rem;
+	font-weight: 700;
+	line-height: 1;
+	color: #000;
+	text-shadow: 0 1px 0 #ffffff;
+	opacity: .5;
+}
+.corporate-color {
+	color: var(--main-color);
+	font-weight: 700;
+	font-size: 16px;
+}
+select {
+	cursor: pointer;
+}
+.form-input {
+	display: block;
+	width: 100%;
+	height: 38px;
+	padding: 0.375rem 0.75rem;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.5;
+	color: #495057;
+	background-color: #ffffff;
+	background-clip: padding-box;
+	border: 1px solid #ced4da;
+	border-radius: 0.25rem;
+	box-shadow: inset 0 0 0 rgb(0 0 0 / 0%);
+	transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.mt-4 {
+	margin-top: 1.5rem;
+}
+
+.form-readonly {
+	background-color: #ced4da !important;
+	cursor: not-allowed;
+}
+.fc-event-title {
+	color: black !important;
+}
+.fc-event-time {
+	color: black !important;
+}
+
+.center-calendar {
+	display: flex;
+	justify-content: center;
+}
+#calendar .fc-header-toolbar {
+	background-color: #F6F7F7 !important;
+}
+
+.fc-event-title {
+	height: 4rem !important;
+}
+
+.fc-scrollgrid-liquid > tbody > tr:nth-child(1) .fc-scroller-harness {
+	height: 1px !important;
+}
+
+.fc-scrollgrid-liquid > thead > tr > th > div {
+	height: 1px !important;
+}
+
+.normal-fix .fc-timegrid-slots > table > tbody > tr {
+	height: 4rem !important;
+}
+.ten .fc-timegrid-slots > table > tbody > tr {
+	height: 6rem !important;
+}
+
+.more-than-ten .fc-timegrid-slots > table > tbody > tr {
+	height: 12rem !important;
+}
+
+.max-size .fc-timegrid-slots > table > tbody > tr {
+	height: 24rem !important;
+}
+/*.fc-scrollgrid-liquid > thead {
+    display: none !important;
+} */

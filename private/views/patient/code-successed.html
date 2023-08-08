@@ -1,0 +1,69 @@
+<div class="container enter-code-page" ng-controller="code-validated">
+
+  <div class="row"
+    ng-hide="hasQueue || hasInvitation || isOnCall || (disableAppointment && $root.corpAttentionType == 1)">
+    <div class="col-12" align="center">
+      <h3>{{ 'BIENVENIDO' | translate }}</h3>
+      <h1>
+        <strong>{{currentUser}}</strong>
+      </h1>
+      <br />
+    </div>
+  </div>
+  <div class="row justify-content-center align-items-center" style="display: flex;
+  justify-content: center;">
+    <div class="col-sm-9 text-center" ng-if="codeWorked">
+      <div class="m-b-20">
+        <img style="width: 130px;" src="../img/codigo-correcto.png" alt="">
+      </div>
+      <div class="m-b-30">
+        <h2><b>{{ 'CONGRATS' | translate }}</b></h2>
+        <h4>{{couponMessage}}</h4>
+      </div>
+      <h4 class="m-b-10">{{ 'APPOINTMENT_NOW_QUESTION' | translate }}</h4>
+      <div class="m-b-10">
+        <button class="btn btn-default btn-lg" ng-click="goToAppointment()">
+          {{ 'APPOINTMENT_NOW' | translate }}
+        </button>
+      </div>
+      <div class="m-b-10">
+        <button class="btn btn-default btn-lg" ui-sref="pages.patient" type="submit">
+          {{ 'ANOTHER_TIME' | translate }}
+        </button>
+      </div>
+    </div>
+    <div class="col-sm-9 text-center" ng-if="!codeWorked">
+      <div class="m-b-20">
+        <img style="width: 130px;" src="../img/codigo-incorrecto.png" alt="">
+      </div>
+      <div class="m-b-30">
+        <h2><b>{{ 'COUPON_INVALID_MESSAGE' | translate }}</b></h2>
+        <h4>{{couponMessage}}</h4>
+      </div>
+      <div class="m-b-10">
+        <button class="btn btn-default btn-lg"  ui-sref="pages.enter-code"  type="button">
+          {{ 'COUPON_TRY_AGAIN' | translate }}
+        </button>
+      </div>
+      <div class="m-b-10">
+        <button class="btn btn-default btn-lg" ui-sref="pages.patient" type="submit">
+          {{ 'ANOTHER_TIME' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+</div>
+<style>
+  .enter-code-page .form-control {
+    padding: 5px !important;
+    font-size: 20px;
+    border: 1px solid #ccc !important;
+    border-radius: 5px !important;
+    text-align: center;
+    color: #000;
+    font-size: 35px;
+    height: 60px;
+    line-height: 1.3333333;
+  }
+</style>

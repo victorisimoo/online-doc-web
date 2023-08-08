@@ -1,0 +1,87 @@
+/**
+##### BRAND GENERIC STYLES ######
+*/
+
+.login-lp .form-control {
+  padding: 5px !important;
+  font-size: 20px;
+  border: 1px solid #ccc !important;
+  border-radius: 5px !important;
+  text-align: center;
+  color: #000;
+}
+
+.login-lp button.btn-login {
+  margin-top: 40px;
+  padding: 10px 40px !important;
+  font-size: 20px !important;
+}
+
+.btn {
+  text-transform: initial !important;
+}
+
+@-webkit-keyframes spinner-border {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-border {
+  to {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: inherit;
+  border: 0.12em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  -webkit-animation: spinner-border 0.75s linear infinite;
+  animation: spinner-border 0.75s linear infinite;
+}
+.modal-dialog-centered {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  min-height: calc(100% - (3.5rem * 2));
+}
+#acceptCookiesModal .modal-body p{
+	color: #000;
+}
+#acceptCookiesModal .modal-body button {
+	background-color: #358BD6;
+	padding: 8px 32px;
+	color: #fff;
+	border: 0;
+	text-align: center;
+	display: flex;
+	margin: auto;
+	font-weight: bold;
+}
+#acceptCookiesModal .modal-body {
+    padding: 0 26px 26px;
+}
+#acceptCookiesModal .modal-header{
+	padding: 23px 26px 0;
+}
+#countAttempsFaileds{
+  color: red;
+  margin-bottom: 15px;
+}
+.card-login-type{
+	border-radius: 1rem;
+    padding: 20px 30px;
+}
+.card-login-type h4{
+	font-size: 2rem;
+}

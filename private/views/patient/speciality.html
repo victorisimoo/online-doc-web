@@ -1,0 +1,635 @@
+<div class="container" ng-controller="patientCtrl" ng-cloak>
+  <div class="row">
+    <script type="text/javascript" src="js/devices.js"></script>
+    <script type="text/javascript" src="js/checkAudio.js"></script>
+    <div class="col-12" align="center">
+      <div ng-If="option != 4">
+        <h3><strong>{{ 'MEDICAL_ORIENTATION' | translate }}</strong></h3>
+        <h3 ng-show="showProfiles ">{{ 'MSG_ELEC_PROF' | translate }}</h3>
+      </div>
+      <div ng-If="option == 4">
+        <h3><strong>{{ 'VITAL_SIGNS_BUTTON' | translate }}</strong></h3>
+        <h3 ng-show="showProfiles ">{{ 'DATA_ANALYSIS_DESCRIPTION' | translate }}</h3>
+      </div>
+      
+      <h3 ng-show="showSpeciality">{{ 'MSG_ELEC_SPEC' | translate }}</h3>
+
+      <div class="alert alert-danger col-sm-12 curved-borders corporate" ng-show="option==2" role="alert" id="divAlert"
+        style="display: none; margin-top: 10px;">
+        <a class="zmdi zmdi-alert-triangle" style="color: white"></a>
+        {{ 'PERM_MEDIA' | translate }}
+      </div>
+
+      <div class="alert alert-danger col-sm-12 curved-borders corporate" ng-show="showSpeciality && option==2"
+        style="margin-top: 10px;">
+        <a class="zmdi zmdi-alert-triangle" style="color: white"></a>
+        {{ 'PERM_MEDIA_SEC' | translate }}
+      </div>
+      <br>
+    </div>
+  </div>
+  <div class="row" ng-show="showProfiles " style="margin-top:2em;">
+    <div ng-show="(numberProfilesAllowed === -1 || (numberProfilesAllowed > 0 ) && (profiles.length < numberProfilesAllowed))" class="row" ng-show="corpName!='mapfre'">
+      <div class="col-sm-4 col-sm-offset-4" style="margin-bottom: 10px;">
+        <a class="btn btn-action-sm" ui-sref="pages.profile-add" style="width: 100% !important;">{{ 'ADD_PERFIL' | translate }}</a>
+      </div>
+    </div>
+    <div class="row" style="text-align: center;" ng-if="!profiles">
+        <div class="preloader pls-green" style="margin-top: 10px; margin-bottom: 10px; width: 80px;">
+            <svg class="pl-circular" viewbox="25 25 50 50">
+                <circle class="plc-path" cx="50" cy="50" r="20" />
+            </svg>
+        </div>
+    </div>
+
+    <div ng-repeat="profile in profiles| orderBy : 'kinshipId.kinshipId'" ng-if="$index % 3 == 0" class="row"
+      ng-init="divIndex = $index">
+      <div ng-repeat="n in [].constructor(3) track by $index">
+        <div class="col-sm-4" ng-if="profiles.length > (divIndex + $index)">
+          <div class="card border btn-action-touch panel-primary corporate profile-card"
+            ng-click="profileFunction(profiles[divIndex+$index].profileId, profiles[divIndex+$index].admPerson, profiles[divIndex+$index])"
+            style="min-height: 100px; margin-bottom: 15px !important">
+            <div style="min-height: 80px; padding: 15px 15px 0px 15px;">
+              <div class="row">
+                <div class="col-md-9 col-xs-8 col-sm-8">
+                  <div>
+                    <strong ng-if="corpName!='sercomed'"
+                      style="color: white;font-size: 12px; margin-top: 5px !important;">
+                      <i class="fa fa-star" ng-show="profiles[divIndex+$index].kinshipId.kinshipId==-1"></i>
+                      {{profiles[divIndex+$index].kinshipId.name }}
+                    </strong>
+                    <strong ng-if="corpName=='sercomed'"
+                      style="color: white;font-size: 12px; margin-top: 5px !important;">
+                      <i class="fa fa-star" ng-show="profiles[divIndex+$index].kinshipId.kinshipId==-1"></i>
+                      {{(profiles[divIndex+$index].kinshipId.kinshipId==-1)?'Titular':profiles[divIndex+$index].kinshipId.name }}
+                    </strong>
+                  </div>
+                  <div>
+                    <strong
+                      style="color: white; font-size: 17px;">{{profiles[divIndex+$index].admPerson.firstName + " " + profiles[divIndex+$index].admPerson.lastName}}
+                    </strong>
+                  </div>
+                  <br />
+                </div>
+                <div class="col-md-3 col-xs-4 col-sm-4" ng-show='profiles[divIndex+$index].patientFiles.photoURL'>
+                  <div class="picDiv"
+                    style="background-image: url('{{profiles[divIndex+$index].patientFiles.photoURL}}')">
+                  </div>
+                </div>
+                <div class="col-md-3 col-xs-4 col-sm-4" ng-hide='profiles[divIndex+$index].patientFiles.photoURL'>
+                  <div ng-show="profile.admPerson.gender==1" class="picDiv"
+                    style="background-image: url('images/default-male.png')">
+                  </div>
+                  <div ng-show="profile.admPerson.gender!=1" class="picDiv"
+                    style="background-image: url('images/default-female.png')">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+  <div class="row" ng-show="showLoader" style="margin-top:2em;">
+    <div class="card-header" style="background-color: transparent; padding: 0px !important;" align="center">
+      <div class="preloader pls-green" style="margin-top: 10px; margin-bottom: 10px; width: 80px;">
+        <svg class="pl-circular" viewbox="25 25 50 50">
+          <circle class="plc-path" cx="50" cy="50" r="20" />
+        </svg>
+      </div>
+    </div>
+  </div>
+  <div class="row" ng-show="showSpeciality && !showLoader" style="margin-top:2em;">
+    <div class="col-sm-3" ng-repeat="speciality in specialities">
+      <div class="card" style="border-radius: 10px;">
+        <button class="btn btn-action btn-action-touch"
+          ng-click="specialityFunction(speciality.specialityId, speciality)" style="display: block; width: 100%;">
+          <i class="fa fa-user-md" style="font-size:100px"></i>
+          <br>
+          {{speciality.name}}
+
+        </button>
+      </div>
+    </div>
+  </div>
+  <div></div>
+
+  <div ng-show="showPayChat && !showLoader">
+    <div class="row" align="center" ng-show="!noAvailable">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="card border" style="margin-bottom: 10px !important">
+          <div class="card-body card-padding" ng-show="!noAvailable">
+            <h3><strong>{{ 'CHAT' | translate }}</strong></h3>
+            <div class="row">
+              <div class="col-sm-9" style="margin-top: 20px;">
+                <h4 style="text-align: left;">
+                  <strong>{{(corpName != 'sercomed') ? 'PERFIL' : 'NOMBRE_PACIENTE' | translate}}:</strong>
+                  {{profileAdmPerson.firstName + ' ' + profileAdmPerson.lastName}}</h4>
+                <h4 style="text-align: left;"><strong>{{'ESPECIALIDAD_A_CONSULTAR' | translate }}:</strong>
+                  {{selectedSpeciality.name}}
+                </h4>
+                <!-- <h4 ng-show="hasPhone" style="text-align: left;">
+                  <strong><sup>*</sup>{{ 'NUM_TELE' | translate}}:</strong>
+                  {{profileAdmPerson.mobilePhone}}</h4>
+                <div ng-show="hasEmail">
+                  <h4 style="text-align: left;"><strong><sup>*</sup>{{'CORREO'| translate}}:</strong> {{email}}</h4>
+                </div>
+                <h4 strong style="text-align: left;"><strong>{{ 'DIRECCION' | translate}}:</strong>
+                  {{profileAdmPerson.address}}</h4> -->
+              </div>
+              <div class="col-sm-3" ng-show="profileAdmPerson.patientFiles.photoURL">
+                <div class="picDiv" style="background-image: url('{{profileAdmPerson.patientFiles.photoURL}}')"
+                  style="width: 100%"></div>
+              </div>
+              <div class="col-sm-3" ng-hide='profileAdmPerson.patientFiles.photoURL'>
+                <div ng-show="profileAdmPerson.gender==1" class="picDiv"
+                  style="background-image: url('images/default-male.png')">
+                </div>
+                <div ng-show="profileAdmPerson.gender!=1" class="picDiv"
+                  style="background-image: url('images/default-female.png')">
+                </div>
+              </div>
+              <div class="col-sm-12">                
+                <form name="frmChangeEmail">
+                  <div class="input-group m-b-20">
+                      <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                      <div class="fg-line">
+                          <input type="email" class="form-control"
+                              placeholder="{{ 'CORREO' | translate }}" name="email"
+                              ng-model="currentEmail" style="text-align: left;"
+                              ng-maxlength="254" ng-required="false" autocomplete="email">
+                      </div>
+                      <div>
+                        <!-- <p ng-show="frmChangeEmail.email.$error.required"
+                            class="help-block">{{'EMAIL_REQUIRED' | translate}}</p> -->
+                        <p ng-show="frmChangeEmail.email.$invalid && !frmChangeEmail.email.$error.required"
+                            class="help-block">{{  'INVALID_FORMAT_EMAIL' | translate }}</p>
+                      </div>
+                  </div>
+                  <div class="input-group m-b-20">
+                      <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
+                      <div class="fg-line">
+                          <input type="tel" name="currentPhone"
+                              class="form-control" placeholder="{{  'NUM_TELE' | translate }}"
+                              ng-model="currentPhone" style="text-align: left;"
+                              ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" ng-required="false" autocomplete="tel">
+                      </div>
+                      <small translate="PHONE_INFO"></small>
+                      <div>
+                        <p class="help-block" ng-show="frmChangeEmail.currentPhone.$error.required">
+                          {{  'MOVIL_REQUIRED' | translate }}</p>
+                        <p class="help-block" ng-show="frmChangeEmail.currentPhone.$error.pattern">
+                            {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                        <p class="help-block" ng-show="(frmChangeEmail.currentPhone.$error.maxlength)">
+                            {{ 'MOVIL_LENGTH' | translate }}</p>
+                      </div>
+                  </div>
+                  <div class="input-group m-b-20">
+                    <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+                    <div class="fg-line">
+                        <input type="text" class="form-control"
+                            placeholder="{{  'DIRECCION' | translate }}" name="currentAddress"
+                            ng-model="currentAddress" style="text-align: left;" autocomplete="address" ng-pattern="/^[^<>\[\]\{\}]*$/">                                                    
+                    </div>
+                    <div>
+                      <p class="help-block" ng-show="frmChangeEmail.currentAddress.$error.pattern">
+                          {{ 'INVALID_FORMAT' | translate }}
+                      </p>                      
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div ng-show="hasEmail||hasPhone">
+                  <small><strong
+                      style="color: black"><sup>*</sup>{{ 'PATIENT_CONTACT' | translate }}</strong><br><br></small>
+                </div>
+                <div ng-show="hasEmail && hasPhone">
+                  <button ng-show="hasEmail" class="btn btn-default" ng-disabled="frmChangeEmail.currentPhone.$error.pattern || frmChangeEmail.currentPhone.$error.maxlength || frmChangeEmail.email.$invalid || frmChangeEmail.currentAddress.$error.pattern"
+                    ng-click="changeEmail()">
+                    {{ 'CAMBIAR' | translate }}
+                  </button>
+                  <!-- <button ng-show="!hasEmail" class="btn btn-default" ng-disabled="frmChangeEmail.currentPhone.$error.pattern || frmChangeEmail.currentPhone.$error.maxlength || frmChangeEmail.email.$invalid || frmChangeEmail.currentAddress.$error.pattern"
+                    ng-click="changeEmail()">
+                    {{'GUARDAR' | translate}}
+                  </button> -->
+                  <!-- <a ng-show="!showProfiles" type="button" class="btn btn-default waves-effect" data-toggle="modal"
+                    data-target="#changeEmail">{{'CAMBIAR_CONTACTO'| translate}}</a> -->
+                </div>
+                <div ng-show="!hasEmail || !hasPhone">
+                  <h4 ng-show="!showProfiles && !hasEmail && hasPhone" ng style="display:inline-block;">
+                    <b>{{ 'RESUMEN_SINCORR' | translate }}</b>
+                  </h4>
+                  <h4 ng-show="!showProfiles && hasEmail && !hasPhone" ng style="display:inline-block;">
+                    <b>{{ 'RESUMEN_SINTEL' | translate }}</b>
+                  </h4>
+                  <h4 ng-show="!showProfiles && !hasEmail && !hasPhone" ng style="display:inline-block;">
+                    <b>{{ 'RESUMEN_SINCONTACTO' | translate }}</b>
+                  </h4>
+                  <button ng-show="hasEmail" class="btn btn-default" ng-disabled="frmChangeEmail.$invalid "
+                    ng-click="changeEmail()">
+                    {{ 'CAMBIAR' | translate }}
+                  </button>
+                  <button ng-show="!hasEmail" class="btn btn-default" ng-disabled="frmChangeEmail.$invalid"
+                    ng-click="changeEmail()">
+                    {{ 'GUARDAR' | translate }}
+                  </button>
+                  <!-- <a ng-show="!showProfiles" type="button" class="btn btn-default waves-effect" data-toggle="modal"
+                    data-target="#changeEmail">{{'CAMBIAR_CONTACTO'
+                | translate}}</a> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-show="!noAvailable">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="card border">
+          <div class="card-body card-padding">
+            <span>
+              <h3 translate="MSG_CONFIRM_CHAT" translate-values="{corporate: corporateName}"
+                style="text-align: center">
+              </h3>
+              <label style="width: 100%">
+                <div class="checkbox" style="text-align: center; width: 35%; margin-left: 35%">
+                  <label><input type="checkbox" ng-click="enablePay = !enablePay" ng-init="enablePay = true"
+                    style="text-align: center">
+                  <i class="input-helper" style="text-align: center"></i>
+                  {{ 'ACCEPT_TERM' | translate }} <br> {{ 'ACCEPT_COND' | translate }}</label>
+                </div>
+                <button class="btn btn-action" ng-click="confirm()" ng-disabled="enablePay || loadingPay"
+                  style="width: 50%; margin-left: 25%;">
+                  <span ng-show="loadingPay" class="spinner-border" role="status" style="margin-right:5px;" aria-hidden="true" hidden></span>
+                  {{ 'HACER_CONS' | translate }}</button>
+              </label>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-show="showPayVideo && !showLoader">
+    <div class="row" align="center">
+      <div class="card border" style="display: inline-block !important; padding-top: 25px !important; padding-bottom: 25px !important;">
+        <div id="root" style="width: max-content !important; margin: auto !important;"></div>
+        <div ng-If="option != 4">
+          <svg preserveAspectRatio="none" class="" id="visualizer" version="1.1"
+              xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <defs>
+                  <mask id="mask">
+                      <g id="maskGroup">
+                      </g>
+                  </mask>
+                  <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" style="stop-color:#000000;stop-opacity:1" />
+                      <stop offset="20%" style="stop-color:#222222;stop-opacity:1" />
+                      <stop offset="90%" style="stop-color:#353535;stop-opacity:1" />
+                      <stop offset="100%" style="stop-color:#545454;stop-opacity:1" />
+                  </linearGradient>
+              </defs>
+              <rect x="0" y="0" width="100%" height="100%" fill="url(#gradient)" mask="url(#mask)"></rect>
+          </svg>
+        </div>
+    </div>
+      <div class="col-sm-6 col-sm-offset-3" ng-show="!noAvailable">
+        <div class="card border" style="margin-bottom: 10px !important">
+          <div class="card-body card-padding">
+            <div class="row">
+              <div ng-If="option != 4">
+                <h3><strong>{{  'VIDEOLLAMADA' | translate }}</strong></h3>
+              </div>
+              <div ng-If="option == 4">
+                <h3><strong>{{ 'DATA_ANALYSIS' | translate }}</strong></h3>
+              </div>
+              <div class="col-sm-9" style="margin-top: 20px;">
+                <h4 style="text-align: left;">
+                  <strong>{{(corpName != 'sercomed') ?  'PERFIL' : 'NOMBRE_PACIENTE' | translate }}:</strong>
+                  {{profileAdmPerson.firstName + ' ' + profileAdmPerson.lastName}}</h4>
+                  <div ng-If="option != 4">
+                    <h4 style="text-align: left;"><strong>{{ 'ESPECIALIDAD_A_CONSULTAR' | translate }}:</strong>
+                      {{selectedSpeciality.name}}
+                    </h4>
+                  </div>
+                  <div ng-If="option == 4">
+                    <h4 style="text-align: left;"><strong>{{ 'SERVICE_ON_REQUEST' | translate }}:</strong>
+                      {{ 'VITAL_SIGNS_TYPE_SERVICE' | translate }}
+                    </h4>
+                  </div>
+                <!-- <h4 ng-show="hasPhone" style="text-align: left;">
+                  <strong><sup>*</sup>{{ 'NUM_TELE' | translate}}:</strong>
+                  {{profileAdmPerson.mobilePhone}}</h4>
+                <div ng-show="hasEmail">
+                  <h4 style="text-align: left;"><strong><sup>*</sup>{{'CORREO'| translate}}:</strong> {{email}}</h4>
+                </div>
+                <h4 style="text-align: left;"><strong>{{ 'DIRECCION' | translate}}:</strong>
+                  {{profileAdmPerson.address}} -->
+                </h4>                
+              </div>
+              <div class="col-sm-3" ng-show="profileAdmPerson.patientFiles.photoURL">
+                <div class="picDiv" style="background-image: url('{{profileAdmPerson.patientFiles.photoURL}}')"
+                  style="width: 100%"></div>
+              </div>
+              <div class="col-sm-3" ng-hide='profileAdmPerson.patientFiles.photoURL'>
+                <div ng-show="profileAdmPerson.gender==1" class="picDiv"
+                  style="background-image: url('images/default-male.png')">
+                </div>
+                <div ng-show="profileAdmPerson.gender!=1" class="picDiv"
+                  style="background-image: url('images/default-female.png')">
+                </div>
+              </div>
+              <div class="col-sm-12">
+                <form name="frmChangeEmailVideo">
+                  <div class="input-group m-b-20">
+                      <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                      <div class="fg-line">
+                          <input type="email" class="form-control"
+                              placeholder="{{ 'CORREO' | translate }}" name="email"
+                              ng-model="currentEmail" style="text-align: left;"
+                              ng-maxlength="254" ng-required="false" autocomplete="email">
+                      </div>
+                      <!-- <p ng-show="frmChangeEmailVideo.email.$error.required"
+                          class="help-block">{{'EMAIL_REQUIRED' | translate}}</p> -->
+                      <p ng-show="frmChangeEmailVideo.email.$invalid && !frmChangeEmailVideo.email.$error.required"
+                          class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+                  </div>
+                  <div class="input-group m-b-20">
+                      <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
+                      <div class="fg-line">
+                          <input type="tel" name="currentPhone"
+                              class="form-control" placeholder="{{ 'NUM_TELE' | translate }}"
+                              ng-model="currentPhone" style="text-align: left;"
+                              ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" ng-required="false" autocomplete="tel">
+                      </div>
+                      <small translate="PHONE_INFO"></small>
+                      <div>
+                        <!-- <p class="help-block" ng-show="frmChangeEmailVideo.currentPhone.$error.required">
+                          {{'MOVIL_REQUIRED' | translate}}</p> -->
+                        <p class="help-block" ng-show="frmChangeEmailVideo.currentPhone.$error.pattern">
+                            {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                        <p class="help-block" ng-show="(frmChangeEmailVideo.currentPhone.$error.maxlength)">
+                            {{ 'MOVIL_LENGTH' | translate }}</p>
+                      </div>
+                  </div>
+                  <div class="input-group m-b-20">
+                    <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+                    <div class="fg-line">
+                        <input type="text" class="form-control"
+                            placeholder="{{ 'DIRECCION' | translate }}" name="currentAddress"
+                            ng-model="currentAddress" style="text-align: left;" autocomplete="address" ng-pattern="/^[^<>\[\]\{\}]*$/">
+                    </div>
+                    <div>
+                      <p class="help-block" ng-show="frmChangeEmailVideo.currentAddress.$error.pattern">
+                          {{ 'INVALID_FORMAT' | translate }}
+                      </p>                      
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-12">
+                <div ng-show="hasEmail||hasPhone">
+                  <div ng-If="option != 4">
+                    <small><strong
+                      style="color: black"><sup>*</sup>{{  'PATIENT_CONTACT' | translate }}</strong><br><br></small>
+                  </div>
+                  <div ng-If="option == 4">
+                    <small><strong
+                      style="color: black"><sup>*</sup>{{'PATIENT_CONTACT_DATA_ANALYSIS' | translate }}</strong><br><br></small>
+                  </div>
+                </div>
+                <div ng-show="hasEmail && hasPhone">
+                  <!-- <a ng-show="!showProfiles" type="button" class="btn btn-default waves-effect" data-toggle="modal"
+                    data-target="#changeEmail">{{'CAMBIAR_CONTACTO'| translate}}</a> --> 
+                  <button ng-show="hasEmail" class="btn btn-default"  ng-disabled="frmChangeEmailVideo.currentPhone.$error.pattern || frmChangeEmailVideo.currentPhone.$error.maxlength || frmChangeEmailVideo.email.$invalid || frmChangeEmailVideo.currentAddress.$error.pattern"
+                    ng-click="changeEmail()">
+                    {{ 'CAMBIAR' | translate }}
+                  </button>
+                  <button ng-show="!hasEmail" class="btn btn-default"  ng-disabled="frmChangeEmailVideo.currentPhone.$error.pattern || frmChangeEmailVideo.currentPhone.$error.maxlength || frmChangeEmailVideo.email.$invalid || frmChangeEmailVideo.currentAddress.$error.pattern"
+                    ng-click="changeEmail()">
+                    {{ 'GUARDAR' | translate }}
+                  </button>
+                </div>
+                <div ng-show="!hasEmail || !hasPhone">
+                  <h4 ng-show="!showProfiles && !hasEmail && hasPhone" ng style="display:inline-block;">
+                    <b>{{ 'RESUMEN_SINCORR' | translate }}</b>
+                  </h4>
+                  <h4 ng-show="!showProfiles && hasEmail && !hasPhone" ng style="display:inline-block;">
+                    <b>{{ 'RESUMEN_SINTEL' | translate }}</b>
+                  </h4>
+                  <h4 ng-show="!showProfiles && !hasEmail && !hasPhone" ng style="display:inline-block;">
+                    <b>{{ 'RESUMEN_SINCONTACTO' | translate }}</b>
+                  </h4>
+                  <!-- <a ng-show="!showProfiles" type="button" class="btn btn-default waves-effect" data-toggle="modal"
+                    data-target="#changeEmail">{{'CAMBIAR_CONTACTO'| translate}}</a> -->
+                  <button ng-show="hasEmail" class="btn btn-default"  ng-disabled="frmChangeEmailVideo.currentPhone.$error.pattern || frmChangeEmailVideo.currentPhone.$error.maxlength || frmChangeEmailVideo.email.$invalid || frmChangeEmailVideo.currentAddress.$error.pattern"
+                  ng-click="changeEmail()">
+                  {{ 'CAMBIAR' | translate }}
+                  </button>
+                  <button ng-show="!hasEmail" class="btn btn-default"  ng-disabled="frmChangeEmailVideo.currentPhone.$error.pattern || frmChangeEmailVideo.currentPhone.$error.maxlength || frmChangeEmailVideo.email.$invalid || frmChangeEmailVideo.currentAddress.$error.pattern"
+                    ng-click="changeEmail()">
+                    {{ 'GUARDAR' | translate }}
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" ng-show="!noAvailable">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="card border" style="margin-bottom: 10px !important">
+          <div class="card-body card-padding">
+            <span>
+              <div ng-If="option != 4">
+                <h3 translate="MSG_CONFIRM_VIDEO" translate-values="{corporate: corporateName}"
+                  style="text-align: center">
+                </h3>
+              </div>
+              <div ng-If="option == 4">
+                <h3 style="text-align: center" translate="MSG_CONFIRM_DATA_ANALYSIS" translate-values="{corporate: corporateName}">
+                  <!--{{'MSG_CONFIRM_DATA_ANALYSIS' | translate}}-->
+                </h3>
+              </div>
+              <div class="checkbox" style="text-align: left;" ng-show="statusGDPRPatient">
+                <label><input type="checkbox" ng-click="enablePay = !enablePay" ng-init="enablePay = true"
+                  style="text-align: center">
+                <i class="input-helper" style="text-align: center;"></i>
+                {{ 'ACCEPT_TERM' | translate }} {{ 'ACCEPT_COND' | translate }}</label>
+              </div>
+
+              <div class="checkbox" style="text-align: center; width: 35%; margin-left: 35%; margin-top: 10px !important;" ng-show="!statusGDPRPatient">
+                <label><input type="checkbox" ng-click="enablePay = !enablePay" ng-init="enablePay = true"
+                  style="text-align: center">
+                <i class="input-helper" style="text-align: center;"></i>
+                {{ 'ACCEPT_TERM' | translate }} {{ 'ACCEPT_COND' | translate }}</label>
+              </div>
+
+
+              <div class="checkbox" style="text-align: left;" ng-show = "statusGDPRPatient && option != 4">
+                <label><input type="checkbox" ng-click="enableRecord = !enableRecord" ng-init="enableRecord = true"
+                  style="text-align: center">
+                <i class="input-helper" style="text-align: center"></i>
+                {{ 'RECORDING_TERMS_MESSAGE' | translate }}</label>
+              </div>
+              
+              <div ng-show="option == 4">
+                <button ng-show="option == 4" class="btn btn-action" ng-click="confirm()" ng-disabled="enablePay || loadingPay"
+                  style="width: 50%; margin-left: 25%;">
+                  <span ng-show="loadingPay" class="spinner-border" role="status" style="margin-right:5px;" aria-hidden="true" hidden></span>
+                    {{ 'INIT_DATA_ANALYSIS' | translate }}
+                </button>
+              </div>
+              <div ng-show="option != 4">
+                <button  class="btn btn-action" ng-click="confirm()" ng-disabled="enablePay || loadingPay"
+                  style="width: 50%; margin-left: 25%;">
+                  <span ng-show="loadingPay" class="spinner-border" role="status" style="margin-right:5px;" aria-hidden="true" hidden></span>
+                    {{ 'HACER_CONS' | translate }}
+                </button>
+              </div>
+
+              
+
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" ng-show="noAvailable">
+    <div class="col-sm-8 col-sm-offset-2">
+      <div class="card border" style="margin-bottom: 10px !important">
+        <div class="card-body card-padding">
+          <h3 style="text-align: center; margin-bottom: 2%;">{{ 'LO_SENTIMOS' | translate }}</h3>
+          <div ng-show="NoSub">
+            <span>
+              <h4 style="text-align: center;">{{noActiveSubscriptionText}}
+              </h4>
+              <h4 ng-if="isDoctorOnline" style="text-align: center;" >{{subscriptionAvailableText}}
+              </h4>
+            </span>
+            <div id="btn-no-sub" style="text-align: center;">
+              <button id="register" style="margin-top: 5%;" ng-click="registerForm()" ng-if="isDoctorOnline"
+                class="btn btn-action">{{ 'SUBSCRIBE' | translate }}</button>
+                <button style="margin-top: 5%;" ui-sref="pages.patient" ng-if="!isDoctorOnline"
+                class="btn btn-action">{{ 'REGRESAR' | translate }}</button>
+            </div>
+          </div>
+          <div ng-show="!NoSub">
+            <span style="text-align: center;">
+              <h3>{{waitingMessage}}</h3>
+              <br />
+            </span>
+            <div id="btn-no-sub" style="text-align: center;">
+              <button style="margin-bottom: 15px;" ng-click="updateProfilePhone()"
+                class="btn btn-action">{{ 'UPDATE_CONTACT_INFO' | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- <div class="modal fade" id="changeEmail" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel">{{'CAM_CORREO_TEXT' | translate}}</h4>
+        </div>
+        <div class="modal-body">
+          <form name="frmChangeEmail">
+            <div class="input-group m-b-20">
+                <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                <div class="fg-line">
+                    <input type="email" class="form-control"
+                        placeholder="{{ 'CORREO' | translate}}" name="email"
+                        ng-model="currentEmail" style="text-align: left;"
+                        ng-maxlength="254" ng-required="hasEmail" autocomplete="email">
+                </div>
+                <p ng-show="frmChangeEmail.email.$error.required"
+                    class="help-block">{{'EMAIL_REQUIRED' | translate}}</p>
+                <p ng-show="frmChangeEmail.email.$invalid && !frmChangeEmail.email.$error.required"
+                    class="help-block">{{'INVALID_FORMAT_EMAIL' | translate}}</p>
+            </div>
+            <div class="input-group m-b-20">
+                <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
+                <div class="fg-line">
+                    <input type="tel" name="currentPhone"
+                        class="form-control" placeholder="{{'NUM_TELE' | translate}}"
+                        ng-model="currentPhone" style="text-align: left;"
+                        ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" ng-required="hasPhone" autocomplete="tel">
+                </div>
+                <small translate="PHONE_INFO"></small>
+                <div>
+                  <p class="help-block" ng-show="frmChangeEmail.currentPhone.$error.required">
+                    {{'MOVIL_REQUIRED' | translate}}</p>
+                  <p class="help-block" ng-show="frmChangeEmail.currentPhone.$error.pattern">
+                      {{'INVALID_FORMAT_PHONE' | translate}}</p>
+                  <p class="help-block" ng-show="(frmChangeEmail.currentPhone.$error.maxlength)">
+                      {{'MOVIL_LENGTH' | translate}}</p>
+                </div>
+            </div>
+            <div class="input-group m-b-20">
+              <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+              <div class="fg-line">
+                  <input type="text" class="form-control"
+                      placeholder="{{ 'DIRECCION' | translate}}" name="currentAddress"
+                      ng-model="currentAddress" style="text-align: left;" autocomplete="address" ng-pattern="/^[^<>\[\]\{\}]*$/" required>
+              </div>              
+              <div>
+                <p class="help-block" ng-show="!frmChangeEmail.currentAddress.$error.required && frmChangeEmail.currentAddress.$error.pattern">
+                    {{'INVALID_FORMAT' | translate}}
+                </p>                      
+              </div>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+          <button ng-show="hasEmail" class="btn btn-default" ng-disabled="frmChangeEmail.$invalid "
+            ng-click="changeEmail()">
+            {{'CAMBIAR' | translate}}
+          </button>
+          <button ng-show="!hasEmail" class="btn btn-default" ng-disabled="frmChangeEmail.$invalid"
+            ng-click="changeEmail()">
+            {{'GUARDAR' | translate}}
+          </button>
+          <button class="btn btn-link" data-dismiss="modal">{{'CANCELAR' | translate}}</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <script>
+    (function ($) {
+      $.fn.inputFilter = function (inputFilter) {
+        return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+          if (inputFilter(this.value)) {
+            this.oldValue = this.value;
+            this.oldSelectionStart = this.selectionStart;
+            this.oldSelectionEnd = this.selectionEnd;
+          } else if (this.hasOwnProperty("oldValue")) {
+            this.value = this.oldValue;
+            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+          }
+        });
+      };
+    }(jQuery));
+
+
+    // Install input filters.
+    $("#inputEmail3").inputFilter(function (value) {
+      return /^\d*$/.test(value);
+    });
+  </script>
+</div>

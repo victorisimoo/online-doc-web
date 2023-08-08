@@ -1,0 +1,47 @@
+{
+  "name": "ngsecurity",
+  "version": "1.6.0",
+  "description": "A security module for AngularJS.",
+  "main": [
+    "dist/ngsecurity.js"
+  ],
+  "authors": [
+    "Patrick Porto <patrick.porto@concretesolutions.com.br>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "tests",
+    "karma.conf.js",
+    "gulpfile.js"
+  ],
+  "dependencies": {
+    "angular": "~1.4.4",
+    "angular-mocks": "~1.4.4",
+    "angular-cookies": "~1.4.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/concretesolutions/ng-security/"
+  },
+  "keywords": [
+    "angular",
+    "ng-security",
+    "authentication",
+    "auth",
+    "permission"
+  ],
+  "homepage": "https://github.com/concretesolutions/ng-security",
+  "_release": "1.6.0",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.6.0",
+    "commit": "ebdf3c3cfbeac9f7c76dffadc15e3a3e27fc9aec"
+  },
+  "_source": "https://github.com/concretesolutions/ng-security.git",
+  "_target": "^1.6.0",
+  "_originalSource": "ngsecurity",
+  "_direct": true
+}

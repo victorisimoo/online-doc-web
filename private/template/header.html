@@ -1,0 +1,148 @@
+<ul class="header-inner clearfix">
+    <li class="logo hidden-xs hidden-md hidden-sm" style="margin-top: 10px;">
+        <a class="link-logo" id="link-logo-2" ng-click="changeAttendance()"
+           ng-if-permission="patient">
+            <img class="pacient-corporate-logo" id="patient-logo" src="img/logo_dr_online_color.png" alt="">
+        </a>
+        <a class="link-logo" id="link-logo-1" data-ui-sref="pages.patient" data-ng-click="mactrl.sidebarStat($event)"
+        ng-if-permission="patient">
+         <img class="pacient-corporate-logo" id="patient-logo" src="img/logo_dr_online_color.png" alt="">
+        </a>
+
+        <a href="" ng-click="home()"
+           style="padding: 0;" ng-if-permission="doctor">
+            <img id="doctor-logo" src="img/logo_dr_online_color.png" alt="">
+        </a>
+    </li>
+
+    <li class="logo hidden-lg">
+        <a data-ui-sref="pages.patient" data-ng-click="mactrl.sidebarStat($event)"
+           style="padding: 0;" ng-if-permission="patient">
+            <img  id="patient-logo-lg" src="img/logo_dr_online_color.png" alt="">
+        </a>
+
+        <a data-ui-sref="pages.doctor" data-ng-click="mactrl.sidebarStat($event)"
+           style="padding: 0;" ng-if-permission="doctor">
+            <img id="doctor-logo-lg" src="img/logo_dr_online_color.png" alt="">
+        </a>
+    </li>
+
+    <li class="pull-right hidden-xs hidden-md hidden-sm">
+        <!--span class="pull-right">
+            Bienvenido de nuevo, <strong>{{currentUser}}</strong>
+        </span-->
+        <br/>
+        <ul class="top-menu">
+            <!--<li id="top-search" ng-if-permission="patient" class="dropdown" uib-dropdown>
+                <a id="btn-mis-doctores" class="btn btn-xs btn-danger" uib-dropdown-toggle href="">
+                    <span class="tm-label">Mis Doctores</span>
+                </a>
+                <ul class="dropdown-menu dm-icon pull-right" ng-if="favoriteDoctors.length > 0">
+                    <li ng-repeat="doctor in favoriteDoctors">
+                        <a ui-sref="pages.my-doctor({doctorId: doctor.doctorId})"><i class="zmdi zmdi-dot-circle-alt"></i> {{formatDoctorName(doctor)}}</a>
+                    </li>
+                </ul>
+            </li>-->
+            <!--<li id="top-search" ng-if-permission="doctor">
+                <a id="btn-mis-pacientes" class="btn btn-xs btn-danger"  href="" ng-click="listPatients()"><span class="tm-label">Mis Pacientes</span></a>
+            </li>-->
+            <!--li id="top-search">
+                <a class="btn btn-success"><span class="tm-label">Mi Historial</span></a>
+            </li-->
+            <li>
+                    <!-- Add text for the vital signs button | @victorisimoo | 17/08/2022 -->
+                    <a ng-show="enableIAStatus == 1" ng-click="initDataAnalysis()" class="btn btn-xs btn-danger"  ng-if-permission="patient">
+                        <span  class="tm-label">{{ 'VITAL_SIGNS_BUTTON' | translate }}</span>
+                    </a>
+            </li>
+            <li>
+                <a class="btn btn-xs btn-danger" ui-sref="pages.profiles" ng-if-permission="patient">
+                    <span  class="tm-label">{{ 'MIS_PERFILES' | translate }}</span>
+                </a>
+                <a id="btn-mi-cuenta-doctor" class="btn btn-xs btn-danger"  ui-sref="pages.docaccount" ng-click="hctrl.actionMiAccount()" ng-if-permission="doctor">
+                    <span class="tm-label">{{ 'MI_CUENTA' | translate }}</span>
+                </a>
+            </li>
+            <li  ng-if-permission="doctor">
+                <a id="cerrar-sesion-doctor" class="btn btn-xs btn-danger" href="" ng-click="hctrl.confirmLogOut()">
+                    <span class="tm-label">{{ 'CERRAR_SESION' | translate }}</span>
+                </a>
+            </li>
+            <li class="dropdown" uib-dropdown ng-if-permission="patient">
+                <a uib-dropdown-toggle href="" id="menu-icon" class="btn btn-xs btn-danger">
+                    <span class="tm-label">{{ 'MI_CUENTA' | translate }} <i class="fa fa-caret-down" aria-hidden="true"></i></span>
+                </a>
+                <ul class="dropdown-menu dm-icon pull-right">
+                    <li>
+                        <a ui-sref="pages.pataccount">
+                            <i class="zmdi zmdi-settings"></i><span  class="tm-label">{{ 'AJUSTES' | translate }}</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="" ng-if-permission="patient" ng-click="hctrl.logout('patient')"><i class="zmdi zmdi-arrow-missed"></i>{{ 'CERRAR_SESION' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+    <li class="pull-right hidden-lg">
+        <ul class="top-menu">
+            <!--<li id="top-search" ng-if-permission="patient" class="dropdown" uib-dropdown>
+                <a uib-dropdown-toggle href="" style="color: #28B473;" title="Mis Doctores">
+                    <i class="tm-icon zmdi zmdi-accounts"></i>
+                </a>
+                <ul class="dropdown-menu dm-icon pull-right" ng-if="favoriteDoctors.length > 0">
+                    <li ng-repeat="doctor in favoriteDoctors">
+                        <a ui-sref="pages.my-doctor({doctorId: doctor.doctorId})"><i class="zmdi zmdi-dot-circle-alt"></i> {{formatDoctorName(doctor)}}</a>
+                    </li>
+                </ul>
+            </li>-->
+            <li class="dropdown" uib-dropdown>
+                <a uib-dropdown-toggle href="" id="menu-icon" style="margin-top: 30%">
+                    <i class="tm-icon zmdi zmdi-more-vert"></i>
+                </a>
+                <ul class="dropdown-menu dm-icon pull-right">
+                    <!--<li id="top-search" ng-if-permission="doctor">
+                        <a id="btn-mis-pacientes"  href="" ng-click="listPatients()"><i class="zmdi zmdi-account-circle"></i><span class="tm-label">Mis Pacientes</span></a>
+                    </li>-->
+                    <li>
+                        <a ui-sref="pages.pataccount" ng-if-permission="patient">
+                            <i class="zmdi zmdi-settings"></i><span  class="tm-label">{{ 'MI_CUENTA' | translate }}</span>
+                        </a>
+                        <a id="btn-mi-cuenta-doctor"  ui-sref="pages.docaccount" ng-if-permission="doctor">
+                            <i class="zmdi zmdi-settings"></i><span class="tm-label">{{ 'MI_CUENTA' | translate }}</span>
+                        </a>
+                    </li>
+                    <li ng-if-permission="patient">
+                        <a ui-sref="pages.profiles" ng-if-permission="patient">
+                            <i class="zmdi zmdi-account"></i><span  class="tm-label">{{ 'MIS_PERFILES' | translate }}</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <!-- Add text for the vital signs button | @victorisimoo | 17/08/2022 -->
+                        <a ng-show="enableIAStatus == 1" ng-click="initDataAnalysis()"ng-if-permission="patient">
+                            <i class="zmdi zmdi-face"></i><span class="tm-label">{{ 'VITAL_SIGNS_BUTTON' | translate }}</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="" ng-if-permission="doctor" ng-click="hctrl.logout('doctor')"><i class="zmdi zmdi-arrow-missed"></i>{{ 'CERRAR_SESION' | translate }}</a>
+                        <a href="" ng-if-permission="patient" ng-click="hctrl.logout('patient')"><i class="zmdi zmdi-arrow-missed"></i>{{ 'CERRAR_SESION' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+</ul>
+
+<script>
+    $( document ).ready(function() {
+    $(".pacient-corporate-logo").attr('src', getCookie("logo"));
+    $("#patient-logo-lg").attr('src', getCookie("logo"));
+    $("#link-logo-1").css("relative", "absolute").css("left", 0);
+    $("#link-logo-2").css("position", "absolute").css("left", -9999);
+});
+</script>

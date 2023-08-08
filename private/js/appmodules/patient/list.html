@@ -1,0 +1,124 @@
+<div class="container" ng-controller="ListPatientController">
+    <div class="row" align="center">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header ch-alt">
+                    <h2>Pacientes<small>Mantenimiento de paciente</small></h2>
+                    <button class="btn bgm-amber btn-float waves-effect" ng-click="open()"><i class="zmdi zmdi-plus"></i></button>
+                </div>
+
+                <div class="card-body table-responsive">
+                    <table ng-table="tableParams" class="table">
+                        <tr ng-repeat="row in $data track by row.userId">
+                            <td data-title="'Id'">{{row.userId}}</td>
+                            <td data-title="'Nombre'">{{row.admPerson.firstName}}</td>
+                            <td data-title="'Apellido'">{{row.admPerson.lastName}}</td>
+                            <td data-title="'Email'">{{row.email}}</td>
+                            <td data-title="'Estado'">
+                                <div ng-if="row.status == 'ACTIVE' ">
+                                    <span class="badge" style="background-color:#0D683D">ACTIVO</span>
+                                </div>                            
+                                <div ng-if="row.status == 'INACTIVE' ">
+                                    <span class="badge" style="background-color:#E50020">INACTIVO</span>
+                                </div>                            
+                                <div ng-if="row.status == 'PENDING_CONFIRMATION' ">
+                                    <span class="badge" style="background-color:#AC791A">PENDIENTE</span>
+                                </div>                            
+                            </td>
+                            <td data-title="''">
+                                <button class="btn btn-info" ng-show="row.status=='PENDING_CONFIRMATION'" ng-click="edit(row.userId)"><i class="zmdi zmdi-edit"></i> Editar</button>
+                                <button class="btn btn-danger" ng-hide="true" ng-click="delete(row.userId)" ><i class="zmdi zmdi-delete"></i> Eliminar</button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
+
+<div class="card-body card-padding p-t-0">
+                    <script type="text/ng-template" id="myModalContent.html">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Invitar a pacientes</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-horizontal" name="formInvitacion" role="form">
+                                <div class="card-body card-padding">
+
+                                    <div class="input-group m-b-20">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control" placeholder="Nombres" name="firstName"
+                                                   ng-model="patient.person.firstName" ng-maxlength="30" required ng-disabled="patient.isEditar==0"
+                                                   ng-disabled="patient.status != 'PENDING_CONFIRMATION'">
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group m-b-20">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                        <div class="fg-line">
+                                            <input type="text" class="form-control" placeholder="Apellidos" name="lastName"
+                                                   ng-model="patient.person.lastName" ng-maxlength="30" required ng-disabled="patient.isEditar==0"
+                                                   ng-disabled="patient.status != 'PENDING_CONFIRMATION'">
+                                        </div>
+                                    </div> 
+
+                                    <div class="input-group m-b-20">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                        <div class="fg-line" ng-form="formEmail">
+                                            <input type="email" class="form-control" placeholder="Correo electrónico" name="email"
+                                                   ng-model="patient.email" ng-maxlength="30" required
+                                                   ng-disabled="patient.userId !=null"
+                                                   ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]*\.([a-z]{2,4})$/"
+                                                   >
+
+                                        </div>
+                                    </div> 
+
+                                    <div class="input-group m-b-20" >
+                                        <span class="input-group-addon"><i class="zmdi zmdi-male-female"></i></span>
+                                        <div class="checkbox" >                                        
+                                            <label class="radio radio-inline m-r-20">
+                                                <input type="radio" name="inlineRadioOptions" value="1" ng-model="patient.person.gender" ng-disabled="patient.status != 'PENDING_CONFIRMATION'"  >
+                                                <i class="input-helper"></i> Masculino
+                                            </label>
+                                            <label class="radio radio-inline m-r-20">
+                                                <input type="radio" name="inlineRadioOptions" value="0" ng-model="patient.person.gender" ng-disabled="patient.status != 'PENDING_CONFIRMATION'" >
+                                                <i class="input-helper"></i> Femenino 
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="input-group m-b-20">
+                                        <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                        <div class="fg-line" ng-form="formDate">
+                                            <input type='date' id="datePicker" name="birthday" class="form-control date-picker" name="birthday" max="{{fechaActual | date: 'yyyy-MM-dd'}}" 
+                                                   ng-disabled="patient.isEditar==0"
+                                                   ng-model="patient.person.birthday"
+                                                   placeholder="Fecha de Nacimiento" tooltip="Fecha de nacimiento" required
+                                                   ng-disabled="patient.status != 'PENDING_CONFIRMATION'">
+                                        </div>
+                                    </div>  
+                                                                                                
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-success" ng-click="ok()" ng-if="patient.userId ==null || patient.userId == undefined"
+                                    ng-disabled="patient.status != 'PENDING_CONFIRMATION' || formInvitacion.$invalid ">
+                                        <div>ENVIAR INVITACIÓN</div>
+                                    </button>
+                                    <button class="btn btn-primary" ng-click="ok()" ng-if="patient.userId !=null  && patient.isEditar == 1"
+                                    ng-disabled="patient.status != 'PENDING_CONFIRMATION' || formInvitacion.$invalid ">
+                                        <div>EDITAR DATOS</div>
+                                    </button>
+                                    <button class="btn btn-danger" ng-click="ok()" ng-if="patient.userId !=null && patient.isEditar == 0">
+                                        <div >ELIMINAR PACIENTE</div>
+                                    </button>
+                                    <button class="btn btn-link btn-cancel" ng-click="cancel()">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+
+                    </script>
+                </div>

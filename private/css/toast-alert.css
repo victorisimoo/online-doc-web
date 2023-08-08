@@ -1,0 +1,67 @@
+.borderbox{
+    border: 1px dashed #ebebeb;
+    width:45%;
+    margin: 50px auto;
+    border-radius: 8px;
+    border-width:2px;
+}
+.box{
+    position:fixed;
+    right: 15px;
+    bottom: 15px;
+    width: 350px;
+    height: 115px;
+    padding: 20px;
+    box-shadow: 0px 1px 8px 1px #ebebeb;
+    border-radius: 8px;
+    opacity: 1;
+    background-color: #FFFFFF;
+}
+.sucess-box{
+    border-left: solid 5px #3FC43C;
+}
+.pending-box{
+    border-left: solid 5px #585EC2;
+}
+.warning-box{
+    border-left: solid 5px #EFA162;
+}
+.error-box{
+    border-left: solid 5px #F32D70;
+}
+.fa{
+    padding-right:10px;
+}
+.fa-check-circle{
+    color: #3FC43C;
+}
+.fa-spinner{
+    color: #585EC2;
+}
+.warning-box .fa-exclamation-triangle{
+    color: #EFA162;
+}
+.error-box .fa-exclamation-triangle{
+    color: #E63470;
+}
+p{
+    padding:0px 25px;
+    margin: 0px;
+}
+.time{
+    color:#9b9b9b;
+}
+.fa-close{
+    color:#BCC4CD;
+}
+.close{
+    position:absolute;
+    top: 20px;
+    right:20px;
+}
+.box:hover a{
+    opacity:1;
+}
+.reconect{
+    margin: 10px 20px;
+}

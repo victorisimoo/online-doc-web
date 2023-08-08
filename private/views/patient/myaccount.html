@@ -1,0 +1,427 @@
+<style>
+    input[type="checkbox"] {
+	height: 0;
+	width: 0;
+	visibility: hidden;
+}
+
+label {
+	cursor: pointer;
+	text-indent: -9999px;
+	width: 50px;
+	height: 25px;
+	background: grey;
+	display: block;
+	border-radius: 75px;
+	position: relative;
+}
+
+label:after {
+	content: "";
+	position: absolute;
+	top: 5px;
+	left: 5px;
+	width: 15px;
+	height: 15px;
+	background: #fff;
+	border-radius: 30px;
+	transition: 0.3s;
+}
+
+input:checked + label {
+	background: #52AB4E;
+}
+
+input:checked + label:after {
+	left: calc(100% - 5px);
+	transform: translateX(-100%);
+}
+
+label:active:after {
+	width: 30px;
+}
+
+.tooltipWrapperErr {
+    position: absolute;
+    right: 7px;
+    z-index: 4;
+    bottom: 10px;
+}
+
+
+</style>
+
+<div class="container" ng-controller="PatAccountCtrl">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card" style="min-height: 300px">
+                <div class="card-header ch-alt">
+                    <h2>{{ 'ADMIN_CUENTA' | translate }}</h2>
+                </div>
+                <div class="card-body card-padding">
+                    <div class="pmo-contact">
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-account"></i> {{ 'NOMBRE' | translate }}</dt>
+                            <dd class="ng-binding">{{userName}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-email"></i> {{ 'EMAIL' | translate }}</dt>
+                            <dd class="ng-binding">{{email}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-phone"></i> {{ 'NUM_TELE' | translate }}</dt>
+                            <dd class="ng-binding">{{phoneNumber}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt><i class="zmdi zmdi-pin"></i> {{ 'DIRECCION' | translate }}</dt>
+                            <dd class="ng-binding">{{address}}</dd>
+                        </dl>
+                    </div>
+                    <br />
+                    <!--<div style="display: inline-block; padding-bottom: 10px;">
+                        <a class="btn btn-action-sm" ui-sref="pages.profiles" >
+                            <i class="zmdi zmdi-account-box"></i> {{ 'MIS_PERFILES' | translate}}
+                        </a>
+                    </div>-->
+                    <div style="display: inline-block;">
+                        <a class="btn btn-action-sm" data-toggle="modal" data-target="#changeEmail">
+                            <i class="zmdi zmdi-email"></i> {{ 'UPDATE_CONTACT_INFO' | translate }}
+                        </a>
+                        <!--<a class="btn btn-action-sm" ng-click="changePassword()">
+                            <i class="zmdi zmdi-key"></i> Cambiar contraseña
+                        </a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" ng-show="showSub" hidden>
+            <div class="card" style="min-height: 300px">
+                <div class="card-header ch-alt">
+                    <h2>{{ 'TITLE2PAT' | translate }}</h2>
+                </div>
+                <div class="card-body card-padding" ng-show="haveSub">
+                    <div class="pmo-contact">
+                        <dl class="dl-horizontal">
+                            <dt style="width: 200px;"><i class="zmdi zmdi-card-membership"></i> {{ 'LABELPATMEM' | translate }}</dt>
+                            <dd class="ng-binding">{{subName}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt style="width: 200px;"><i class="zmdi zmdi-comment-more"></i> {{ 'LABELPATCHATS' | translate }}</dt>
+                            <dd class="ng-binding">{{totalChat}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt style="width: 200px;"><i class="zmdi zmdi-videocam"></i> {{ 'LABELPATVIDEO' | translate }}</dt>
+                            <dd class="ng-binding">{{totalVideo}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt style="width: 200px;"><i class="zmdi zmdi-calendar-alt"></i> {{ 'LABELPATCOBRO' | translate }}
+                            </dt>
+                            <dd class="ng-binding">{{fechaFin | date:"dd/MM/yyyy"}}</dd>
+                        </dl>
+                    </div>
+                    <br />
+                    <div style="display: inline-block;">
+                        <a class="btn btn-action-sm" ui-sref="pages.patsubscription">
+                            <i class="fa fa-cog" aria-hidden="true"></i>{{ 'BUTTONPATCONFIG' | translate }}
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body card-padding" ng-show="!haveSub">
+                    <h5>Por el momento no posees una suscrpición activa.</h5>
+                    <br />
+                </div>
+            </div>
+        </div>
+        <!-- Export Account Card  -->
+        <div class="col-sm-6" >
+            <div class="card" style="min-height: 300px" ng-show="corporateGDPR">
+                <div class="card-header ch-alt">
+                    <h2>{{ 'TITLE3PAT' | translate }}</h2>
+                </div>
+                <div class="card-body card-padding">
+                    <div class="pmo-contact">
+                        <p style="margin-bottom: 35px;">{{ 'LABELEXPDATOS' | translate }}
+                        </p>
+                        <div style="display: inline-block;">
+                            <a class="btn btn-action-sm" ng-click="exportAccount()">
+                                <i class="zmdi zmdi-download"></i> {{ 'BUTTONEXPDATOS' | translate }}
+                            </a>
+                            <!--<a class="btn btn-action-sm" ng-click="changePassword()">
+                            <i class="zmdi zmdi-key"></i> Cambiar contraseña
+                        </a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+            <div class="modal fade" id="changeEmail" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">{{ 'UPDATE_CONTACT_INFO' | translate }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form name="frmChangeEmail" novalidate>
+                                <div class="input-group m-b-20">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                    <div class="fg-line">
+                                        <input type="email" class="form-control" placeholder="{{ 'EMAIL' | translate }}"
+                                            name="email" ng-model="currentEmail" style="text-align: left;"
+                                            ng-maxlength="254" required autocomplete="email">
+                                    </div>
+                                    <p ng-show="frmChangeEmail.email.$error.required" class="help-block">
+                                        {{ 'EMAIL_REQUIRED' | translate }}</p>
+                                    <p ng-show="frmChangeEmail.email.$invalid && !frmChangeEmail.email.$error.required"
+                                        class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+                                </div>
+                                <div class="input-group m-b-20">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
+                                    <div class="fg-line">
+                                        <input type="tel" name="currentPhone" class="form-control"
+                                            placeholder="{{ 'NUM_TELE' | translate }}" ng-model="currentPhone"
+                                            style="text-align: left;" ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/"
+                                            ng-required="hasPhone" autocomplete="tel">
+                                    </div>
+                                    <small translate="PHONE_INFO"></small>
+                                    <div>
+                                        <p class="help-block" ng-show="frmChangeEmail.currentPhone.$error.required">
+                                            {{ 'MOVIL_REQUIRED' | translate }}</p>
+                                        <p class="help-block" ng-show="frmChangeEmail.currentPhone.$error.pattern">
+                                            {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                                        <p class="help-block" ng-show="(frmChangeEmail.currentPhone.$error.maxlength)">
+                                            {{ 'MOVIL_LENGTH' | translate }}</p>
+                                    </div>
+                                </div>
+                                <div class="input-group m-b-20">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-pin"></i></span>
+                                    <div class="fg-line">
+                                        <input type="text" name="currentAddress" class="form-control"
+                                            placeholder="{{ 'DIRECCION' | translate }}" ng-model="currentAddress"
+                                            style="text-align: left;" autocomplete="address"
+                                            ng-pattern="/^[^<>\[\]\{\}]*$/">
+                                    </div>
+                                    <div>
+                                        <p class="help-block" ng-show="frmChangeEmail.currentAddress.$error.pattern">
+                                            {{ 'INVALID_FORMAT' | translate }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" ng-disabled="frmChangeEmail.$invalid "
+                                ng-click="updateEmail()">
+                                {{ 'CAMBIAR' | translate }}
+                            </button>
+                            <button class="btn btn-link btn-cancel" data-dismiss="modal"
+                                ng-click="cancel()">{{ 'CANCELAR' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Delete account Card  -->
+        <div class="col-sm-6" ng-show="corporateGDPR">
+            <div class="card" style="min-height: 300px">
+                <div class="card-header ch-alt">
+                    <h2>{{ 'TITLE4PAT' | translate }}</h2>
+                </div>
+                <div class="card-body card-padding">
+                    <div class="pmo-contact">
+                        <p style="margin-bottom: 35px;">
+                            {{ 'LABELELICUENTA' | translate }}
+                        </p>
+                        <div style="display: inline-block;">
+                            <a class="btn btn-action-sm" data-toggle="modal" data-target="#deleteAccountModal">
+                                {{ 'BUTTONELICUENTA' | translate }}
+                            </a>
+                            <!--<a class="btn btn-action-sm" ng-click="changePassword()">
+                                    <i class="zmdi zmdi-key"></i> Cambiar contraseña
+                                </a>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal delete account -->
+            <div class="modal fade" id="deleteAccountModal" tabindex="-1" role="dialog" ng-show="corporateGDPR">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="exampleModalLabel">
+                                <strong>{{ 'MODAL_TITLE_ELI_CUENTA' | translate }}</strong>
+                            </h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>{{ 'MODAL_EXP_ELI_CUENTA' | translate }}. </p>
+                            <p><strong>{{ 'MODAL_ADV_ELI_CUENTA' | translate }}.</strong></p>
+                            <form name="frmDeleteAccount">
+                                <div class="input-group m-b-20" style="width: 100%;">
+                                    <p>{{ 'MODAL_CONFIRM_EMAIL' | translate }}:</p>
+                                    <div class="fg-line">
+                                        <input type="email" class="form-control" placeholder="{{'EMAIL_HEADER' | translate}}"
+                                            name="email" ng-model="email" style="text-align: left;"
+                                            ng-maxlength="254" required>
+                                    </div>
+                                    <p ng-show="frmDeleteAccount.email.$error.required" class="help-block">
+                                        {{ 'EMAIL_REQUIRED' | translate }}
+                                    </p>
+                                    <p ng-show="frmDeleteAccount.email.$invalid && !frmDeleteAccount.email.$error.required"
+                                        class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer" style="text-align: center!important;">
+                            <button class="btn btn-default" ng-disabled="frmDeleteAccount.$invalid "
+                                ng-click="confirmDeleteAccount()">
+                                {{ 'ACEPTAR' | translate }}
+                            </button>
+                            <button class="btn btn-link btn-cancel" data-dismiss="modal"
+                                ng-click="cancel()">
+                                {{ 'BUTTONNOELICUENTA' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        <div class="col-sm-6" ng-show = "corporateValidator">
+            <div class="card" style="min-height: 300px">
+                <div class="card-header ch-alt">
+                    <h2>{{ 'ACCOUNT_VALIDATOR' | translate }}</h2>
+                </div>
+                
+                <div class="card-body card-padding">
+                    <div class="pmo-contact">
+                        <p style="margin-bottom: 35px;">
+                            {{ 'MESSAGE_NEW_VALIDATOR' | translate }}
+                        </p>
+                    </div>
+                    <br />
+                    <!--<div style="display: inline-block; padding-bottom: 10px;">
+                        <a class="btn btn-action-sm" ui-sref="pages.profiles" >
+                            <i class="zmdi zmdi-account-box"></i> {{ 'MIS_PERFILES' | translate}}
+                        </a>
+                    </div>-->
+                    <div style="display: inline-block;">
+                        <a class="btn btn-action-sm" data-toggle="modal" data-target="#updateValidator">
+                            <i class="zmdi zmdi-account"></i> {{ 'MANAGE_VALIDATOR' | translate }}
+                        </a>
+                        <!--<a class="btn btn-action-sm" ng-click="changePassword()">
+                            <i class="zmdi zmdi-key"></i> Cambiar contraseña
+                        </a>-->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal fade" id="updateValidator" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title" id="exampleModalLabel">{{ 'UPDATE_VALIDATOR' | translate }}</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <h5 ng-bind = "status_text" id="statusVal"></h5>
+                            <input type="checkbox" ng-click = "changeStatus()" id="switch" ng-model="statusValidator"/><label for="switch">Toggle</label>
+
+                            <form name="frmChangeValidator" ng-show="statusValidator" novalidate>
+                                <div class="input-group m-b-20">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                    <div class="fg-line">
+                                        <input type="email" class="form-control" placeholder="{{ 'EMAIL' | translate }}"
+                                            name="emailValidator" ng-model="emailValidator" style="text-align: left;"
+                                            ng-maxlength="254" required>
+                                    </div>
+                                </div>
+
+                                <div class="input-group m-b-20" style="margin-left: 42px;">
+                                    <p ng-show="frmChangeValidator.emailValidator.$error.required" class="help-block">
+                                        {{ 'EMAIL_REQUIRED' | translate }}</p>
+                                    <p ng-show="frmChangeValidator.emailValidator.$invalid && !frmChangeValidator.emailValidator.$error.required"
+                                        class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+                                </div>
+
+
+                                <div class="input-group m-b-20">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                    <div class="fg-line">
+                                        <input type="password" name="passwordValidator" id = "passwordValidator" class="form-control"
+                                            placeholder="{{ 'PASSWORD' | translate }}" ng-model="passwordValidator" ng-change="validationInputPwdText(passwordValidator)"
+                                            style="text-align: left;" maxlength="30" minlength="6" required ng-trim="true"
+                                        >
+                                    </div>
+
+                                    <div class="tooltipWrapperErr" tabindex="-1" ng-click='tooglePassword()'>
+                                        <span class="nf-svg-icon">
+                                            <i class="{{eye}}" aria-hidden="true" style="color: #afacac; cursor: pointer;"></i>
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="input-group m-b-20" style="margin-left: 42px; width: 87%;">
+                                    <div class="progress" style="height: 20px;">
+                                        <div id = "progressBar" class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <p ng-show="frmChangeValidator.passwordValidator.$error.required && !frmChangeValidator.passwordValidator.$pristine"
+                                        class="help-block">
+                                        {{ 'PASSWORD_REQUIRED' | translate }}.</p>
+                                    <p ng-show="frmChangeValidator.passwordValidator.$error.minlength && !frmChangeValidator.passwordValidator.$error.pattern && !frmChangeValidator.passwordValidator.$pristine"
+                                        class="help-block">
+                                        {{ 'PASSWORD_MIN_LENGTH' | translate }}.
+                                    </p>
+                                    <p ng-show="frmChangeValidator.passwordValidator.$error.maxlength && !frmChangeValidator.passwordValidator.$pristine"
+                                        class="help-block">
+                                        {{ 'PASSWORD_MAX_LENGTH' | translate }}.
+                                    </p>
+                                    <p ng-show="!patternAccepted && !frmChangeValidator.passwordValidator.$pristine && corporateGDPR"
+                                        class="help-block">
+                                        {{ 'PASSWORD_SPEC' | translate }}.
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" ng-disabled="(statusValidator&&frmChangeValidator.$invalid)|| !patternAccepted&&statusValidator"
+                                ng-click="updateValidator()">
+                                {{ 'GUARDAR' | translate }}
+                            </button>
+                            <button class="btn btn-link btn-cancel" data-dismiss="modal"
+                                ng-click="cancel()">{{ 'CANCELAR' | translate }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            (function ($) {
+                $.fn.inputFilter = function (inputFilter) {
+                    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+                        if (inputFilter(this.value)) {
+                            this.oldValue = this.value;
+                            this.oldSelectionStart = this.selectionStart;
+                            this.oldSelectionEnd = this.selectionEnd;
+                        } else if (this.hasOwnProperty("oldValue")) {
+                            this.value = this.oldValue;
+                            this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                        }
+                    });
+                };
+            }(jQuery));
+
+
+            // Install input filters.
+            $("#inputEmail3").inputFilter(function (value) {
+                return /^\d*$/.test(value);
+            });
+        </script>

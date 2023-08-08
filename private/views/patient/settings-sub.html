@@ -1,0 +1,300 @@
+<div class="container" ng-controller="settingSubCtrl"  data-ng-init="configSub()">
+    <div class="col-md-12">
+        <div class="card shadow" style="border-radius: 10px;">
+            <div class="card-header ch-alt" style="border-radius: 10px 10px 0px 0px;">
+                <h2>{{ 'TITLE_SUB_CONFIG' | translate }}</h2>
+            </div>
+            <div class="card-body card-padding" class="container">
+                <div class="row" ng-show="options">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3>{{ 'MEMBERSHIP_AND_BILLING' | translate }}</h3>
+                            <div style="margin-top: 15px;">
+                            <a class="btn btn-action-sm btn-cancel" ng-click="cancelMembership()">      
+                             {{ 'CANCEL_MEMBERSHIP' | translate }}
+                            </a>
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <div>
+                                <h5>{{ 'PAYMENT_OPTION' | translate }}</h5>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                            <h4><i class="fa fa-cc-amex fa-2x" style="vertical-align:middle" aria-hidden="true" ng-show="amex"></i>
+                                                <i class="fa fa-cc-mastercard fa-2x" style="vertical-align:middle" aria-hidden="true" ng-show="mastercard"></i>
+                                                <i class="fa fa-cc-visa fa-2x" style="vertical-align:middle" aria-hidden="true" ng-show="visa"></i>
+                                                {{card}}</h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                            <h4><a class="pull-right btn btn-action-sm" style="display: inline-block; padding-top: 5px; cursor: hand;" ng-click='updatePayCard()'>{{ 'UPDATE_PAYMENT_INFO' | translate }}</a></h4>
+                                            <!--<h4><a class="pull-right" style="display: inline-block; padding-top: 15px;">Información de facturación</a></h4>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div><br><br><br>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3>{{ 'PAYMENT_HISTORY' | translate }}</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-body table-responsive">
+                                <table ng-table="tableParams" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>{{ 'PAYMENT_DATE' | translate }}</strong></th>
+                                            <th><strong>{{ 'PAYMENT_PERIOD' | translate }}</strong></th>
+                                            <th><strong>{{ 'PAYMENT_OPTION' | translate }}</strong></th>
+                                            <th><strong>{{ 'PAYMENT_TOTAL' | translate }}</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="row in paymentList">
+                                        <td>{{row.payDate| date: 'dd/MM/yyyy'}}</td>
+                                        <td>{{row.payDate| date: 'dd/MM/yyyy'}} - {{row.coverageDate| date: 'dd/MM/yyyy'}}</td>
+                                        <td>•••• •••• •••• {{row.lastDigits}}</td>
+                                        <td>{{row.subscriptionId.packageCurrencyId.currencyId.symbol}}{{row.amount| number:2}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" ng-if="$data.length === 0">
+                                            <center>{{ 'NO_CONS' | translate }}</center>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="updateCard">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div>
+                            <h2>{{ 'TITLE2SUBACT' | translate }}.</h2>
+                            <!--<h4 style="color: #3085c7;  cursor: hand;" ng-click="backOptions()"><i class="fa fa-angle-left fa-2x" style="vertical-align:middle; padding-right: 5px;" aria-hidden="true"></i>regresar</h4>-->
+                        </div>
+                        <br>
+                        <div>
+                            <p style="float: right;">{{ 'LABEL1SUBACT' | translate }}</p>
+                        </div>
+                        <form name="pay" novalidate autocomplete="off">
+                            <div class="form-group col-md-12">
+                                <label for="cc-number" class="control-label">{{ 'LABEL2SUBACT' | translate }}    <strong><small class="text-muted"><span class="cc-brand"></span></small></strong></label>
+                                <input id="cc-number" ng-model="card" type="tel" class="input-lg form-control cc-number" autocomplete="cc-number" placeholder="•••• •••• •••• ••••" required>
+                                <small for="cc-number" id="error-card" style="display: none; color: red;" class="control-label">{{ 'INVALIDNUMTAR' | translate }} </small>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="cc-firstname" class="control-label">{{ 'LABEL3SUBACT' | translate }}</label>
+                                    <input id="cc-firstname" ng-model="firstname" type="text" class="input-lg form-control cc-firstname" autocomplete="cc-firstname" placeholder="{{ 'NOMBRE' | translate }}" required>
+                                    <small for="cc-name" id="error-firstname" style="display: none; color: red;" class="control-label">{{ 'INCOMNOMBRE' | translate }} </small>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="cc-lastname" class="control-label">{{ 'LABEL4SUBACT' | translate }}</label>
+                                    <input id="cc-lastname" ng-model="lastname" type="text" class="input-lg form-control cc-lastname" autocomplete="cc-lastname" placeholder="{{ 'INPUT4SUBACT' | translate }}" required>
+                                    <small for="cc-name" id="error-lastname" style="display: none; color: red;" class="control-label">{{ 'INCOMAPE' | translate }} </small>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cc-exp" class="control-label">{{ 'LABEL5SUBACT' | translate }}</label>
+                                <input id="cc-exp" ng-model="exp" type="tel" class="input-lg form-control cc-exp" autocomplete="cc-exp" placeholder="MM / YYYY" required>
+                                <small for="cc-exp" id="error-exp" style="display: none; color: red;" class="control-label">{{ 'INCOMFECHA' | translate }} </small>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="cc-cvc" class="control-label">{{ 'LABEL6SUBACT' | translate }}</label>
+                                <input id="cc-cvc" ng-model="cvv" type="tel" class="input-lg form-control cc-cvc" autocomplete="off" placeholder="•••" required>
+                                <small for="cc-cvc" id="error-cvv" style="display: none; color: red;" class="control-label">{{ 'INCOMCVC' | translate }} </small>
+                            </div>
+                            <div style="display: none;">
+                                <input id="provider" ng-model="provider" type="text"/>
+                                <input id="fingerPrint" ng-model="fingerPrint" type="text"/>
+                            </div>
+                        <a class="btn btn-action-sm" ng-click="backOptions()">      
+                            {{ 'REGRESAR' | translate }}
+                        </a>
+                        <button type="submit" class="btn btn-action-sm" style="text-align: center;">
+                                <i class="fa-li fa fa-spinner fa-spin" id="icon" ng-show="paymentConfirm"></i>  {{ 'GUARDAR' | translate }}
+                        </button>
+                        <button id="btn-pay" style="display: none;" ng-click="cardUpdate()"></button>
+                    </form>
+                    </div>
+                </div>
+                <div class="row" ng-show="cancelSubs">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6" ng-show="cancelForm">
+                        <h3 style="text-align: center;">¿{{ 'QUEST_CANCEL_SUB2' | translate }}?</h3><br>
+                        <h4>{{ 'CANCEL_MEMBERSHIP_WARNING' | translate }}.</h4><br>
+                        <a class="btn btn-action-sm" ng-click="backOptions()">      
+                                {{ 'REGRESAR' | translate }}
+                        </a>
+                        <a class="btn btn-action-sm" ng-click="billingCancel()">      
+                            <i class="fa-li fa fa-spinner fa-spin" id="icon" ng-show="cancelConfirm"></i>{{ 'CANCEL_MEMBERSHIP' | translate }}
+                        </a>
+                    </div>
+                    <div class="col-md-6" ng-show="cancelSuccess">
+                        <h3 style="text-align: center;">{{ 'CANCEL_MEMBERSHIP_SUCCESSFULLY' | translate }}</h3><br>
+                        <h4>{{ 'MEMBERSHIP_COMEBACK' | translate }}.</h4><br>
+                        <a class="btn btn-action-sm" ng-click="backToRegister()">      
+                                {{ 'CERRAR_SESION' | translate }}
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .fa-li {
+        position: initial;
+    }   
+</style>
+<script>
+$( document ).ready(function() {
+    (function($) {
+                $.fn.inputFilter = function(inputFilter) {
+                    return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function() {
+                    if (inputFilter(this.value)) {
+                        this.oldValue = this.value;
+                        this.oldSelectionStart = this.selectionStart;
+                        this.oldSelectionEnd = this.selectionEnd;
+                    } else if (this.hasOwnProperty("oldValue")) {
+                        this.value = this.oldValue;
+                        this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+                    }
+                    });
+                };
+    }(jQuery));
+    var pattern = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ]*$/;
+    $("#cc-firstname").inputFilter(function(value) { return pattern.test(value); });
+    $("#cc-lastname").inputFilter(function(value) { return pattern.test(value); });
+    var cardType = "";
+    $( ".cc-number" ).keyup(function() {
+       $('.cc-number').payment('formatCardNumber');
+        cardType = $.payment.cardType($('.cc-number').val());
+        if(!$.payment.validateCardNumber($('.cc-number').val())){
+            $('#error-card').show();
+            pass = false;
+        }
+        else{
+            $('#error-card').hide();
+            var scope = angular.element("#provider").scope();
+            scope.provider = cardType;
+        }
+        if(cardType != null){
+            $('.cc-brand').empty();
+            if(cardType == 'visa'){
+                $('.cc-brand').append('  <i class="fa fa-cc-visa fa-2x" aria-hidden="true"></i>');
+            }
+            else if(cardType == 'mastercard'){
+                $('.cc-brand').append('  <i class="fa fa-cc-mastercard fa-2x" aria-hidden="true"></i>');
+            }
+            else if(cardType == 'amex'){
+                $('.cc-brand').append('  <i class="fa fa-cc-amex fa-2x" aria-hidden="true"></i>');
+            }
+        }
+        else{
+            $('.cc-brand').empty();
+        }
+    });
+    $( ".cc-firstname" ).keyup(function() {
+        if($('#cc-firstname').val() == ''){
+            $('#error-firstname').show();
+            pass = false;
+        }
+        else{
+             $('#error-firstname').hide();
+        }
+        
+    });
+    $( ".cc-lastname" ).keyup(function() {
+        if($('#cc-lastname').val() == ''){
+            $('#error-lastname').show();
+            pass = false;
+        }
+        else{
+            $('#error-lastname').hide();
+        }
+    });
+    $( ".cc-exp" ).keyup(function() {
+        $('.cc-exp').payment('formatCardExpiry');
+        if(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal'))){
+            $('#error-exp').show();
+            pass = false;
+        }
+        else{
+            $('#error-exp').hide();
+        }
+    });
+    $( ".cc-cvc" ).keyup(function() {
+        $('.cc-cvc').payment('formatCardCVC');
+        if(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType)){
+            $('#error-cvv').show();
+            pass = false;
+        }
+        else{
+            $('#error-cvv').hide();
+        }
+    });
+    jQuery(function($) {
+        $('.cc-number').payment('formatCardNumber');
+        $('.cc-exp').payment('formatCardExpiry');
+        $('.cc-cvc').payment('formatCardCVC');
+        $.fn.toggleInputError = function(erred) {
+        this.parent('.form-group').toggleClass('has-error', erred);
+        return this;
+        };
+        $('form').submit(function(e) {
+        e.preventDefault();
+        var pass = true;
+        var cardType = $.payment.cardType($('.cc-number').val());
+        if(!$.payment.validateCardNumber($('.cc-number').val())){
+            $('#error-card').show();
+            $(".cc-number").focus();
+            $('html, body').animate({
+      scrollTop: $(".cc-number").offset().top - 200
+    }, 500);
+            pass = false;
+        }
+        else{
+            $('#error-card').hide();
+        }
+        if(!$.payment.validateCardExpiry($('.cc-exp').payment('cardExpiryVal'))){
+            $('#error-exp').show();
+            pass = false;
+        }
+        else{
+            $('#error-exp').hide();
+        }
+        if(!$.payment.validateCardCVC($('.cc-cvc').val(), cardType)){
+            $('#error-cvv').show();
+            pass = false;
+        }
+        else{
+            $('#error-cvv').hide();
+        }
+        if($('#cc-firstname').val() == ''){
+            $('#error-firstname').show();
+            pass = false;
+        }
+        else{
+             $('#error-firstname').hide();
+        }
+        if($('#cc-lastname').val() == ''){
+            $('#error-lastname').show();
+            pass = false;
+        }
+        else{
+             $('#error-lastname').hide();
+        }
+        if(cardType != null){
+            $('.cc-brand').empty();
+             $('.cc-brand').append('  <i style="padding-left:1em" class="zmdi zmdi-card"></i> '+cardType.toUpperCase());
+        }
+        if(pass){
+            //document.write('<input type="hidden" name="provider" ng-model="provider"  value="'+cardType + '">');
+            $('#btn-pay').trigger("click");
+        }
+    });
+});
+});
+</script>

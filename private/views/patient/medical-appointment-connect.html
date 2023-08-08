@@ -1,0 +1,51 @@
+<div class="container" ng-controller="patientCtrl" data-ng-init="loadingReconection()">
+    <div class="row" align="center" ng-show="showLoading">
+        <div class="col-sm-2" ></div>
+        <div class="col-sm-8" >
+            <div class="card">
+                <div class="card-header bgm-bluegray">
+                  <h2>{{ 'RECONNECT_MSG' | translate }}</h2>
+                </div>
+                <div class="card-body card-padding">
+                  <span>
+                    <br/>
+                      <img id="patient-logo" src="img/logo_dr_online_color.png" alt="">
+                      <br/>
+                  </span>
+                    <br/>
+                    <div class="preloader pls-green" style="margin-top: 15px;">
+                        <svg class="pl-circular" viewBox="25 25 50 50">
+                        <circle class="plc-path" cx="50" cy="50" r="20" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" align="center" ng-show="showAppointment"  style="width: 100% !important; height: 100% !important; padding: 0 !important;">
+
+        <div align="center"  style="width: 100% !important; height: 100% !important; padding: 0 !important;">
+
+            <iframe  ng-src="{{urlAppointment}}" background-color= "transparent" allowtransparency="true" background-color="green" frameborder="0"  style="width: 100% !important; height: 100% !important; padding: 0 !important;"  class="col-sm-12">
+            </iframe>
+        </div>
+    </div>
+</div>
+<script>
+    $( document ).ready(function() {
+    //alert(getCookie("logo"));
+    //alert(getCookie("buttons"));
+    $("#patient-logo").attr('src', getCookie("logo"));
+    //$("#doctor-logo").attr('src', getCookie("logo"));
+    $("#patient-logo-lg").attr('src', getCookie("logo"));
+    //$("#doctor-logo-lg").attr('src', getCookie("logo"));
+
+    $("#btn-mi-salud").attr('class', getCookie("buttons"));
+    $("#btn-mis-doctores").attr('class', getCookie("buttons"));
+    //$("#btn-mis-pacientes").attr('class', getCookie("buttons"));
+    $("#btn-mi-cuenta-paciente").attr('class', getCookie("buttons"));
+    //$("#btn-mi-cuenta-doctor").attr('class', getCookie("buttons"));
+    $("#cerrar-sesion").attr('class', getCookie("buttons"));
+    //alert(getCookie("logo"));
+});
+</script>

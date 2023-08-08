@@ -1,0 +1,121 @@
+<div class="view-container" ng-controller="CalendarCtrl">
+    <div class="content-header">
+    </div>
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row center-calendar">
+          <div class="col-lg-6">
+            <div class="card card-primary">
+              <div class="card-body p-0">
+                <div id="calendar" style="height: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="modal fade" id="calendar-modal" data-backdrop="static" tabindex="-1" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ 'SCHEDULLER_PROGRAM' | translate }}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="clearModal()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row mt-4">
+              <div class="col-md-6"> 
+                <label class="corporate-color">{{ 'SELECT_PATIENT' | translate }}</label> <br>
+                <select name="" id="" class="form-input" ng-model="patientSelected">
+                  <option value="0">{{ 'SELECT_PATIENT2' | translate }}</option>
+                  <option ng-repeat="profile in profiles" value="{{profile.profileId}}">{{profile.admPerson.firstName + " " + profile.admPerson.lastName}}</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="corporate-color">{{ 'DATE_SELECTED' | translate }}</label>
+                <input class="form-input form-readonly" id="dateSelected" type="text" readonly>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <label class="corporate-color">{{ 'HOUR_SELECTED' | translate }}</label>
+                <input class="form-input form-readonly" id="timeSelected" type="text" readonly>
+              </div>
+              <div class="col-md-6">
+                  <label class="corporate-color" for="">{{ 'NOTES' | translate }}</label>
+                  <textarea class="form-input" name="" id="" cols="30" rows="2" placeholder="{{ 'NOTES' | translate }}" ng-model="notesSchedule"></textarea>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <label class="corporate-color">{{ 'TYPE_CONSULTATION' | translate }}</label> <br>
+                <select name="" id="" class="form-input" ng-model="typeServiceSelected">
+                  <option value="0">{{ 'SELECT_TYPE' | translate }}</option>
+                  <option value="1">{{ 'CHAT' | translate }}</option>
+                  <option value="2">{{ 'VIDEOLLAMADA' | translate }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-12">
+                <div class="text-center">
+                  <button ng-if="!loadingAppointment" class="btn btn-default" ng-click="programar()">{{ 'SCHEDULE_TEXT' | translate }}</button>
+                  <div style="text-align: center;" ng-if="loadingAppointment">
+                    <div class="preloader pls-green" style="margin-top: 10px; margin-bottom: 10px; width: 55px;">
+                        <svg class="pl-circular" viewbox="25 25 50 50">
+                            <circle class="plc-path" cx="50" cy="50" r="20" />
+                        </svg>
+                    </div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" ng-click="clearModal()" class="btn btn-cancel" data-dismiss="modal">{{ 'CERRAR' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="calendar-modal-detail" tabindex="-1" data-keyboard="false" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">{{ 'APPOINTMENT_DETAIL' | translate }}</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row mt-4">
+              <div class="col-md-6"> 
+                <label class="corporate-color">{{ 'PACIENTE' | translate }}</label> <br>
+                <input class="form-input form-readonly" id="patientRegistered" type="text" readonly>
+              </div>
+              <div class="col-md-6">
+                <label class="corporate-color">{{ 'DATE_SELECTED' | translate }}</label>
+                <input class="form-input form-readonly" id="dateRegistered" type="text" readonly>
+              </div>
+            </div>
+            <div class="row mt-4">
+              <div class="col-md-6">
+                <label class="corporate-color">{{ 'HOUR_SELECTED' | translate }}</label>
+                <input class="form-input form-readonly" id="timeRegistered" type="text" readonly>
+              </div>
+              <div class="col-md-6">
+                  <label class="corporate-color" for="">{{ 'NOTES' | translate }}</label>
+                  <textarea class="form-input form-readonly" name="" cols="30" rows="2" id="notesRegistered" readonly></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" data-dismiss="modal">{{ 'CERRAR' | translate }}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <style>
+    
+  </style>

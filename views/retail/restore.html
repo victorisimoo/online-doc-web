@@ -1,0 +1,91 @@
+<div class="container" ng-controller="RestorePasswordCtrl">
+    <div class="row" style="margin-top: 20px;">
+        <div class="col-lg-6 col-lg-offset-3 col-md-6 col-md-offset-3 col-sm-12">
+            <div ng-show="!tokenExpired && !success">
+                <p style="margin-bottom: 0px; font-size: 15px; color: #000;"><b>Restablecer contraseña</b></p>
+                <p style="font-size: 15px; margin-top: 5px; margin-bottom: 5px;  color: #000;">¿No recuerdas tu contraseña? No hay problema, puedes restablecer tu contraseña usando este formulario.</p>
+                <p style="font-size: 15px; color: #000;">Al finalizar, tendrás que iniciar sesión en la plataforma.</p>
+                <form name="restoreForm">
+                    <div class="card" style="border-radius: 10px; padding: 20px 10px 20px 10px; box-shadow: none;">
+                        <div class="card-body resumen-padding newPass" style="font-weight: bold; position: relative; margin-bottom: 1rem;">
+                            <p class="corporate-color"  style="text-align: left; margin-bottom: 5px !important;">Contraseña</p>
+                            <div class="fg-line background-color">
+                                <input type="password" class="form-control" id="newpassword"
+                                tabindex="0" ng-model="password" name="newpassword"
+                                ng-trim="true" ng-pattern="/^\S*$/" maxlength="62" minlength="4" placeholder="Ingrese la contraseña" required>
+                            </div>
+                            <div class="tooltipWrapperError" tabindex="-1" ng-click='tooglePassword()'>
+                                <span class="nf-svg-icon">
+                                    <i class="{{eye}}" aria-hidden="true" style="color: #afacac; cursor: pointer;"></i>
+                                </span>
+                            </div>
+                            <p ng-show="restoreForm.newpassword.$error.required && !restoreForm.newpassword.$pristine"
+                            class="help-block">
+                            La contraseña es obligatoria.</p>
+                            <p ng-show="restoreForm.newpassword.$error.minlength && !restoreForm.newpassword.$error.pattern && !restoreForm.newpassword.$pristine"
+                            class="help-block">
+                            Longitud mínima de 4 caracteres.
+                            </p>
+                            <p ng-show="restoreForm.newpassword.$error.maxlength && !restoreForm.newpassword.$pristine"
+                            class="help-block">
+                            Longitud máxima de 62 caracteres.
+                            </p>
+                            <p ng-show="restoreForm.newpassword.$error.pattern && !restoreForm.newpassword.$pristine"
+                            class="help-block">
+                            Contraseña inválida, posee un caracter inválido.
+                            </p>
+                        </div>
+                        <br/>
+                        <div class="card-body resumen-padding" style="font-weight: bold;">
+                            <p class="corporate-color"  style="text-align: left; margin-bottom: 5px !important;">Confirmar contraseña</p>
+                            <div class="fg-line background-color">
+                                <input type="password" class="form-control" id="confirmpassword" name="confirmpassword"
+                                ng-model="confirmPassword" placeholder="Confirma la contraseña" compare-to="password"
+                                onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false"
+                                autocomplete=off tabindex="0" required>
+                            </div>
+                            <p ng-show="restoreForm.confirmpassword.$error.compareTo && !restoreForm.confirmpassword.$pristine"
+                            class="help-block">No coinciden las contraseñas.</p>
+                        </div>
+                        <br/>
+                        <p ng-show="showError"
+                            class="help-block" style="font-weight: bold;">
+                            Algo inesperado sucedió, inténtelo nuevamente.
+                        </p>
+                        <br/>
+                        <button type="button" class="btn btn-action" ng-disabled="restoreForm.$invalid || inProcess"
+                        ng-click="restorePassword()">Restablecer constraseña</button>
+                    </div>
+                </form>
+            </div>
+            <div ng-show="tokenExpired" style="text-align: center;">
+                <b><i class="retailColor fa fa-4x fa-exclamation-circle" aria-hidden="true"></i>
+                <h4>¡Lo sentimos!</h4></b>
+                <p style="font-size: 14px;">Tu tiempo disponible para restablecer tu contraseña ha expirado.<br> <b>Te hemos enviado un nuevo correo para que puedas restablecer tu contraseña.</b></p>
+            </div>
+            <div ng-show="success" style="text-align: center;">
+                <b><i class="retailColor fa fa-4x fa-unlock-alt" aria-hidden="true"></i>
+                <h4>¡Contraseña restablecida!</h4></b>
+                <p style="font-size: 14px;">Te solicitamos que inicies sesión para confirmar tu cambio de contraseña.</p>
+                <button type="button" class="btn btn-action"
+                        ng-click="toLogin()">Iniciar sesión</button>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.newPass .tooltipWrapperError {
+    position: absolute;
+    top: 40px;
+    right: 20px;
+}
+
+.help-block{
+    color: #ea3a3a !important;
+    margin-bottom: 0px;
+}
+</style>
+<script type="text/javascript">
+    $(".logout").addClass("hide");
+    $(".login").addClass("hide");
+</script>

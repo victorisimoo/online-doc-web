@@ -1,0 +1,72 @@
+ <section id="content" ng-controller="doctorCtrl">
+
+        <div class="container">
+            <div class="block-header">
+                <h2>{{ 'PROFILE_DASHBOARD' | translate }}</h2>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2>{{ 'PROFILE_MEDICAL_APPOINTMENTS' | translate }}</h2>
+                </div>
+
+                <div class="card-body">
+                    <div class="chart-edge">
+                        <div class="flot-chart" data-curvedline-chart></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mini-charts">
+                <div class="row">
+                    <div class="col-sm-6 col-md-3">
+                        <div class="mini-charts-item bgm-cyan">
+                            <div class="clearfix">
+                                <div class="chart stats-bar" ></div>
+                                <div class="count">
+                                    <button class="btn btn-info btn-icon" ng-click=viewMedicalAppointments()><i class="zmdi zmdi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="mini-charts-item bgm-lightgreen">
+                            <div class="clearfix">
+                                <div class="chart stats-bar-2"></div>
+                                <div class="count">
+                                    <small>{{ 'PROFILE_CHATS' | translate }}</small>
+                                    <h2>305</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="mini-charts-item bgm-orange">
+                            <div class="clearfix">
+                                <div class="chart stats-line"></div>
+                                <div class="count">
+                                    <small>{{ 'PROFILE_CONFERENCES' | translate }}</small>
+                                    <h2>54</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 col-md-3">
+                        <div class="mini-charts-item bgm-bluegray">
+                            <div class="clearfix">
+                                <div class="chart stats-line-2"></div>
+                                <div class="count">
+                                    <small>{{ 'PROFILE_MEDICAL_APPOINTMENTS' | translate }}</small>
+                                    <h2>45</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>

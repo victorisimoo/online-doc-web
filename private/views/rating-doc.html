@@ -1,0 +1,1383 @@
+<div class="container" ng-controller="RatingDocController" style="width: 100% !important;">
+    <div class="row" align="center">
+        <div ng-class="queueList.length>0?'col-sm-10':'col-sm-12'" style="padding: 0 !important">
+            <div class="row">
+                <div id="PatientInfo" class="col-sm-3 without shadow">
+                    <div class="row without corporate-background" style="max-height: 22%;">
+                        <div style="text-align: center;" class="wrap-logo-rating-doc">
+                            <img ng-src="{{corporateImg}}"
+                                style="width: 60% !important; padding-top: 20px; margin: 0 auto; padding-bottom: 20px;">
+                        </div>
+                    </div>
+                    <div class="row"
+                        ng-show="annotation.appointment.profileId.corporateName == 'sercomed' && appointmentInformation[currentIndex].appointment.profileId.admPerson.subcorporation">
+                        <div class="ms-block" style="padding: 5px 5px 5px 5px;">
+                            <strong>{{ 'AGREEMENT' | translate }}</strong><br />
+                            {{appointmentInformation[currentIndex].appointment.profileId.admPerson.subcorporation}}
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <h4 style="font-weight: bold; text-align: left; margin-left: 10px;">
+                                {{ 'APPOINTMENTS_INFO' | translate }} 
+                                <i class="zmdi zmdi-info-outline zmdi-hc-1x corporate-color" tooltip="{{ 'IS_FOLLOWUP' | translate }}" 
+                                    ng-show="appointmentInformation[currentIndex].isFollowup"></i>
+                            </h4> 
+                        </div>
+                        <div class="row">
+                            <div class="card" style="border-radius:  10px; margin: 10px;">
+                                <div class="card-body shadow" style="border-radius:  10px; padding: 10px 10px;">
+                                    <div style="font-size: 14px">
+                                        <div class="row" style="text-align: center;">
+                                            <div class="row" style="text-align: left !important;">
+                                                <i class="zmdi zmdi-account-circle  zmdi-hc-3x corporate-color"></i>
+                                                <div
+                                                    style="display: inline-block; vertical-align: super; text-align: left;">
+                                                    <p style="margin-bottom: 0px !important;">{{ 'PACIENTE' | translate }}
+                                                    </p>
+                                                    <a class="corporate-color"
+                                                        style="font-weight: bold; text-decoration: underline;"
+                                                        ng-href="{{patientHistoryURL}}" target="_blank">
+                                                        {{appointmentInformation[currentIndex].appointment.profileId.admPerson.firstName}}
+                                                        {{appointmentInformation[currentIndex].appointment.profileId.admPerson.lastName}}
+                                                    </a>
+                                                </div>
+                                                <hr class="line-divider" style="margin: 0px !important;" />
+                                            </div>
+
+                                            <div class="row" ng-if="appointmentInformation[currentIndex].appointment.profileId.corporateName == 'mapfre'" style="margin-top: 10px">
+                                                <div class="col-sm-12 patInfo">
+                                                    {{ 'SUBCORPORACION' | translate }}
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-if="appointmentInformation[currentIndex].appointment.profileId.corporateName == 'mapfre'" style="margin-bottom: 10px">
+                                                <div class="col-sm-12 patInfo corporate-color" style="font-weight: bold;">
+                                                    {{appointmentInformation[currentIndex].appointment.profileId.admPerson.subcorporation || 'SIN_SUBCORPORACION' | translate }}
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-if="appointmentInformation[currentIndex].appointment.profileId.corporateName == 'mapfre'" style="margin-top: 10px">
+                                                <div class="col-sm-6 patInfo">
+                                                    {{ 'POLIZA' | translate }}
+                                                </div>
+                                                <div class="col-sm-6 patInfo">
+                                                    {{ 'CERTIFICADO' | translate }}
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-if="appointmentInformation[currentIndex].appointment.profileId.corporateName == 'mapfre'" style="margin-bottom: 10px">
+                                                <div class="col-sm-6 patInfo corporate-color" style="font-weight: bold;">
+                                                    {{appointmentInformation[currentIndex].appointment.profileId.admPerson.poliza}}
+                                                </div>
+                                                <div class="col-sm-6 patInfo corporate-color" style="font-weight: bold;">
+                                                    {{appointmentInformation[currentIndex].appointment.profileId.admPerson.certificate}}
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-4 patInfo">
+                                                    {{ 'DURATION' | translate }}
+                                                </div>
+                                                <div class="col-sm-4 patInfo">
+                                                    {{ 'GENDER' | translate }}
+                                                </div>
+                                                <div class="col-sm-4 patInfo">
+                                                    {{ 'PATIENT_TABLE_YEARS_OLD' | translate }}
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-sm-4 patInfo corporate-color">
+                                                    {{appointmentInformation[currentIndex].minutes}} {{ 'MINUTES_SHORTCUT' | translate }}                                                    
+                                                </div>
+                                                <div class="col-sm-4 patInfo corporate-color"
+                                                    style="font-weight: bold;">
+                                                    {{appointmentInformation[currentIndex].appointment.profileId.admPerson.gender==1? 'MALE_SHORTCUT' :'FEMALE_SHORTCUT' | translate}}
+                                                </div>
+                                                <div class="col-sm-4 patInfo corporate-color"
+                                                    style="font-weight: bold;">
+                                                    {{age}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row" style="text-align: left !important;">
+                                            {{ 'APPOINTMENT_TYPE' | translate }} <p
+                                                style="display: inline-block; font-weight: bold;"
+                                                class="corporate-color">
+                                                {{appointmentInformation[currentIndex].appointment.serviceTypeId==1? 'CHAT' : (appointmentInformation[currentIndex].appointment.serviceTypeId==2) ? 'VIDEOLLAMADA' : 'PHONECALL' | translate }}
+                                            </p>
+                                        </div>
+
+                                        <div class="row" style="text-align: left !important;">
+                                            <div class="row">
+                                                {{ 'INICIO' | translate }}
+                                            </div>
+                                            <div class="row corporate-color">
+                                                {{appointmentInformation[currentIndex].appointment.startDate | date: 'dd/MM/yyyy hh:mm a'}}
+                                            </div>
+                                        </div>
+                                        <div class="row" style="text-align: left !important;">
+                                            <div class="row">
+                                                {{ 'END_CALL_MSG' | translate }}
+                                            </div>
+                                            <div class="row corporate-color">
+                                                {{appointmentInformation[currentIndex].appointment.endDate | date: 'dd/MM/yyyy hh:mm a'}}
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="row" style="text-align: left !important;"
+                                            ng-show="appointmentInformation[currentIndex].appointment.profileId.admPerson.emailPerson && appointmentInformation[currentIndex].appointment.profileId.admPerson.emailPerson.trim()!=''">
+                                            {{ 'CORREO' | translate }}: <span
+                                                style="display: inline-block; font-weight: bold;"
+                                                class="corporate-color">{{appointmentInformation[currentIndex].appointment.profileId.admPerson.emailPerson}}</span>
+                                        </div>
+                                        <div class="row" style="text-align: left !important;"
+                                            ng-show="appointmentInformation[currentIndex].appointment.profileId.admPerson.mobilePhone && appointmentInformation[currentIndex].appointment.profileId.admPerson.mobilePhone.trim()!=''">
+                                            {{ 'LBL_PHONE' | translate }}: <span
+                                                style="display: inline-block; font-weight: bold;"
+                                                class="corporate-color">{{appointmentInformation[currentIndex].appointment.profileId.admPerson.mobilePhone}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card" style="border-radius:  10px; margin: 20px 10px;"
+                                ng-show="hasPhone && !manualCallCreated">
+                                <div id="tooltipContentText" ng-show="$scope.annotation.appointment.profileId.corporateName == 'vivawell'" class="tooltip-custom" ng-bind-html="myHtmlTooltipCallToAction"></div>
+                                <div class="card-body card-padding shadow"
+                                    style="border-radius:  10px; padding: 10px 10px;" id="tooltipCallToAction">
+                                    <div class="row">
+                                        <div class="col-sm-3">
+                                            <div class="mobilephone-outer">
+                                                <div class="border-small-mobilephone"></div>
+                                                <div class="wrap-mobilephone corporate-background bg-corporate-text">
+                                                    <i class="fa fa-phone" aria-hidden="true"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9">
+                                            <h4><b>{{ 'MAKE_PHONECALL' | translate }}</b></h4>
+                                            <b><a style="cursor: pointer;" class="corporate-color"
+                                                    ng-click="confirmManualCall()">{{ 'ACEPTAR' | translate }}</a></b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-5">
+                    <div class="row" style="font-weight: bold; margin-top: 5%;">
+                        <div class="col-sm-10">
+                            <p style="text-align: left; font-size: medium; margin-bottom: 5px;">
+                                {{ 'RAT_END_INFO' | translate }}</p>
+                        </div>
+                        <div class="col-sm-2">
+                            <p style="text-align: right; font-size: medium;" class="corporate-color">{{currentIndex+1}}
+                                /
+                                {{totalAppointment}}</p>
+                        </div>
+                    </div>
+                    <div class="row" style="font-weight: bold;">
+                        <div class="col-sm-12">
+                            <p class="corporate-color pull-right" style="font-size: medium;">
+                                {{ 'RAT_REMAINING_TIME' | translate }}: {{ remainingTimeMin }}</p>
+                        </div>
+                    </div>
+                    <div class="card shadowCenter"
+                        style="padding: 0px 25px 0px 25px; margin-bottom: 0px; border-radius: 10px;">
+                        <div class="card-header">
+                            <h2 style="font-weight: bold">
+                                {{ 'RAT_SUCCESS_APPOINTMENT' | translate }}
+                            </h2>
+
+                        </div>
+                        <div class="card-body card-padding" style="padding: 0px 25px 1px 25px !important;">
+                            <br />
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <i class="fa fa-thumbs-up" style="font-size: 150px" ng-click="upClick()"
+                                        ng-hide="upStatus"></i>
+                                    <i class="fa fa-thumbs-up " style="font-size: 150px; color: green !important;"
+                                        ng-click="upClick()" ng-show="upStatus"></i>
+                                </div>
+                                <div class="col-sm-6">
+                                    <i class="fa fa-thumbs-down" style="font-size: 150px;" ng-click="downClick()"
+                                        ng-hide="downStatus"></i>
+                                    <i class="fa fa-thumbs-down" style="font-size: 150px; color: red !important;"
+                                        ng-click="downClick()" ng-show="downStatus"></i>
+                                </div>
+                                <div class="col-sm-12" ng-show="downStatus" style="margin-top: 5%;">
+                                    <h4 style="text-align: left !important;">{{ 'RAT_WRONG' | translate }}</h4>
+                                    <div
+                                        ng-show="appointmentInformation[currentIndex].appointment.serviceTypeId==1 && language == 'es'">
+                                        <div class="form-group">
+                                            <select id="select" class="selectpicker form-control" multiple
+                                                title="Selecciona los problemas presentados en chat con fotos"
+                                                data-live-search="true" ng-model="optionsselectedChat" multiple>
+                                                <option title="{{option.issueTitle}}"
+                                                    ng-repeat="option in errorListChat" value="{{option}}">
+                                                    {{option.issueDescription}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        ng-show="appointmentInformation[currentIndex].appointment.serviceTypeId==2  && language == 'es'">
+                                        <div class="form-group">
+                                            <select id="select" class="selectpicker form-control" multiple
+                                                title="Selecciona los problemas presentados en videollamada"
+                                                data-live-search="true" ng-model="optionsselectedVideo" multiple>
+                                                <option title="{{option.issueTitle}}"
+                                                    ng-repeat="option in errorListVideo" value="{{option}}">
+                                                    {{option.issueDescription}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+
+                                    <button ng-click="verOpciones()"
+                                        ng-hide="true">{{ 'RAT_OPTIONS' | translate }}</button>
+
+
+                                    <div class="fg-line ">
+                                        <textarea class="form-control issue-report" rows="4"
+                                            placeholder="{{ 'RAT_REPORT' | translate }}" tabindex="200"
+                                            ng-model="errorText" maxlength="1000" ng-trim="false"></textarea>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="col-sm-offset-1 col-sm-10 col-sm-offset-1"
+                                    ng-class="downStatus ? 'badStatus' : 'goodStatus'"
+                                    style="display: inline-block; vertical-align: super;">
+                                    <p class="pull-left" style="font-size: large;">{{ 'RAT_TEST' | translate }}</p>
+                                    <i class="fa fa-square-o pull-right" style="font-size: 30px;" ng-click="testClick()"
+                                        ng-hide="isTest"></i>
+                                    <i class="fa fa-check-square pull-right corporate-color" style="font-size: 30px;"
+                                        ng-click="testClick()" ng-show="isTest"></i>
+                                </div>
+                            </div>
+
+                            <br />
+                            <button class="btn corporate-button" ng-disabled="!upStatus && !downStatus"
+                                ng-click="send()"
+                                style="border-style: none; box-shadow: none !important;width: 50%; margin-top: 5px !important; border-radius: 20px !important; margin: 0 auto; margin-bottom: 20px !important; padding: 12px;">{{ 'CONFIRMAR' | translate }}</button>
+                            <b>
+                                <p style="color: red; margin-bottom: 5%;" ng-show='!upStatus && !downStatus'>
+                                    {{ 'RAT_ATTENTION' | translate }}</p>
+                            </b>
+                        </div>
+                    </div>
+                    <div class="row" style="font-weight: bold; margin-top: 2%; margin-bottom: 5%; display: none;">
+                        {{ 'RAT_SOMETHING_WENT_WRONG' | translate }} <br /> <a style="cursor: pointer;"
+                            class='corporate-color' ng-click="report()">{{ 'RAT_TELL_US' | translate }}</a>
+                    </div>
+                </div>
+                <div id='medicInfo' class="col-sm-4 without shadow">
+                    <h4 style="font-weight: bold; margin-top: 5%; margin-left: 10px; text-align: left;">
+                        {{ 'SUMMARY' | translate }}
+                    </h4>
+                    <div class="card shadow" style="border-radius:  10px; margin: 10px;">
+                        <br>
+                        <div class="card-body resumen-padding" style="font-weight: bold; border-radius:  10px;"
+                            ng-show="!normalForm">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ 'NOMBRE_PACIENTE' | translate }}</p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtConfirmName" rows="1"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="200" autofocus
+                                    style="font-weight: normal;" ng-model="annotation.confirmName" maxlength="1000"
+                                    ng-trim="false"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="!normalForm">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important; ">
+                                {{ 'PRESCRIPTION' | translate }}</p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtMotive" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="200"
+                                    style="font-weight: normal;" ng-model="annotation.reason" maxlength="1000"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                            <input type="checkbox" name="previous" ng-model="annotation.previous" id="previous"
+                                class="pull-left" ng-change="saveAllNotes()">
+                            <label class="form-check-label pull-left"
+                                for="previous"><b>{{ 'CONSULTED_THIS_REASON' | translate }}</b></label><br><br>
+                        </div>
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.REASON.isVisible">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.REASON.labelTranslate }}</p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtDiagnostic" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="200" autofocus
+                                    style="font-weight: normal;" ng-model="annotation.diagnostic" 
+                                    minlength="{{staticFieldsConfig.REASON.minValue}}"
+                                    maxlength="{{staticFieldsConfig.REASON.maxValue}}"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- INICIO SIGNOS VITALES -->
+                        <div class="card-body resumen-padding" style="font-weight: bold; border-radius:  10px;"
+                            ng-show="staticFieldsConfig.VITAL_SIGNS.isVisible" >
+                                <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important; ">
+                                    {{ staticFieldsConfig.VITAL_SIGNS.labelTranslate }}</p>
+                            
+                                    <div class="row corporate-color history_div" style="text-align: left;"
+                                        tabindex="-1" ng-click='showTemperature=!showTemperature'>
+                                        <i ng-class="!showTemperature ? 'zmdi-plus-circle' : 'zmdi-close-circle'"
+                                        class="zmdi zmdi-hc-2x history_icon"></i>
+                                        <p style="vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{'TEMPERATURE' | translate }}
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="row" ng-show = "showTemperature">
+                                        <input type="text" class="form-control"
+                                        placeholder="{{'TEMPERATURE_VALUE' | translate }}" name="temperature"
+                                        ng-model="annotation.docMedicalVitalSigns.temperature" style="text-align: center; width: 100%;"
+                                        ng-blur="saveAllNotes()">
+                                        <br/>
+                                    </div>
+
+                                    
+
+                                    <div class="row corporate-color history_div" style="text-align: left;"
+                                        tabindex="-1" ng-click='showSaturation=!showSaturation'>
+                                        <i ng-class="!showSaturation ? 'zmdi-plus-circle' : 'zmdi-close-circle'"
+                                        class="zmdi zmdi-hc-2x history_icon"></i>
+                                        <p style="vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{'SATURATION' | translate }}
+                                        </p>
+                                        
+                                    </div>
+                                    
+                                    <div  class="row" ng-show = "showSaturation">
+                                        <input type="text" class="form-control" 
+                                        placeholder="{{'SATURATION_VALUE' | translate }}" name="saturation"
+                                        ng-model="annotation.docMedicalVitalSigns.saturation" style="text-align: center; width: 100%;"
+                                        ng-blur="saveAllNotes()">
+                                        <br/>
+                                    </div>    
+
+                                    
+
+                                    <div class="row corporate-color history_div" style="text-align: left;"
+                                        tabindex="-1" ng-click='showPA=!showPA'>
+                                        <i ng-class="!showPA ? 'zmdi-plus-circle' : 'zmdi-close-circle'"
+                                        class="zmdi zmdi-hc-2x history_icon"></i>
+                                        <p style="vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{ 'PA' | translate }}
+                                        </p>
+                                        
+                                    </div>
+
+                                    <div class="row" ng-show = "showPA">
+                                        <input type="text" class="form-control" 
+                                        placeholder="{{'PA_VALUE' | translate }}" name="pa"
+                                        ng-model="annotation.docMedicalVitalSigns.pa" style="text-align: center; width: 100%;"
+                                        ng-blur="saveAllNotes()">
+                                        <br/>
+                                    </div>
+
+                                    
+
+                                    <div class="row corporate-color history_div" style="text-align: left;"
+                                        tabindex="-1" ng-click='showFR=!showFR'>
+                                        <i ng-class="!showFR ? 'zmdi-plus-circle' : 'zmdi-close-circle'"
+                                        class="zmdi zmdi-hc-2x history_icon"></i>
+                                        <p style="vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{ 'FR' | translate }}
+                                        </p>
+                                        
+                                    </div>
+
+                                    
+                                    <div class="row" ng-show = "showFR">
+                                        <input type="text" class="form-control" 
+                                        placeholder="{{'FR_VALUE' | translate }}" name="fr"
+                                        ng-model="annotation.docMedicalVitalSigns.fr" style="text-align: center; width: 100%;"
+                                        ng-blur="saveAllNotes()">
+                                        <br/>
+                                    </div>
+
+                                    <div class="row corporate-color history_div" style="text-align: left;"
+                                        tabindex="-1" ng-click='showFC=!showFC'>
+                                        <i ng-class="!showFR ? 'zmdi-plus-circle' : 'zmdi-close-circle'"
+                                        class="zmdi zmdi-hc-2x history_icon"></i>
+                                        <p style="vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{ 'HEART_RATE' | translate }}
+                                        </p>
+                                        
+                                    </div>
+
+                                    <div class="row" ng-show = "showFC">
+                                        <input type="text" class="form-control" 
+                                        placeholder="{{'HEART_RATE_VALUE' | translate }}" name="fc"
+                                        ng-model="annotation.docMedicalVitalSigns.fc" style="text-align: center; width: 100%;"
+                                        ng-blur="saveAllNotes()">
+                                        <br/>
+                                    </div>                                    
+
+                                    
+
+                                    <div class="row corporate-color history_div" style="text-align: left;"
+                                        tabindex="-1" ng-click='showGlucometry=!showGlucometry'>
+                                        <i ng-class="!showGlucometry ? 'zmdi-plus-circle' : 'zmdi-close-circle'"
+                                        class="zmdi zmdi-hc-2x history_icon"></i>
+                                        <p style="vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{ 'GLUCOMETRY' | translate }}
+                                        </p>
+                                        
+                                    </div>
+
+                                    <div  class="row" ng-show = "showGlucometry">
+                                        <input type="text" class="form-control" 
+                                        placeholder="{{ 'GLUCOMETRY_VALUE' | translate }}" name="glucometry"
+                                        ng-model="annotation.docMedicalVitalSigns.glucometry" style="text-align: center; width: 100%;"
+                                        ng-blur="saveAllNotes()">
+                                    </div>
+                            <hr class="line-divider" />
+                        </div>
+                        <!-- FIN SIGNOS VITALES -->
+
+
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.HISTORY_DISEASE.isVisible">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.HISTORY_DISEASE.labelTranslate }}
+                            </p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtDiagnosticHistory" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="200" autofocus
+                                    style="font-weight: normal;" ng-model="annotation.diagnosticHistory"
+                                    minlength="{{staticFieldsConfig.HISTORY_DISEASE.minValue}}"
+                                    maxlength="{{staticFieldsConfig.HISTORY_DISEASE.maxValue}}"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                        </div>
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="!normalForm">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ 'RECOMMENDATION' | translate }}
+                            </p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtObservacion" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="201"
+                                    style="font-weight: normal;" ng-model="annotation.observation" maxlength="1000"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                        </div>
+
+
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.MEDICAL_GUIDANCE.isVisible">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.MEDICAL_GUIDANCE.labelTranslate }}
+                            </p>
+                            <div class="background-color">
+                                <div class="row">
+                                    <div class="col-sm-10 " style="padding: 0">
+                                        <div custom-select="p as p.name for p in searchDiseases($searchTerm)"
+                                            custom-select-options="{ 'async': true }" ng-model="newDisease">
+                                            <strong>{{ p.code }}</strong><br />
+                                            <span>{{ p.name }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <i class="fa fa-plus-circle" style="font-size: 30px; color: green"
+                                            ng-click="addDisease(newDisease)" ng-show="newDisease"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 10px;">
+                                <textarea class="form-control" id="txtObservacion" rows="3"
+                                    placeholder="{{ 'CAN_ADD_MORE' | translate }}" tabindex="201"
+                                    style="font-weight: normal;" ng-model="annotation.prescriptionNote"
+                                    minlength="{{staticFieldsConfig.MEDICAL_GUIDANCE.minValue}}"
+                                    maxlength="{{staticFieldsConfig.MEDICAL_GUIDANCE.maxValue}}"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div style="margin-top: 5px" ng-repeat="diseaseObj in annotation.diseaseList">
+                                    <div class="row">
+                                        <div class="col-sm-10"
+                                            style="padding: 0; overflow-wrap: break-word; font-weight: normal; border: 1px solid rgb(0, 0, 0, .2); border-radius: 5px;">
+                                            <div class="card-body" style="padding: 5px; text-align: left;">
+                                                <b>{{diseaseObj.code}}</b> {{diseaseObj.name}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <i class="fa fa-minus-circle" style="font-size: 30px; color: red"
+                                                ng-click="removeDisease(diseaseObj)"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body resumen-padding" style="font-weight: bold;"
+                            ng-show="staticFieldsConfig.DRUGSTORE.isVisible && drugstoreList.length>0">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.DRUGSTORE.labelTranslate }}</p>
+                            <div class="fg-line background-color">
+                                <select
+                                    style="border-style: solid !important; border-width: 1px !important; border-radius: 4px !important; border-color: lightgray !important; font-weight: normal !important"
+                                    ng-model="annotation.drugstore" name="drugstore" tabindex="5" ng-init=""
+                                    class="form-control" ng-change="saveAllNotes()"
+                                    ng-options="item.name for item in drugstoreList track by item.corporateDrugstoreId">
+                                    <option value="" disabled selected>{{ 'SUM_SELECCIONA_OPTION' | translate }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.MEDICAL_RECOMMENDATION.isVisible && appointmentInformation[currentIndex].appointment.profileId.corporateId.enableMonodrug == 0">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.MEDICAL_RECOMMENDATION.labelTranslate }}
+                            </p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtRecommendation" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="202"
+                                    style="font-weight: normal;" ng-model="annotation.recommendation" 
+                                    minlength="{{staticFieldsConfig.MEDICAL_RECOMMENDATION.minValue}}"
+                                    maxlength="{{staticFieldsConfig.MEDICAL_RECOMMENDATION.maxValue}}"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                            <hr class="line-divider" />
+                            <div ng-show="staticFieldsConfigDysplay2.MEDICAMENTOS.isVisible">
+                                <div ng-repeat="medItem in medicalMedicaments">
+                                    <div class="row corporate-color history_div"
+                                         tabindex="-1">
+                                        <p ng-hide="medItem.medicamentName && medItem.treatementDuration" style="width: 100%; vertical-align: super; display: inline-block; font-size: 12px;">&nbsp;</p>
+                                        <p ng-show="medItem.medicamentName && medItem.treatementDuration" style="width: 100%; vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{medItem.medicamentName.description}} ({{medItem.quantityDoses}} {{medItem.presentationType}}(s)) Tomar  {{medItem.quantityDoses}} {{medItem.presentationType}}(s) cada {{medItem.medicineHours}} Horas(s) por {{medItem.treatementDuration}} días.
+                                        </p>
+                                        <i ng-click='showMed[$index]=!showMed[$index]' ng-class="!showMed[$index] ? 'zmdi-edit' : 'zmdi-edit'"
+                                           class="zmdi zmdi-hc-2x custom-medicament-icon"></i>
+                                        <i  ng-click="deleteMedicamentDataItem($index)" ng-class="!showMed[$index] ? 'zmdi-delete' : 'zmdi-delete'"
+                                            class="zmdi zmdi-hc-2x custom-medicament-icon"></i>
+                                    </div>
+                                    <form name="formMed[$index]" ng-show = "!showMed[$index]">
+                                        <div class="form-group">
+                                            <label for="activeIngredient">{{ 'ACTIVE_COMPONENT' | translate }}</label>
+                                            <div name="activeIngredient" required custom-select="p as p.monodrug.monodrugName for p in searchMedicamentByName($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.medicamentName" ng-change="changeMedicamentByName(medItem.medicamentName)">
+                                                <span>{{ p.monodrug.monodrugName }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="medicamentName" >{{ 'DRUG_NAME' | translate }}</label>
+                                            <div name="medicamentName" required custom-select="p as p.description for p in searchMedicamentByDescription($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.medicamentName" >
+                                                <span>{{ p.description }}</span>
+                                            </div>
+                                            <span ng-show="formMed[$index].medicamentName.$dirty && formMed[$index].medicamentName.$invalid">
+                                                            <span ng-show="formMed[$index].medicamentName.$error.required">Requerido.</span>
+                                                        </span>
+                                        </div>
+                                        <!--<div class="form-group" ng-show="medicalRecommendations[4].visible">
+                                            <label for="medicamentCode"  >{{medicalRecommendations[4].componentText}}</label>
+                                            <input name="medicamentCode"  ng-show="medicalRecommendations[3].visible" ng-model="medItem.medicamentName.presentationID" class="form-control" disabled type="text">
+                                            <span ng-show="medItem.medicamentName.presentationID.$dirty && medItem.medicamentName.presentationID.$invalid">
+                                                    <span ng-show="medItem.medicamentName.presentationID.$error.required">Requerido.</span>
+                                                </span>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <label for="presentation">{{ 'PRESENTATION_LABEL_KEY' | translate }}</label>
+                                            <div name="presentation" required custom-select="p as p for p in searchMedicamentPresentation($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.presentation">
+                                                <span>{{ p }}</span>
+                                            </div>
+                                            <span ng-show="formMed[$index].presentation.$dirty && formMed[$index].presentation.$invalid">
+                                                        <span ng-show="formMed[$index].presentation.$error.required">Requerido.</span>
+                                                    </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;" for="quantityActiveIngredient">{{ 'ACTIVE_INGREDIENT_AMOUNT_LABEL_KEY' | translate }}</label>
+                                                <div class="col-sm-5 "  style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityActiveIngredient" class="form-control input-border"
+                                                           ng-model="medItem.quantityActiveIngredient" style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7 " style="padding: 0">
+                                                    <input type="text" name="miligramos" class="form-control" disabled value="Miligramos">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;"  for="quantityDoses">
+                                                    {{ 'DOSE_LABEL_KEY' | translate }}
+                                                </label>
+                                                <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityDoses" ng-model="medItem.quantityDoses" required class="form-control input-border"
+                                                           style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7" style="padding: 0">
+                                                    <div  name="presentationType" required custom-select="p as p for p in searchMedicamentDoses($searchTerm)"
+                                                          custom-select-options="{ 'async': true }" ng-model="medItem.presentationType">
+                                                        <span>{{ p }}</span>
+                                                    </div>
+                                                </div>
+
+                                                <span>
+                                                            <span ng-show="formMed[$index].quantityDoses.$dirty && formMed[$index].quantityDoses.$invalid">
+                                                                <span ng-show="formMed[$index].quantityDoses.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group"  ng-show="medicalRecommendations[14].visible">
+                                            <label for="medicamentType">
+                                                {{medicalRecommendations[14].componentText}}
+                                            </label>
+                                            <div name="medicamentType" required ng-show="medicalRecommendations[15].visible" custom-select="p as p for p in searchMedicamentType($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.medicamentType">
+                                                <span>{{ p }}</span>
+                                            </div>
+                                            <span ng-show="formMed.medicamentType.$dirty && formMed.medicamentType.$invalid">
+                                                    <span ng-show="formMed.medicamentType.$error.required">Requerido.</span>
+                                                </span>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;"  for="medicineHours">{{ 'TIME_BETWEEN_DOSES_LABEL_KEY' | translate }}</label>
+                                                <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="medicineHours" class="form-control input-border" required
+                                                           ng-model="medItem.medicineHours" style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7 " style="padding: 0">
+                                                    <input type="text" name="betweenTime" disabled value="Horas" class="form-control">
+                                                </div>
+                                                <span >
+                                                            <span ng-show="formMed[$index].medicineHours.$dirty && formMed[$index].medicineHours.$invalid">
+                                                                <span ng-show="formMed[$index].medicineHours.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;" for="treatementDuration">
+                                                    {{ 'TREATMENT_DURATION_LABEL_KEY' | translate }}
+                                                </label>
+                                                <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="treatementDuration" class="form-control input-border" required
+                                                           ng-model="medItem.treatementDuration" style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7 " style="padding: 0">
+                                                    <input type="text" name="treatementDurationType" disabled value="Días" class="form-control">
+                                                </div>
+                                                <span ng-show="formMed[$index].treatementDuration.$dirty && formMed[$index].treatementDuration.$invalid">
+                                                            <span ng-show="formMed[$index].treatementDuration.$error.required">Requerido.</span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button
+                                                    ng-disabled="formMed[$index].$invalid"
+                                                    ng-click="getMedicalMedicamentsData($index + 1)" class="btn corporate-button"
+                                                    style="border-style: none; box-shadow: none !important; margin-top: 5px; width: 80%; border-radius: 20px !important; margin: 0 auto;">
+                                                {{ 'GUARDAR' | translate }}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row corporate-color mt-4 mb-4" >
+                                    <p ng-click="addMedicalMedicaments($index + 1)" style="width: 100%; display: inline-block; font-size: 12px; cursor: pointer;">
+                                        <i class="zmdi zmdi-hc-2x zmdi-plus-circle" style="vertical-align: middle"></i>  {{ "ADD_DRUG" | translate }}
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-if="appointmentInformation[currentIndex].appointment.profileId.corporateId.enableMonodrug == 1">
+                                <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                    {{ "RECOMMENDATION" | translate }}
+                                    <!-- {{(appointmentInformation[currentIndex].appointment.profileId.corporateName == "sercomed") ? 'Medicamentos' : (appointmentInformation[currentIndex].appointment.profileId.corporateName == "emergenciasmedicas") ?  'Tratamiento' :  'RECOMMENDATION'  | translate }} -->
+                                </p>
+                            <div ng-show="staticFieldsConfigDysplay2.MEDICAMENTOS.isVisible">
+                                <div ng-repeat="medItem in medicalMedicaments">
+                                    <div class="row corporate-color history_div"
+                                         tabindex="-1">
+                                        <p ng-hide="medItem.medicamentName && medItem.treatementDuration" style="width: 100%; vertical-align: super; display: inline-block; font-size: 12px;">&nbsp;</p>
+                                        <p ng-show="medItem.medicamentName && medItem.treatementDuration" style="width: 100%; vertical-align: super; display: inline-block; font-size: 12px;">
+                                            {{medItem.medicamentName.description}} ({{medItem.quantityDoses}} {{medItem.presentationType}}(s)) Tomar  {{medItem.quantityDoses}} {{medItem.presentationType}}(s) cada {{medItem.medicineHours}} Horas(s) por {{medItem.treatementDuration}} días.
+                                        </p>
+                                        <i ng-click='showMed[$index]=!showMed[$index]' ng-class="!showMed[$index] ? 'zmdi-edit' : 'zmdi-edit'"
+                                           class="zmdi zmdi-hc-2x custom-medicament-icon"></i>
+                                        <i  ng-click="deleteMedicamentDataItem($index)" ng-class="!showMed[$index] ? 'zmdi-delete' : 'zmdi-delete'"
+                                            class="zmdi zmdi-hc-2x custom-medicament-icon"></i>
+                                    </div>
+                                    <form name="formMed[$index]" ng-show = "!showMed[$index]">
+                                        <div class="form-group">
+                                            <label for="activeIngredient">{{ 'ACTIVE_COMPONENT' | translate }}</label>
+                                            <div name="activeIngredient" required custom-select="p as p.monodrug.monodrugName for p in searchMedicamentByName($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.medicamentName" ng-change="changeMedicamentByName(medItem.medicamentName)">
+                                                <span>{{ p.monodrug.monodrugName }}</span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="medicamentName" >{{ 'DRUG_NAME' | translate }}</label>
+                                            <div name="medicamentName" required custom-select="p as p.description for p in searchMedicamentByDescription($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.medicamentName" >
+                                                <span>{{ p.description }}</span>
+                                            </div>
+                                            <span ng-show="formMed[$index].medicamentName.$dirty && formMed[$index].medicamentName.$invalid">
+                                                            <span ng-show="formMed[$index].medicamentName.$error.required">Requerido.</span>
+                                                        </span>
+                                        </div>
+                                        <!--<div class="form-group" ng-show="medicalRecommendations[4].visible">
+                                            <label for="medicamentCode"  >{{medicalRecommendations[4].componentText}}</label>
+                                            <input name="medicamentCode"  ng-show="medicalRecommendations[3].visible" ng-model="medItem.medicamentName.presentationID" class="form-control" disabled type="text">
+                                            <span ng-show="medItem.medicamentName.presentationID.$dirty && medItem.medicamentName.presentationID.$invalid">
+                                                    <span ng-show="medItem.medicamentName.presentationID.$error.required">Requerido.</span>
+                                                </span>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <label for="presentation">{{ 'PRESENTATION_LABEL_KEY' | translate }}</label>
+                                            <div name="presentation" required custom-select="p as p for p in searchMedicamentPresentation($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.presentation">
+                                                <span>{{ p }}</span>
+                                            </div>
+                                            <span ng-show="formMed[$index].presentation.$dirty && formMed[$index].presentation.$invalid">
+                                                        <span ng-show="formMed[$index].presentation.$error.required">Requerido.</span>
+                                                    </span>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;" for="quantityActiveIngredient">{{ 'ACTIVE_INGREDIENT_AMOUNT_LABEL_KEY' | translate }}</label>
+                                                <div class="col-sm-5 "  style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityActiveIngredient" class="form-control input-border"
+                                                           ng-model="medItem.quantityActiveIngredient" style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7 " style="padding: 0">
+                                                    <input type="text" name="miligramos" class="form-control" disabled value="Miligramos">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;"  for="quantityDoses">
+                                                    {{ 'DOSE_LABEL_KEY' | translate }}
+                                                </label>
+                                                <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityDoses" ng-model="medItem.quantityDoses" required class="form-control input-border"
+                                                           style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7" style="padding: 0">
+                                                    <div  name="presentationType" required custom-select="p as p for p in searchMedicamentDoses($searchTerm)"
+                                                          custom-select-options="{ 'async': true }" ng-model="medItem.presentationType">
+                                                        <span>{{ p }}</span>
+                                                    </div>
+                                                </div>
+
+                                                <span>
+                                                            <span ng-show="formMed[$index].quantityDoses.$dirty && formMed[$index].quantityDoses.$invalid">
+                                                                <span ng-show="formMed[$index].quantityDoses.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group"  ng-show="medicalRecommendations[14].visible">
+                                            <label for="medicamentType">
+                                                {{medicalRecommendations[14].componentText}}
+                                            </label>
+                                            <div name="medicamentType" required ng-show="medicalRecommendations[15].visible" custom-select="p as p for p in searchMedicamentType($searchTerm)"
+                                                 custom-select-options="{ 'async': true }" ng-model="medItem.medicamentType">
+                                                <span>{{ p }}</span>
+                                            </div>
+                                            <span ng-show="formMed.medicamentType.$dirty && formMed.medicamentType.$invalid">
+                                                    <span ng-show="formMed.medicamentType.$error.required">Requerido.</span>
+                                                </span>
+                                        </div>-->
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;"  for="medicineHours">{{ 'TIME_BETWEEN_DOSES_LABEL_KEY' | translate }}</label>
+                                                <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="medicineHours" class="form-control input-border" required
+                                                           ng-model="medItem.medicineHours" style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7 " style="padding: 0">
+                                                    <input type="text" name="betweenTime" disabled value="Horas" class="form-control">
+                                                </div>
+                                                <span >
+                                                            <span ng-show="formMed[$index].medicineHours.$dirty && formMed[$index].medicineHours.$invalid">
+                                                                <span ng-show="formMed[$index].medicineHours.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <label style="width: 100%; display: block;" for="treatementDuration">
+                                                    {{ 'TREATMENT_DURATION_LABEL_KEY' | translate }}
+                                                </label>
+                                                <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                    <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="treatementDuration" class="form-control input-border" required
+                                                           ng-model="medItem.treatementDuration" style="text-align: center; width: 100%;" autocomplete="off">
+                                                </div>
+                                                <div class="col-sm-7 " style="padding: 0">
+                                                    <input type="text" name="treatementDurationType" disabled value="Días" class="form-control">
+                                                </div>
+                                                <span ng-show="formMed[$index].treatementDuration.$dirty && formMed[$index].treatementDuration.$invalid">
+                                                            <span ng-show="formMed[$index].treatementDuration.$error.required">Requerido.</span>
+                                                        </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <button
+                                                    ng-disabled="formMed[$index].$invalid"
+                                                    ng-click="getMedicalMedicamentsData($index + 1)" class="btn corporate-button"
+                                                    style="border-style: none; box-shadow: none !important; margin-top: 5px; width: 80%; border-radius: 20px !important; margin: 0 auto;">
+                                                {{ 'GUARDAR' | translate }}
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="row corporate-color mt-4 mb-4" >
+                                    <p ng-click="addMedicalMedicaments($index + 1)" style="width: 100%; display: inline-block; font-size: 12px; cursor: pointer;">
+                                        <i class="zmdi zmdi-hc-2x zmdi-plus-circle" style="vertical-align: middle"></i>  {{ "ADD_DRUG" | translate }}
+                                    </p>
+                                </div>
+                            </div>
+                            <hr class="line-divider" />
+                                <div ng-repeat="medItem in medicalPrescription">
+                                    <div class="row corporate-color history_div d-flex" style="text-align: left;"
+                                                    tabindex="-1">
+                                                    <p ng-hide="medItem.medicamentName && medItem.treatementDuration" style="width: 100%; vertical-align: super; display: inline-block; font-size: 12px;">&nbsp;</p>
+                                                    <p ng-show="medItem.medicamentName && medItem.treatementDuration" style="width: 100%; vertical-align: super; display: inline-block; font-size: 12px;">
+                                                        {{medItem.medicamentName.description}} ({{medItem.quantityDoses}} {{medItem.presentationType}}(s)) Tomar  {{medItem.quantityDoses}} {{medItem.presentationType}}(s) cada {{medItem.medicineHours}} Horas(s) por {{medItem.treatementDuration}} días.
+                                                    </p>
+                                                    <i ng-click='showMed[$index]=!showMed[$index]' ng-class="!showMed[$index] ? 'zmdi-edit' : 'zmdi-edit'"
+                                                    class="zmdi zmdi-hc-2x custom-medicament-icon" style="margin-right: 8px;"></i>
+                                                    <i  ng-click="deletePrescriptionDataItem($index)" ng-class="!showMed[$index] ? 'zmdi-delete' : 'zmdi-delete'"
+                                                    class="zmdi zmdi-hc-2x custom-medicament-icon"></i>
+                                                </div>
+                                                <!-- <form name="formMed" ng-show = "!showMed[$index]">
+                                                    <div class="form-group" ng-show="medicalRecommendations[0].visible">
+                                                        <label for="activeIngredient">{{medicalRecommendations[0].componentText}}</label>
+                                                        <div   name="activeIngredient" required custom-select="p as p.monodrug.monodrugName for p in searchMedicamentByName($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.medicamentName" ng-change="changeMedicamentByName(medItem.medicamentName)">
+                                                            <span>{{ p.monodrug.monodrugName }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" ng-show="medicalRecommendations[2].visible">
+                                                        <label for="medicamentName" >{{medicalRecommendations[2].componentText}}</label>
+                                                            <div required custom-select="p as p.description for p in searchMedicamentByDescription($searchTerm)"
+                                                                custom-select-options="{ 'async': true }" name="medicamentName" id="medicamentID" ng-model="medItem.medicamentName" autofocus>
+                                                                <span>{{ p.description }}</span>
+                                                            </div>                                                                
+                                                            <span ng-show="formMed.medicamentName.$dirty && formMed.medicamentName.$invalid">
+                                                                <span ng-show="formMed.medicamentName.$error.required">Requerido.</span>
+                                                            </span>
+                                                    </div>
+                                                    <div class="form-group" ng-show="medicalRecommendations[4].visible">
+                                                        <label for="medicamentCode"  >{{medicalRecommendations[4].componentText}}</label>
+                                                        <input name="medicamentCode"  ng-show="medicalRecommendations[3].visible" ng-model="medItem.medicamentName.presentationID" class="form-control" disabled type="text">
+                                                        <span ng-show="medItem.medicamentName.presentationID.$dirty && medItem.medicamentName.presentationID.$invalid">
+                                                            <span ng-show="medItem.medicamentName.presentationID.$error.required">Requerido.</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group" ng-show="medicalRecommendations[6].visible">
+                                                        <label for="presentation">{{medicalRecommendations[6].componentText}}</label>
+                                                        <div name="presentation" required custom-select="p as p for p in searchMedicamentPresentation($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.presentation">
+                                                            <span>{{ p }}</span>
+                                                        </div>
+                                                        <span ng-show="formMed.presentation.$dirty && formMed.presentation.$invalid">
+                                                            <span ng-show="formMed.presentation.$error.required">Requerido.</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group"  ng-show="medicalRecommendations[8].visible">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;" for="quantityActiveIngredient">{{medicalRecommendations[8].componentText}}</label>
+                                                            <div class="col-sm-5 "  style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityActiveIngredient" class="form-control" 
+                                                                ng-model="medItem.quantityActiveIngredient" required style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div class="col-sm-7 " style="padding: 0">
+                                                                <input type="text" name="miligramos" class="form-control" disabled value="Miligramos">
+                                                            </div>
+                                                            <span ng-show="formMed.quantityActiveIngredient.$dirty && formMed.quantityActiveIngredient.$invalid">
+                                                                <span ng-show="formMed.quantityActiveIngredient.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <label  ng-show="medicalRecommendations[11].visible" style="width: 100%; display: block;"  for="quantityDoses">
+                                                                {{medicalRecommendations[11].componentText}}
+                                                            </label>
+                                                            <div ng-show="medicalRecommendations[12].visible" class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityDoses" ng-model="medItem.quantityDoses" required class="form-control" 
+                                                                style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div  ng-show="medicalRecommendations[13].visible" class="col-sm-7" style="padding: 0">
+                                                                <div  name="presentationType" required custom-select="p as p for p in searchMedicamentDoses($searchTerm)"
+                                                                    custom-select-options="{ 'async': true }" ng-model="medItem.presentationType">
+                                                                    <span>{{ p }}</span>
+                                                                </div>
+                                                            </div>
+                                                            <span ng-show="medicalRecommendations[13].visible">
+                                                                <span ng-show="formMed.quantityDoses.$dirty && formMed.quantityDoses.$invalid">
+                                                                    <span ng-show="formMed.quantityDoses.$error.required">Requerido.</span>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group"  ng-show="medicalRecommendations[14].visible">
+                                                        <label for="medicamentType">
+                                                            {{medicalRecommendations[14].componentText}}
+                                                        </label>
+                                                        <div name="medicamentType" required ng-show="medicalRecommendations[15].visible" custom-select="p as p for p in searchMedicamentType($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.medicamentType">
+                                                            <span>{{ p }}</span>
+                                                        </div>
+                                                        <span ng-show="formMed.medicamentType.$dirty && formMed.medicamentType.$invalid">
+                                                            <span ng-show="formMed.medicamentType.$error.required">Requerido.</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group" ng-show="medicalRecommendations[16].visible">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;"  for="medicineHours">{{medicalRecommendations[16].componentText}}</label>
+                                                            <div ng-show="medicalRecommendations[17].visible" class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="medicineHours" class="form-control" required
+                                                                ng-model="medItem.medicineHours" style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div ng-show="medicalRecommendations[18].visible" class="col-sm-7 " style="padding: 0">
+                                                                <input type="text" name="betweenTime" disabled value="Horas">
+                                                            </div>
+                                                            <span ng-show="medicalRecommendations[18].visible" >
+                                                                <span ng-show="formMed.medicineHours.$dirty && formMed.medicineHours.$invalid">
+                                                                    <span ng-show="formMed.medicineHours.$error.required">Requerido.</span>
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" ng-show="medicalRecommendations[19].visible">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;" ng-show="medicalRecommendations[17].visible" for="treatementDuration">
+                                                                {{medicalRecommendations[19].componentText}}
+                                                            </label>
+                                                            <div ng-show="medicalRecommendations[20].visible" class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="treatementDuration" class="form-control" required
+                                                                ng-model="medItem.treatementDuration" style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div ng-show="medicalRecommendations[21].visible" class="col-sm-7 " style="padding: 0">
+                                                                <input type="text" name="treatementDurationType" disabled value="Días">
+                                                            </div>
+                                                            <span ng-show="formMed.treatementDuration.$dirty && formMed.treatementDuration.$invalid">
+                                                                <span ng-show="formMed.treatementDuration.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button  
+                                                        ng-disabled="formMed.$invalid" 
+                                                            ng-click="getMedicalPrescriptionData($index + 1)" class="btn corporate-button"
+                                                            style="border-style: none; box-shadow: none !important; margin-top: 5px; width: 80%; border-radius: 20px !important; margin: 0 auto;">
+                                                            Guardar
+                                                        </button>
+                                                    </div>
+                                                </form> -->
+                                                <form name="formMed" ng-show = "!showMed[$index]">
+                                                    <div class="form-group">
+                                                        <label for="activeIngredient"> {{ "MONODRUG" | translate }} </label>
+                                                        <div  ng-show="medicalRecommendations[5].visible" name="activeIngredient" required custom-select="p as p.monodrug.monodrugName for p in searchMedicamentByName($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.medicamentName" ng-change="changeMedicamentByName(medItem.medicamentName)">
+                                                            <span>{{ p.monodrug.monodrugName }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="medicamentName" ng-show="medicalRecommendations[0].visible">{{ "DRUG_NAME" | translate }}</label>
+                                                            <div required ng-show="medicalRecommendations[1].visible" custom-select="p as p.description for p in searchMedicamentByDescription($searchTerm)"
+                                                                custom-select-options="{ 'async': true }" name="medicamentName" id="medicamentID" ng-model="medItem.medicamentName" autofocus>
+                                                                <span>{{ p.description }}</span>
+                                                            </div>                                                                
+                                                            <span ng-show="formMed.medicamentName.$dirty && formMed.medicamentName.$invalid">
+                                                                <span ng-show="formMed.medicamentName.$error.required">{{ "REQUIRED" | translate }}</span>
+                                                            </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="medicamentCode" ng-show="medicalRecommendations[2].visible" >{{ "DRUG_CODE" | translate }}</label>
+                                                        <input name="medicamentCode"  ng-show="medicalRecommendations[3].visible" ng-model="medItem.medicamentName.presentationID" class="form-control" disabled type="text">
+                                                        <span ng-show="medItem.medicamentName.presentationID.$dirty && medItem.medicamentName.presentationID.$invalid">
+                                                            <span ng-show="medItem.medicamentName.presentationID.$error.required">{{ "REQUIRED" | translate }}</span>
+                                                        </span>
+                                                    </div>
+                                                    <!-- <div class="form-group">
+                                                        <label for="activeIngredient" ng-show="medicalRecommendations[4].visible">Ingrediente activo</label>
+                                                        <div  ng-show="medicalRecommendations[5].visible" name="activeIngredient" required custom-select="p as p.monodrug.monodrugName for p in searchMedicamentByName($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.activeIngredient">
+                                                            <span>{{ p.monodrug.monodrugName }}</span>
+                                                        </div>
+                                                        <input name="activeIngredient"  ng-show="medicalRecommendations[3].visible" ng-model="medItem.activeIngredient" ng-attr-id="{{ 'activeIngredient' + $index }}" class="form-control" disabled type="text">
+
+                                                        <span ng-show="formMed.activeIngredient.$dirty && formMed.activeIngredient.$invalid">
+                                                            <span ng-show="formMed.activeIngredient.$error.required">Requerido.</span>
+                                                        </span>
+                                                    </div> -->
+                                                    <!-- <div class="form-group">
+                                                        <label ng-show="medicalRecommendations[6].visible" for="presentation">Presentación</label>
+                                                        <div ng-show="medicalRecommendations[7].visible" name="presentation" required custom-select="p as p for p in searchMedicamentPresentation($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.presentation">
+                                                            <span>{{ p }}</span>
+                                                        </div>
+                                                        <span ng-show="formMed.presentation.$dirty && formMed.presentation.$invalid">
+                                                            <span ng-show="formMed.presentation.$error.required">Requerido.</span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;" ng-show="medicalRecommendations[8].visible" for="quantityActiveIngredient">Cantidad del ingrediente activo</label>
+                                                            <div ng-show="medicalRecommendations[9].visible" class="col-sm-5 "  style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityActiveIngredient" class="form-control" 
+                                                                ng-model="medItem.quantityActiveIngredient" required style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div ng-show="medicalRecommendations[10].visible" class="col-sm-7 " style="padding: 0">
+                                                                <input type="text" name="miligramos" class="form-control" disabled value="Miligramos">
+                                                            </div>
+                                                            <span ng-show="formMed.quantityActiveIngredient.$dirty && formMed.quantityActiveIngredient.$invalid">
+                                                                <span ng-show="formMed.quantityActiveIngredient.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;" ng-show="medicalRecommendations[11].visible" for="quantityDoses">{{ "AMOUNT" | translate }}</label>
+                                                            <div ng-show="medicalRecommendations[12].visible" class="col-sm-12 " style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="quantityDoses" ng-model="medItem.quantityDoses" required class="form-control" 
+                                                                style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <!-- <div  class="col-sm-7" style="padding: 0">
+                                                                <div ng-show="medicalRecommendations[13].visible" name="presentationType" required custom-select="p as p for p in searchMedicamentDoses($searchTerm)"
+                                                                    custom-select-options="{ 'async': true }" ng-model="medItem.presentationType">
+                                                                    <span>{{ p }}</span>
+                                                                </div>
+                                                            </div> -->
+                                                            <span ng-show="formMed.quantityDoses.$dirty && formMed.quantityDoses.$invalid">
+                                                                <span ng-show="formMed.quantityDoses.$error.required">{{ "REQUIRED" | translate }}</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <!-- <div class="form-group">
+                                                        <label for="medicamentType">Vía</label>
+                                                        <div name="medicamentType" required ng-show="medicalRecommendations[14].visible" custom-select="p as p for p in searchMedicamentType($searchTerm)"
+                                                            custom-select-options="{ 'async': true }" ng-model="medItem.medicamentType">
+                                                            <span>{{ p }}</span>
+                                                        </div>
+                                                        <span ng-show="formMed.medicamentType.$dirty && formMed.medicamentType.$invalid">
+                                                            <span ng-show="formMed.medicamentType.$error.required">Requerido.</span>
+                                                        </span>
+                                                    </div> -->
+                                                    <!-- <div class="form-group">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;" ng-show="medicalRecommendations[15].visible" for="medicineHours">Tiempo entre dosis</label>
+                                                            <div class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="medicineHours" class="form-control" required
+                                                                ng-model="medItem.medicineHours" style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div ng-show="medicalRecommendations[16].visible" class="col-sm-7 " style="padding: 0">
+                                                                <input type="text" name="betweenTime" disabled value="Horas">
+                                                            </div>
+                                                            <span ng-show="formMed.medicineHours.$dirty && formMed.medicineHours.$invalid">
+                                                                <span ng-show="formMed.medicineHours.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="row">
+                                                            <label style="width: 100%; display: block;" ng-show="medicalRecommendations[17].visible" for="treatementDuration">Duración del tratamiento</label>
+                                                            <div ng-show="medicalRecommendations[18].visible" class="col-sm-5 " style="padding: 0px 5px 0px 0">
+                                                                <input type="number" onkeydown="return event.keyCode !== 69"  min="0" name="treatementDuration" class="form-control" required
+                                                                ng-model="medItem.treatementDuration" style="text-align: center; width: 100%;" autocomplete="off">
+                                                            </div>
+                                                            <div ng-show="medicalRecommendations[19].visible" class="col-sm-7 " style="padding: 0">
+                                                                <input type="text" name="treatementDurationType" disabled value="Días">
+                                                            </div>
+                                                            <span ng-show="formMed.treatementDuration.$dirty && formMed.treatementDuration.$invalid">
+                                                                <span ng-show="formMed.treatementDuration.$error.required">Requerido.</span>
+                                                            </span>
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="form-group">
+                                                        <button  
+                                                        ng-disabled="formMed.$invalid
+                                                                     " 
+                                                            ng-click="getMedicalPrescriptionData($index + 1)" class="btn corporate-button"
+                                                            style="border-style: none; box-shadow: none !important; margin-top: 5px; width: 80%; border-radius: 20px !important; margin: 0 auto;">
+                                                            {{ 'GUARDAR' | translate }}
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                <div class="row corporate-color" ng-show="$last">
+                                    <p ng-click="addMedicalRecommedation($index + 1)" style="width: 100%; display: inline-block; font-size: 12px; cursor: pointer;">
+                                        <i class="zmdi zmdi-hc-2x zmdi-plus-circle" style="vertical-align: middle"></i>  {{ "ADD_DRUG" | translate }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row corporate-color"  style="text-align: left;" ng-show="medicalPrescription.length == 0 || !medicalPrescription.length">
+                                <p ng-click="addMedicalRecommedation(0)" style="width: 100%; display: inline-block; font-size: 12px; cursor: pointer;">
+                                    <i class="zmdi zmdi-hc-2x zmdi-plus-circle" style="vertical-align: middle"></i>  {{ "ADD_DRUG" | translate }}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.RECOMMENDED_DIAGNOSTIC_STUDIES.isVisible" >
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.RECOMMENDED_DIAGNOSTIC_STUDIES.labelTranslate }} 
+                            </p>
+                            <div class="background-color">
+                                <div class="row">
+                                    <!--ng-if="appointmentInformation[currentIndex].appointment.profileId.corporateName == 'drnn'"-->
+                                    <div >
+                                        <div class="col-sm-10" style="padding: 0">
+                                            <div custom-select="p as p.laboratoryName for p in searchLaboratories($searchTerm,$actualMedicalAppointment.profilePatient.corporateId.corporateId)"
+                                                custom-select-options="{ 'async': true }" ng-model="newLaboratory">
+                                                <strong>{{ p.laboratoryName }}</strong><br />
+                                                <span>{{ p.laboratoryDescription }}</span>
+                                            </div>
+                                            <div  id="additionalInfo" style="display: none; padding: 1em 0;"> 
+                                                <input type="text" ng-model="labAdditionalInfo" placeholder="{{'ANATOMICAL_REGION' | translate}}"
+                                                style="color:black; width: 100%; padding: 0.5em" class="input-border">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2" style="padding-left: 5px !important">
+                                            <i class="fa fa-plus-circle" style="font-size: 30px; color: green"
+                                            ng-click="addDiagnosticStudyLab(newLaboratory)" ng-show="newLaboratory"></i>
+                                        </div>
+                                        </div>
+                                    <div class="col-sm-10 " style="padding: 0">
+                                        <textarea class="form-control fg-line" id="txtDiagnosticStudy" rows="3"
+                                            placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="202"
+                                            style="font-weight: normal;" ng-model="newDiagnosticStudy" maxlength="1000"
+                                            ng-trim="false"></textarea>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <i class="fa fa-plus-circle" style="font-size: 30px; color: green"
+                                            ng-click="addDiagnosticStudy(newDiagnosticStudy)"
+                                            ng-show="newDiagnosticStudy.trim().length>0"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div style="margin-top: 5px" ng-repeat="dStudy in annotation.diagnosticStudy">
+                                    <div class="row">
+                                        <div class="col-sm-10"
+                                            style="padding: 0; overflow-wrap: break-word; font-weight: normal; border: 1px solid rgb(0, 0, 0, .2); border-radius: 5px;">
+                                            <div class="card-body" style="padding: 5px; text-align: left;">
+                                                {{dStudy}}
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-2">
+                                            <i class="fa fa-minus-circle" style="font-size: 30px; color: red"
+                                                ng-click="removeDiagnosticStudy(dStudy)"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.EDUCATIONAL_PLAN.isVisible">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.EDUCATIONAL_PLAN.labelTranslate }}
+                            </p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtEducationalPlan" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="202"
+                                    style="font-weight: normal;" ng-model="annotation.educationalPlan" 
+                                    minlength="{{staticFieldsConfig.EDUCATIONAL_PLAN.minValue}}"
+                                    maxlength="{{staticFieldsConfig.EDUCATIONAL_PLAN.maxValue}}"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                        </div>
+                        <div class="card-body resumen-padding" style="font-weight: bold;"
+                            ng-show="staticFieldsConfig.CERTIFICATE.isVisible && annotation.appointment.profileId.corporateName == 'sercomed'">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.CERTIFICATE.labelTranslate }} </p>
+                            <div class="fg-line background-color">
+                                <textarea class="form-control" id="txtCertificate" rows="3"
+                                    placeholder="{{ 'PLEASE_FILL' | translate }}" tabindex="202"
+                                    style="font-weight: normal;" ng-model="annotation.certificate"
+                                    minlength="{{staticFieldsConfig.CERTIFICATE.minValue}}"
+                                    maxlength="{{staticFieldsConfig.CERTIFICATE.maxValue}}"
+                                    ng-trim="false" ng-blur="saveAllNotes()"></textarea>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="card-body resumen-padding" style="font-weight: bold;" ng-show="staticFieldsConfig.FOLLOW_UP.isVisible && !appointmentInformation[currentIndex].isScheduled">
+                            <p class="corporate-color" style="text-align: left; margin-bottom: 5px !important;">
+                                {{ staticFieldsConfig.FOLLOW_UP.labelTranslate }}
+                            </p>
+                            <div class="fg-line background-color">
+                                <div class="row">
+                                    <div class="col-sm-10" style="padding: 0">
+                                        <div class="custom-select" custom-select="s.value as s.name for s in followupHourList | filter: { name: $searchTerm }" ng-model="annotation.followupTime" ng-change="saveAllNotes()">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2" style="padding-left: 5px !important">
+                                        <i class="fa fa-times-circle corporate-color" style="font-size: 30px;"
+                                        ng-click="clearFollowup()" ng-show="annotation.followupTime"></i>
+                                    </div>
+                                </div>
+                                <div class="row" style="margin-top: 10px;">
+                                    <textarea type="text" class="form-control input-border" tabindex="0" style="font-weight: normal"
+                                        ng-disabled="remainingSeconds<=0 || !annotation.followupTime" name="followupReason"
+                                        ng-model="annotation.followup.reason" id="followupReason" rows="4"
+                                        placeholder="{{ 'PLEASE_FILL' | translate }}" ng-blur="saveAllNotes()"
+                                        minlength="{{staticFieldsConfig.FOLLOW_UP.minValue}}"
+                                        maxlength="{{staticFieldsConfig.FOLLOW_UP.maxValue}}"
+                                        ></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-class="(queueList.length>0?'col-sm-2':'hidden')" style="height: 100vh; padding: 0" ng-if="queueList && queueList.length>0">
+            <div class="row" align="center">
+                <div class="col-sm-12 without shadow" style="height: 100vh">
+                    <div class="row corporate-background" style="height: 10vh;">
+                        <div class="col-sm-12" style="padding: 20px; text-align: center;">
+                            <h3 style="color: white">
+                                <i class="fa fa-info-circle"></i>
+                                <strong>{{ 'GENERAL_ATTENTION' | translate }}</strong>
+                            </h3>
+                        </div>
+                    </div>
+                    <div style="max-height: 90vh; overflow-y: scroll; width: 100% !important;">
+                        <div style="text-align: center; padding: 10px">
+                            <h4 style="font-weight: bold;" style="text-align: center;">
+                                {{ 'HAS_PENDING' | translate }}
+                            </h4>
+                        </div>
+                        <div class="row">
+                            <div class="card" style="border-radius:  10px; margin: 10px;"
+                                ng-repeat="queue in queueList">
+                                <div class="card-body shadow"
+                                    style="border-radius:  10px; padding: 10px; text-align: center;">
+                                    <span><b>{{queue.patientName}}</b></span>
+                                    <br>
+                                    <span style="font-size: 25px">
+                                        <div style="display: inline-block;" ng-if="queue.corporateName">
+                                            <img ng-src="../css/brands/{{queue.corporateName}}/tabicon.png"
+                                                style="width: 25px" >
+                                            <i ng-show="queue.serviceTypeId == 1" class="fa fa-comments"></i>
+                                            <i ng-show="queue.serviceTypeId == 2" class="fa fa-video-camera"></i>
+                                            <i ng-show="queue.serviceTypeId == 3" class="fa fa-phone"></i>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .medic {
+        padding-top: 0px !important;
+        background-color: #fff;
+    }
+
+    .without {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    #PatientInfo {
+        background-color: #f6f7f7;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    #medicInfo {
+        background-color: #f6f7f7;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .patInfo {
+        text-align: center;
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    .shadow {
+        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2), 0px 2px 2px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.14) !important;
+    }
+
+    .shadowCenter {
+        box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2), 0px 2px 2px rgba(0, 0, 0, 0.12), 0px 0px 2px rgba(0, 0, 0, 0.14) !important;
+    }
+
+    .line-divider {
+        border-color: rgba(0, 0, 0, 0.32);
+        opacity: 20%;
+        border-width: 1px;
+    }
+
+    .videoBackground {
+        height: 100%;
+        background-color: #fff !important;
+    }
+
+    .badStatus {
+        margin-top: 5%;
+    }
+
+    .goodStatus {
+        margin-top: 10%;
+    }
+
+    .resumen-padding {
+        padding: 10px 25px 10px 25px;
+    }
+
+    .form-control {
+        white-space: pre-line !important;
+    }
+
+    .bootstrap-select {
+        border-radius: 10px !important;
+    }
+
+    .dropdown-toggle {
+        border-radius: 5px;
+    }
+
+    .issue-report {
+        -webkit-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.75) !important;
+        -moz-box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.75) !important;
+        box-shadow: 0px 0px 5px -1px rgba(0, 0, 0, 0.75) !important;
+        font-weight: normal;
+        border-radius: 10px;
+        padding: 10px !important;
+
+    }
+
+    .filter-option-inner-inner {
+        text-transform: lowercase;
+    }
+
+    .filter-option-inner-inner::first-letter {
+        text-transform: capitalize;
+    }
+
+    .resumen-padding>p.corporate-color {
+        border-bottom: 1px solid;
+    }
+
+    textarea,
+    select {
+        padding: 5px !important;
+    }
+
+    hr {
+        margin-top: 10px;
+        margin-bottom: 5px;
+    }
+</style>

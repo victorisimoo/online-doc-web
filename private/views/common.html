@@ -1,0 +1,23 @@
+<header id="header" data-current-skin="" data-ng-include style="background: white;"
+        src="'template/header.html'" data-ng-controller="headerCtrl as hctrl" ng-show="showHeader == 1">
+</header>
+
+<header id="header" data-current-skin="" data-ng-include style="background: white;"
+        src="'template/profileHeader.html'" data-ng-controller="headerCtrl as hctrl" ng-show="showHeader == 2">
+</header>
+
+<header id="header" data-current-skin="" data-ng-include style="background: white;"
+        src="'template/callHeader.html'" data-ng-controller="headerCtrl as hctrl" ng-show="showHeader == 3">
+</header>
+
+<header id="header" data-current-skin="" data-ng-include style="background: white;"
+        src="'template/subscriptionHeader.html'" data-ng-controller="headerCtrl as hctrl" ng-show="showHeader == 5">
+</header>
+
+<section id="main">
+    <section id="content" class="page-view" data-ui-view></section>
+</section>
+
+<footer id="footer" ng-show="showFooter" data-ng-include src="'template/footer.html'"></footer>
+
+

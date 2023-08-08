@@ -1,0 +1,59 @@
+/* GLOBAL VARIABLES FOR CORPORATION MAIN AND SECONDARY COLORS */
+:root {
+	--main-color: #0D5895;
+	--secondary-color:#BAD755;
+}
+/* END GLOBAL VARIABLES */
+
+
+
+#PatientInfo div div img {
+    max-height:200px !important;
+    width: 50% !important;
+    max-width: 100% !important;
+}
+
+.corporate-background{
+    background-color: var(--main-color) !important;
+}
+
+.corporate-color{
+    color: var(--main-color) !important;
+}
+
+.bd-callout-warning {
+    border-left-color: var(--main-color) !important;
+}
+
+.corporate-button{
+    background-color: var(--main-color) !important;
+	border-radius: 10px;
+	color: #FFF !important;
+	border-bottom: 5px solid var(--main-color);
+	font-weight: bold;
+}
+
+.opposite-color{
+    color: #FFF !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: var(--main-color);
+}
+
+.fg-line:not([class*=has-]):after {
+    background: var(--main-color) !important;
+}
+
+.form-control:focus{
+    border-color: var(--main-color) !important;
+}
+
+:root{
+    --corporate-color : #203c65;
+}

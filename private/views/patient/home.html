@@ -1,0 +1,696 @@
+<div class="container" ng-controller="patientCtrl" data-ng-init="showReconection()" ng-class="admdron.corporateInformation.attentionPlan == 3 ? 'footerPadding':''">
+  <div class="modal fade" id="successModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content modal-content-success">
+        <div class="modal-header">
+          <div id="brand-header" class="text-center">
+            <img class="i-logo text-center" id="logo-success" src="../css/brands/{{globalBrand}}/logo.png" alt="" />
+          </div>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-3">
+              <p class="dialog-logo">
+                <i class="fa fa-check-circle-o" style="font-size: 96px;"></i>
+              </p>
+            </div>
+            <div class="col-md-9" style="text-align: center;">
+              <h2>{{ 'LOGIN_CORRECT_VALUES' | translate }}</h2>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="btn-cerrar" type="button" class="btn btn-xs btn-success" data-dismiss="modal">
+            {{ 'CERRAR' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row"
+    ng-hide="hasQueue || hasInvitation || isOnCall || (disableAppointment && $root.corpAttentionType == 1)">
+    <div class="col-12" align="center">
+      <h3>{{ 'BIENVENIDO' | translate }}</h3>
+      <h1>
+        <strong>{{currentUser}}</strong>
+      </h1>
+      <br />
+    </div>
+  </div>
+
+  <!-- INICIO BLOQUE SOLICITAR CONSULTA -->
+  <div class="row"
+    
+    style="text-align: center;">
+    <h3 ng-hide="outOfAttentionTime || ($root.corpAttentionType == 2)">
+      {{ 'MENS_ELECCION' | translate }}
+    </h3>
+    <h3 ng-show="$root.corpAttentionType == 2 && termsAccepted == 0 && !((queueInformation.scheduled.first && !isOnCall) || hasQueue || hasInvitation) && ((videoCompatibility && queueInformation.scheduled.first.serviceTypeId === 1) || (chatCompatibility && queueInformation.scheduled.first.serviceTypeId === 2 ))">
+      {{  'NO_SCHEDULE' | translate }}
+    </h3>
+    <div class="row d-flex" style="flex-wrap: wrap;">
+      <div ng-show="videoCompatibility"
+           ng-if="admdron.corporateInformation.attentionPlan != 4 && admdron.corporateInformation.attentionPlan != 2"
+           ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell'? 'col-lg-6' : 'col-sm-auto'"
+      ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+      >
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <!-- <h2>{{ 'VIDEOLLAMADA' | translate }}</h2> -->
+            <br /><br />
+            <div id="tooltipVivawellNotUseVideo" ng-show="admdron.parentCorporateInformation.corporateName == 'vivawell'" class="tooltip-custom" ng-bind-html="myHtmlTooltipNotUse"></div>
+            <button ng-click="initVideoCallAppointment()" class="btn btn-action btn-action-touch" id="tooltipVivawellNotUseIdentifierVideo" ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell' ? 'not-allowed' : ''">
+              <i class="fa fa-video-camera" style="font-size: 48px;"></i> <br />
+              {{ 'HAZ_VIDEO' | translate }} <br />
+              {{ 'AHORA' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div ng-hide="videoCompatibility" ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell'? 'col-lg-6' : 'col-sm-auto'"
+      ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+      >
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <h2>
+              <!-- <strong>{{ 'VIDEOLLAMADA' | translate }}</strong> -->
+            </h2>
+            <br /><br />
+            <i class="fa fa-frown-o text-corporate" style="font-size: 90px;"></i>
+            <br />
+            <strong>{{ 'NAVEGADOR_NO_COMPATIBLE' | translate }}</strong>
+          </div>
+        </div>
+      </div>
+      <div ng-show="chatCompatibility "
+           ng-if="admdron.corporateInformation.attentionPlan != 4  && admdron.corporateInformation.attentionPlan != 2"
+           ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell'? 'col-lg-6' : 'col-sm-auto'"
+      ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+      >
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <!-- <h2>{{ 'CHAT' | translate }}</h2> -->
+            <br /><br />
+            <div id="tooltipVivawellNotUseChat" ng-show="admdron.parentCorporateInformation.corporateName == 'vivawell'" class="tooltip-custom" ng-bind-html="myHtmlTooltipNotUse"></div>
+            <button ng-click="initChatAppointment()" class="btn btn-action btn-action-touch" id="tooltipVivawellNotUseIdentifierChat" ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell' ? 'not-allowed' : ''">
+              <i class="fa fa-comments" style="font-size: 48px;"></i> <br />
+              {{ 'HAZ_CHAT' | translate }} <br />
+              {{ 'AHORA' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div ng-hide="chatCompatibility" ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell'? 'col-lg-6' : 'col-sm-auto'"
+      ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+      >
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <!-- <h2><strong>{{ 'CHAT' | translate }}</strong></h2> -->
+            <br /><br />
+            <i class="fa fa-frown-o text-corporate" style="font-size: 90px;"></i>
+            <br />
+            <strong>{{ 'NAVEGADOR_NO_COMPATIBLE' | translate }}</strong>
+          </div>
+        </div>
+      </div>
+      <!--<div ng-class="admdron.parentCorporateInformation.corporateName == 'vivawell'? 'col-lg-6' : 'col-sm-auto'"
+      ng-if="admdron.corporateInformation.attentionPlan == 3 && $root.showChangeAttendance &&
+      admdron.parentCorporateInformation.corporateName == 'drnn' || admdron.parentCorporateInformation.corporateName == 'drtui' || admdron.parentCorporateInformation.corporateName == 'metlife' ||  admdron.parentCorporateInformation.corporateName == 'vivawell'"
+      ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"  
+      style="text-align: center; padding: 10px;">-->
+      <div ng-class="admdron.parentCorporateInformation.corporateName != 'drnn'? 'col-lg-6' : 'col-sm-auto'"
+        ng-if="enableCalendar == 1
+        && admdron.activeMember != 0
+        && $root.showChangeAttendance
+        && admdron.parentCorporateInformation.corporateName != 'drnn'"
+        ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+      style="text-align: center; padding: 10px;">
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <!-- <h2>{{ 'APPOINTMENT' | translate }}</h2> -->
+            <br /><br />
+            <button class="btn btn-action btn-action-touch" ng-click="goCalendar()">
+              <i class="fa fa-calendar-check-o" style="font-size: 48px;"></i> <br />
+              {{ 'BOOK_YOUR_APPOINTMENT' | translate }} <br />
+              {{ 'AHORA' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div ng-class="admdron.parentCorporateInformation.corporateName != 'drnn'? 'col-lg-6' : 'col-sm-auto'"
+        ng-if="admdron.parentCorporateInformation.corporateName == 'drnn'
+        && admdron.activeMember != 0
+        && $root.showChangeAttendance"
+        ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+      style="text-align: center; padding: 10px;">
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <!-- <h2>{{ 'APPOINTMENT' | translate }}</h2> -->
+            <br /><br />
+            <button class="btn btn-action btn-action-touch" data-toggle="modal" data-target="#exampleModal">
+              <i class="fa fa-calendar-check-o" style="font-size: 48px;"></i> <br />
+              {{ 'BOOK_YOUR_APPOINTMENT' | translate }} <br />
+              {{ 'AHORA' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div ng-class="showCTAforMaps == 1? 'col-lg-6' : 'col-sm-auto'" 
+      ng-if="showCTAforMaps == 1" 
+      ng-hide="$root.corpAttentionType == 2 || ((hasQueue || hasInvitation || isOnCall || disableAppointment  || outOfAttentionTime) && $root.corpAttentionType == 1) || queueInformation.followup.first || !finishedFindingQueue"
+        style="text-align: center; padding: 10px;">
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <br /><br />
+            <button class="btn btn-action btn-action-touch" ng-click="changePharmacy()">
+              <i class="zmdi zmdi-local-pharmacy" style="font-size: 48px;"></i> <br />
+              {{ 'TITLE_PHARMACY' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Inicio citas de seguimiento  -->
+
+  <div class="row" ng-show="$root.corpAttentionType == 1 && queueInformation.followup.first && (!hasQueue && !isOnCall)" style="margin: 5px;">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card" style="margin-bottom: 0; border-radius: 10px;">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12" style="text-align: center;">
+                    <h4 style="text-align: center; font-weight: bold;" class="text-corporate">{{ 'HAS_FOLLOWUP' | translate }}</h4>
+                    <h5 ng-bind-html="queueInformation.followup.first.reason.replaceAll('\n','<br>')"></h5>
+                    <h4>{{queueInformation.followup.first.patientName}}</h4>
+                    <h4>
+                      <b>{{queueInformation.followup.first.scheduledDate | date: 'dd/MM/yyyy hh:mm a'}}</b>
+                    </h4>
+                    <h4>
+                      <b>{{queueInformation.followup.first.speciality}}</b>
+                    </h4>                    
+                    <h5 style="margin: 10px; padding: 10px">{{queueInformation.followup.first.message}}</h5>                    
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="row text-center"
+    style="background-color: white; padding: 20px; margin: 10px; border-radius: 10px;box-shadow: 0px 0px 5px rgba(0,0,0,0.2);"
+    ng-show="$root.corpAttentionType == 1 && queueInformation.followup.first.doctorAvailable && termsAccepted == 0 && !isOnCall && !hasQueue && !hasInvitation">
+    <div class="col-md-12">
+      <p style="font-size: 2rem;">
+        {{ 'SCHEDULED_CONDITIONS' | translate }}
+        <a ng-href="{{corporateName}}-terminosycondiciones.php" target="blank">{{ 'TERMS_AND_CONDITIONS' | translate }}</a>
+      </p>
+      <div class="input-group m-b-20" style="margin: 0 auto;">
+        <button style="min-height: 45px; white-space: normal;" type="button" ng-click="termsAccepted = 1;" class="btn btn-action">
+          {{ 'ACCEPT_TERMS_AND_CONDITIONS' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" style="margin: 10px;" ng-show="queueInformation.followup.followupList.length>0 && $root.corpAttentionType == 1 && !isOnCall && !hasQueue && !hasInvitation">
+      <div class="col-sm-10 col-sm-offset-1">
+        <h4 style="text-align: center;"><b>{{ 'FOLLOWUP_APPOINTMENT_TABLE_TITLE' | translate }}</b></h4>
+        <div class="table-responsive scheduleTable">
+          <table class="table smallTextSize">
+            <thead>
+              <tr style="text-transform: initial !important;">
+                <th>#</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_PATIENT' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_SPECIALITY' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'MOTIVO' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_DATE' | translate }}</th>
+                <th style="text-transform: initial !important; text-align: center;">{{ 'ACTION_APPOINTMENT' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="obj in queueInformation.followup.followupList">
+                <th style="padding: 25px;" scope="row">{{$index+1}}</th>
+                <td style="padding: 25px;">{{obj.patientName}}</td>
+                <td style="padding: 25px;">{{obj.speciality}}</td>
+                <td style="padding: 25px;" ng-bind-html="obj.reason.replaceAll('\n','<br>')"></td>
+                <td style="padding: 25px;">
+                  <b>{{obj.scheduledDate | date: 'dd/MM/yyyy hh:mm a'}}</b>
+                </td>
+                <td style="text-align: center;">
+                  <button style="min-height: 45px; white-space: normal;" type="button" ng-click="cancelFollowup(obj.followupId)" class="btn btn-default btn-sm">
+                    {{ 'CANCEL_FOLLOWUP' | translate }}
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+  </div>
+
+  <!-- Fin citas de seguimiento  -->
+
+  <!-- ACEPTAR TÉRMINOS Y CONDICIONES -->
+  <div class="row text-center"
+    style="background-color: white;padding: 5%;border-radius: 40px;box-shadow: 0px 0px 5px rgba(0,0,0,0.2);margin-bottom: 30px;"
+    ng-show="$root.corpAttentionType == 2 && termsAccepted == 0 && ((queueInformation.scheduled.first && !isOnCall) || hasQueue || hasInvitation) && ((videoCompatibility && queueInformation.scheduled.first.serviceTypeId === 1) || (chatCompatibility && queueInformation.scheduled.first.serviceTypeId === 2 ))">
+    <div class="col-md-12">
+      <p style="font-size: 3rem;">
+        {{ 'SCHEDULED_CONDITIONS' | translate }}
+        <a ng-href="{{corporateName}}-terminosycondiciones.php" target="blank">{{ 'TERMS_AND_CONDITIONS' | translate }}</a>
+      </p>
+      <div class="input-group m-b-20" style="margin: 0 auto;">
+        <button style="min-height: 45px;" type="button" ng-click="termsAccepted = 1;" class="btn btn-action">
+          {{ 'ACCEPT_TERMS_AND_CONDITIONS' | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- FIN ACEPTAR TÉRMINOS Y CONDICIONES -->
+  <div class="modal fade bd-example-modal-lg" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{'SCHEDULER_DIALOG_TITLE' | translate}}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+              <div class="row" ng-show="termsAccepted === 1">
+                <div class="col-sm-12" style="text-align: center;">
+                  <h3>
+                    {{queueInformation.scheduled.message}}
+                  </h3>
+                </div>
+              </div>
+              <div class="row" ng-show="queueInformation.scheduled.indications" style="margin: 15px;">
+
+                <div class="col-sm-4">
+                  <img src="img/doctor-desk.png" style="width: 100%;" />
+                </div>
+                <div class="col-sm-8" ng-bind-html="queueInformation.scheduled.indications" style="font-size: 16px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-hide="($root.corpAttentionType == 1) || (hasQueue || isOnCall)">
+    <div class="row" ng-show="queueInformation.scheduled.first && termsAccepted === 1" style="margin: 5px;">
+      <div class="col-sm-6 col-sm-offset-3">
+        <div class="row">
+          <div class="col-sm-12">
+            <div class="card" style="margin-bottom: 0; border-radius: 10px;">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-sm-12" style="text-align: center;">
+                    <h4 style="text-align: center; font-weight: bold;" class="text-corporate">{{ 'SCHEDULED_APPOINTMENT_TITLE' | translate }}</h4>
+                    <h2 ng-show="queueInformation.scheduled.first.waitingSeconds">
+                      <b><i
+                          class="zmdi zmdi-timer"></i>{{getTimeString(queueInformation.scheduled.first.waitingSeconds)}}</b>
+                    </h2>
+                    <h4>{{queueInformation.scheduled.first.patientName}}</h4>
+                    <h4>
+                      <b>{{queueInformation.scheduled.first.scheduledDate | date: 'dd/MM/yyyy hh:mm a'}}</b>
+                    </h4>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-4 col-sm-offset-4">
+                    <div class="picDiv" ng-if="currentDoctor.doctorFiles != undefined" style="background-image: url('{{currentDoctor.doctorFiles.photoURL}}')"></div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12" style="text-align: center;">
+                    <h4>
+                      <b>{{queueInformation.scheduled.first.doctorName}}</b>
+                    </h4>
+                    <h5>{{queueInformation.scheduled.first.speciality}}</h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" style="margin: 10px;"
+      ng-show="queueInformation.scheduled.scheduled && queueInformation.scheduled.scheduled.length > 0 && termsAccepted == 1">
+      <div class="col-sm-10 col-sm-offset-1">
+        <h4 style="text-align: center;"><b>{{ 'SCHEDULED_APPOINTMENT_TABLE_TITLE' | translate }}</b></h4>
+        <div class="table-responsive scheduleTable">
+          <table class="table smallTextSize">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_PATIENT' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_DOCTOR' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_SPECIALITY' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_TYPE' | translate }}</th>
+                <th style="text-transform: initial !important;">{{ 'SCHEDULED_APPOINTMENT_TABLE_DATE' | translate }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="obj in queueInformation.scheduled.scheduled">
+                <th scope="row">{{$index+1}}</th>
+                <td>{{obj.patientName}}</td>
+                <td>{{obj.doctorName}}</td>
+                <td>{{obj.speciality}}</td>
+                <td>{{obj.serviceType}}</td>
+                <td>
+                  <b>{{obj.scheduledDate | date: 'dd/MM/yyyy hh:mm a'}}</b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- BLOQUE QUE MUESTRA MENSAJE QUE NUESTROS SERVICIOS NO SON COMPATIBLES CON EL NAVEGADOR -->
+  <div class="row" ng-show="(!queueInformation.scheduled && (!chatCompatibility || !videoCompatibility)) || (queueInformation.scheduled.first.serviceType === 'Videollamada' && (!chatCompatibility || !videoCompatibility))" style="margin-bottom: 15px;">
+    <div class="col-sm-8 offset-6 col-sm-offset-2">
+      <div class="card-trans" align="center">
+        <div class="card-header corporate" style="border-radius: 10px; color: white;">
+          <strong style="color: white; font-size: 15px;">{{ 'NO_COMPATIBLE_TITLE' | translate }}</strong><br />
+          <span ng-bind-html="compatibilityMessage"></span>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAJE CUANDO EL PACIENTE INICIA SESIÓN Y ESTÁ FUERA DEL TIEMPO DE ATENCIÓN DE LA CORPORACIÓN -->
+  <div class="row" ng-show="outOfAttentionTime" style="text-align: center;">
+    <div class="col-sm-8 offset-6 col-sm-offset-2">
+      <div class="card-trans" align="center" style="min-height: 200px;">
+        <div class="card-header corporate" style="border-radius: 10px;">
+          <h3 style="color: white;">{{outOfAttentionTime}}</h3>
+          <h3 style="color: white;">{{phoneInfo}}</h3>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE DE MENSAJES RETAIL -->
+  <div class="row h-100" ng-show="disableAppointment && !hasQueue && !isOnCall && $root.corpAttentionType == 1">
+    <div class="col-lg-10 col-lg-offset-1 col-md-8 col-md-offset-2 col-sm-12"
+      ng-show="remainingAppointments == 0">
+      <div class="card" align="center" style="min-height: 200px;">
+        <div class="card-header">
+          <div ng-show="isDoctorOnline || isDoctorVirtual">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div ng-show="isDoctorOnline">
+                  <img src="../img/Doctor_Dispositivos.png" class="img-fluid" alt=""
+                  style="max-width: 100%; height: auto;" />
+                </div>
+                <div ng-show="isDoctorVirtual">
+                  <img src="../img/DoctorVirtual_Dispositivos.png" class="img-fluid" alt=""
+                  style="max-width: 100%; height: auto;" />
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <h3 style="text-align: center; margin-bottom: 2%;">
+                  {{ 'LO_SENTIMOS' | translate }}
+                </h3>
+                <h5 style="text-align: justify; font-size: 15px;">
+                  {{'NOT_SUSCRIPTION_ACTIVE' | translate}}
+                </h5>
+                <h5 style="text-align: justify; font-size: 15px;">
+                  <div ng-show="isDoctorOnline">
+                    Por <b>${{pricePlan}}/mes</b> puedes disfrutar de muchos más beneficios para ti y tu familia.
+                  </div>
+                  <div ng-show="!isDoctorOnline">
+                    {{'SUCRIPTION_CONDITION' | translate}} <b>{{pricePlan}}</b> {{'SUCRIPTION_BENEFITS' | translate}}
+                  </div>      
+                </h5>
+                <div style="text-align: left;">
+                  <!--<p style="margin-bottom: 5px;">Algunos de nuestros beneficios son: </p>-->
+                  <ul class="checkedlist" style="padding: 0px; margin-bottom: 15px;">
+                    <li class="bulletPay">Orientaciones ilimitadas</li>
+                    <li class="bulletPay">Atención 24/7</li>
+                    <li class="bulletPay">
+                      Envío de recomendaciones médicas via email
+                    </li>
+                  </ul>
+                </div>
+                <div ng-show="isDoctorOnline || isDoctorVirtual" style="text-align: end;">
+                  <button style="margin-bottom: 15px; min-height: 45px;" ng-click="registerForm()"
+                    class="btn btn-action">
+                    Suscríbete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div ng-show="isMiDoctor || isCruzBlanca">
+            <i class="fa fa-frown-o text-corporate" style="font-size: 68px;"></i>
+            <h4>{{ 'LO_SENTIMOS' | translate }}</h4>
+            <h3>Ya no cuentas con más orientaciones médicas disponibles</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-8 offset-6 col-sm-offset-2" ng-show="userStatus==false">
+      <div class="card-trans" align="center" style="min-height: 200px;">
+        <div class="card-header">
+          <i class="fa fa-frown-o text-corporate" style="font-size: 68px;"></i>
+          <h4>{{ 'LO_SENTIMOS' | translate }}</h4>
+          <h3>Tu subscripción ha finalizado</h3>
+          <br />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MENSAJE DE CALLBACK, CON TIEMPO DE ESPERA -->
+  <div ng-hide="$root.corpAttentionType == 2 && isOnCall && termsAccepted == 0">
+    <div class="row" ng-hide="!hasQueue">
+      <div class="col-sm-8 offset-6 col-sm-offset-2">
+        <div class="card-trans" align="center" style="min-height: 200px;">
+          <div class="card-header">
+            <i class="fa fa-info-circle" style="font-size: 48px;"></i>
+            <h4>{{ 'HAS_QUEUE' | translate }}</h4>
+            <h2 ng-show="queueInformation.queueInformation.timeEstimated != 0">
+              {{ 'QUEUE_WAITING_MESSAGE' | translate }}
+            </h2>
+            <h3 ng-show="queueInformation.queueInformation.timeEstimated != 0">
+              <strong>{{queueInformation.queueInformation.timeEstimated}} {{ 'MINUTES_MESSAGE' | translate }}</strong>
+            </h3>
+            <h3 ng-show="queueInformation.queueInformation.timeEstimated == 0">
+              <strong>{{ 'IN_A_MOMENT' | translate }}</strong>
+            </h3>
+            <b>{{ 'PACIENTE' | translate }}:</b>
+            {{queueInformation.appointment.profileId.admPerson.firstName+'
+            '+queueInformation.appointment.profileId.admPerson.lastName }}<br />
+            <b>{{ 'ESPECIALIDAD_A_CONSULTAR' | translate }}:</b>
+            {{queueInformation.appointment.docSpecialityId.name}}
+            <br /><br />
+            <button class="btn btn-action btn-md btn-cancel" ng-click="cancelQueue()">
+              {{ 'CANCELAR_CONS' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- MENSAJE DE INVITACIÓN POR CONSULTA FALLIDA (DESHABILITAR PARA CONSULTAS SOLICITADAS) -->
+
+  <div class="row" ng-hide="!hasInvitation || disableAppointment">
+    <div class="col-sm-8 offset-6 col-sm-offset-2">
+      <div class="card-trans" align="center" style="min-height: 200px;">
+        <div class="card-header">
+          <i class="fa fa-frown-o" style="font-size: 60px;"></i>
+          <h3>{{ 'OOPS_LABEL' | translate }}</h3>
+          <h4 ng-show="queueInformation.invitation.reason==0">
+            {{ 'PATIENT_UNAVAILABLE_INVITACION' | translate }}
+          </h4>
+          <h4 ng-show="queueInformation.invitation.reason==1">
+            {{ 'ERROR_INVITACION' | translate }}
+          </h4>
+          <h4 ng-show="queueInformation.invitation.reason==2">
+            {{ 'PATIENT_CANCELED' | translate }}
+          </h4>
+          <b>{{ 'PACIENTE' | translate }}:</b>
+          {{queueInformation.invitation.patProfile.admPerson.firstName+'
+          '+queueInformation.invitation.patProfile.admPerson.lastName}}<br />
+          <b>{{ 'ESPECIALIDAD' | translate }}:</b>
+          {{queueInformation.invitation.specialityId.name }}<br />
+          <b>{{ 'TIPO_CONS' | translate }}:</b>
+          {{queueInformation.invitation.serviceTypeId == 1 ? 'CHAT' :
+          queueInformation.invitation.serviceTypeId == 2 ? 'VIDEOLLAMADA' :
+          'PHONECALL' | translate}}<br />
+          <br />
+          <button class="btn btn-default btn-md" ng-click="pay()">
+            {{ 'ACEPTAR_INVITACION' | translate }}
+          </button>
+          <button class="btn btn-danger btn-md" ng-click="declineInvitation()">
+            {{ 'DECLINAR_INVITACION' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE OTRO USUARIO UTILIZANDO LA CUENTA Y RECONEXIÓN -->
+
+  <div class="row" ng-hide="!isOnCall">
+    <div class="col-sm-8 offset-6 col-sm-offset-2">
+      <div class="card-trans" align="center" style="min-height: 200px;">
+        <div class="card-header">
+          <i class="fa fa-hand-paper-o" style="font-size: 60px;"></i>
+          <h3>{{ 'OOPS_LABEL' | translate }}</h3>
+          <h4>{{ 'ONCALL' | translate }}</h4>
+          <h2>
+            <strong>{{ 'PACIENTE ' | translate }}: </strong>{{queueInformation.appointment.profileId.admPerson.firstName +' '
+            +queueInformation.appointment.profileId.admPerson.lastName}}
+          </h2>
+          <h2 style="margin-top: 5px;">
+            <strong>{{ 'TIPO_CONS' | translate }}: </strong>{{queueInformation.appointment.serviceTypeId==1? 'CHAT' :
+            queueInformation.appointment.serviceTypeId==2? 'VIDEOLLAMADA' :
+            'PHONECALL' | translate }}
+          </h2>
+          <h2 style="margin-top: 5px;">
+            <strong>{{ 'MINS_RES' | translate }}: </strong>{{queueInformation.timeLeft}} {{ 'APROX' | translate }}
+          </h2>
+          <br />
+          <button class="btn btn-default" ng-click="continueHere()"
+            ng-show="(queueInformation.appointment.serviceTypeId==1 && (queueInformation.appointment.communicationProvider.providerId == 1 || queueInformation.appointment.communicationProvider.providerId == 3)) || (queueInformation.appointment.serviceTypeId==2)">
+            {{ 'CONTINUAR_CONEXION' | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOQUE DE MENSAJE DE INFORMACIÓN DE SUSCRIPCIÓN DE MI DOCTOR -->
+  <div class="row" ng-show="subscriptionResponse.subscriptionStatus=='INACTIVE'">
+    <div class="col-sm-12" style="text-align: center;">
+      Has desactivado el servicio de Mi Doctor, tu subcripción caducará el día
+      {{subscriptionResponse.endDateCoverage| date : 'dd/MM/yyyy'}} a las
+      {{subscriptionResponse.endDateCoverage| date : 'hh:mm a'}}
+    </div>
+  </div>
+
+  <!-- CONTEO DE CONSULTAS DISPONIBLES  -->
+  <div class="row" ng-show="!disableAppointment && (isMiDoctor || isDoctorOnline || isCruzBlanca) && remainingAppointments != -1 && $root.corpAttentionType == 1">
+    <div class="col-sm-12" style="text-align: center;">
+      <strong style="font-size: 20px;">
+        {{ 'CONS_DISP' | translate }}: {{countText}}
+      </strong>
+    </div>
+  </div>
+
+  <!-- ADS PARA CORPORACIONES -->
+  <div class="row" style="padding: 0px 15px 15px 15px;" ng-if="corporateAds">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-3 corporate btn-action-touch adsMargin" style="text-align: center; border-radius: 10px;"
+      align="center">
+      <div id="carousel-example-generic" class="carousel slide">
+        <div>
+          <ol class="carousel-indicators" style="margin-top: 7px;">
+            <li ng-repeat="item in corporateAds" data-target="#carousel-example-generic" data-slide-to="{{$index}}"
+              ng-class="{active: $index == 0}"></li>
+          </ol>
+        </div>
+        <div>
+          <div class="carousel-inner" style="color: #fff; min-height: 160px;">
+            <div ng-repeat="item in corporateAds" class="item" style="text-align: center;"
+              ng-class="{active: $index == 0}">
+              <p class="text_item" style="font-size: 15px; margin-top: 35px;">
+                {{item.body}}
+              </p>
+              <a ng-show="item.buttonText" class="btn btn-danger"
+                ng-click="notifyAdClick(item.notify, item.corporateAdId, item.buttonUrl)" style="
+                  border-radius: 15px;
+                  margin-bottom: 5px;
+                  font-size: 15px;
+                ">{{item.buttonText}}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-4"></div>
+  </div>
+  <div class="row" style="left: 0; bottom: 0; width: 100%; position: fixed">
+    <div ng-if="(admdron.corporateInformation.attentionPlan != 1 && admdron.corporateInformation.attentionPlan != 4)
+            && admdron.activeMember != 0
+            && $root.showChangeAttendance &&
+            (admdron.parentCorporateInformation.corporateName != 'drnn' || (admdron.parentCorporateInformation.corporateName == 'drnn' && $root.corpAttentionType != 1))
+            && (admdron.parentCorporateInformation.corporateName != 'drtui' || (admdron.parentCorporateInformation.corporateName == 'drtui' && $root.corpAttentionType != 1))
+            && (admdron.parentCorporateInformation.corporateName != 'metlife' || (admdron.parentCorporateInformation.corporateName == 'metlife' && $root.corpAttentionType != 1))
+            && (admdron.parentCorporateInformation.corporateName != 'vivawell' || (admdron.parentCorporateInformation.corporateName == 'vivawell' && $root.corpAttentionType != 1))"
+         class="alert-danger" style="text-align: center; padding: 5px;"
+         data-toggle="modal" data-target="#exampleModal">
+      <span><i ng-class="($root.corpAttentionType == 2)?'fa fa-exclamation-circle': 'fa fa-calendar-check-o'" aria-hidden="true"></i></span>
+      <span style="line-height: 35px; white-space: nowrap;padding: 0 10px;font-size: 16px;">
+        <b>{{$root.attendanceText}}</b>
+      </span>
+    </div>
+    <div style="left: 0;text-align: center; padding: 5px;width: 100%;"
+         ng-if="(admdron.corporateInformation.attentionPlan == 2 && admdron.parentCorporateInformation.corporateName == 'drnn') && enableCalendar == 1"
+         ng-click="goCalendar()"
+         class="alert-danger">
+      <span><i class="fa fa-calendar-check-o" aria-hidden="true"></i></span>
+      <span style="line-height: 35px; white-space: nowrap;padding: 0 5px;font-size: 16px;">
+        <b>{{ 'BOOK_YOUR_APPOINTMENT' | translate }}</b>
+      </span>
+    </div>
+    <div style="left: 0;text-align: center; padding: 10px;width: 100%;" ng-if="admdron.parentCorporateInformation.corporateName == 'dronlinetdb' && numberAppointments > 0"
+         class="alert-danger" style="text-align: center; padding: 5px;">
+      <span style="line-height: 35px; white-space: nowrap;padding: 0 10px;font-size: 16px;">
+        <b>Tienes {{numberAppointments}} código(s) raspable(s) acreditado(s).</b>
+      </span>
+    </div>
+  </div>
+</div>
+<style>
+  .text_item {
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
+
+  .adsMargin {
+    margin-left: 4.15%;
+  }
+
+  #footerSwitch {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+  }
+</style>
+<script>
+  $(document).ready(function () {
+    var lecookie = Cookies.get("showsuccess");
+    if (typeof lecookie != "undefined" && lecookie == "true") {
+      Cookies.remove("showsuccess");
+      console.warn("le cookie " + lecookie);
+      //$('#successModal').modal('show');
+    }
+  });
+  $("#btn-cerrar").attr("class", getCookie("buttons"));
+</script>

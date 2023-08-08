@@ -1,0 +1,21 @@
+var materialAdmin = angular.module('materialAdmin', [
+    'ngAnimate',
+    'ngResource',
+    'ui.router',
+    'ui.bootstrap',
+    'oc.lazyLoad',
+    'nouislider',
+    'ngTable',
+    'ngCookies',
+    'ngSecurity',
+    'ngMaterial',
+    'ngPasswordStrength',
+    'pascalprecht.translate',
+    'ngSanitize',
+    'cleave.js',
+    'ui.select',
+    'AxelSoft',
+    'ss.ngIntlTelInput',
+    'jkuri.gallery',
+    'angularFileUpload'
+]);

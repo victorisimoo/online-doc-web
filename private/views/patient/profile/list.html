@@ -1,0 +1,76 @@
+<div class="container" ng-controller="ListPatProfileController">
+    <div class="row whitout-padding">
+        <div class="col-12 whitout-padding" >
+            <div class="card border">
+                <div style="background-color: white; padding: 30px 40px;" class="border">
+                    <h2 style="display: inline-block;  font-weight: bold !important; font-size: 17px; margin: 4px 0px;">{{ 'MIS_PERFILES' | translate }}</h2>
+                    <button ng-show="(numberProfilesAllowed === -1 || (numberProfilesAllowed > 0 ) && (profiles.length < numberProfilesAllowed))" class="btn btn-action-sm pull-right" style="border-bottom: 0px; padding: 4px 12px; box-shadow: none !important;" ui-sref="pages.profile-add"><i class="fa fa-plus" aria-hidden="true"></i> {{ 'ADD' | translate }}</button>
+                </div>
+            </div>
+            <div style="text-align: center;" ng-if="!profiles">
+                <div class="preloader pls-green" style="margin-top: 10px; margin-bottom: 10px; width: 55px;">
+                    <svg class="pl-circular" viewbox="25 25 50 50">
+                        <circle class="plc-path" cx="50" cy="50" r="20" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-sm-4" ng-repeat="profile in profiles| orderBy : 'kinshipId.kinshipId'">
+            <div class="card border" >
+                <div style="min-height: 200px; padding: 15px 20px 15px 20px;">
+                    <div class="row" style="margin-bottom: 17px;" ng-hide="true">
+                        <p ng-show='profile.informationPercent < 100' class="col-sm-6 whitout-padding text-corporate">{{ 'PERFIL_INCO' | translate }}</p>
+                        <p ng-show='profile.informationPercent == 100' class="col-sm-6 whitout-padding text-corporate">{{ 'PERFIL_COMP' | translate }}</p>
+                        <div ng-show='profile.informationPercent < 100' class="progress col-sm-4 whitout-padding" style="margin-top: 5px;">
+                            <div class="progress-bar progress-bar-danger progress-bar-striped" role="progressbar" aria-valuenow="{{profile.informationPercent}}" aria-valuemin="0" aria-valuemax="100" style="width: {{profile.informationPercent}}%"></div> 
+                        </div>
+                        <p ng-show='profile.informationPercent < 100' class="col-sm-2 whitout-padding text-corporate" style="text-align: center; font-weight: bold;">{{profile.informationPercent}}%</p>
+                        <p ng-show='profile.informationPercent == 100' class="col-sm-6 whitout-padding text-corporate" style="text-align: right;"><i style='font-size: 20px;' class="fa fa-check-circle-o" aria-hidden="true"></i></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3 whitout-padding" ng-show="profile.patientFiles.photoURL">
+                            <img ng-src="{{profile.patientFiles.photoURL}}" width="60" height="60" style="border-radius: 100%;">
+                        </div>
+                        <div class="col-sm-3 whitout-padding" ng-hide="profile.patientFiles.photoURL">
+                            <img ng-show="profile.admPerson.gender==1" class="pull-left" ng-src="images/default-male.png" width="60" height="60" style="border-radius: 50px;"/>
+                            <img ng-show="profile.admPerson.gender!=1" class="pull-left" ng-src="images/default-female.png" width="60" height="60" style="border-radius: 50px;"/>
+                        </div>
+                        <div class="col-sm-9 whitout-padding" style="display: inline;">
+                            <a ng-class="corpName=='vivawell' ? 'linkDisabled' : ''" ng-click="goTo(1,profile.profileId, profile.admPerson, profile)" style="cursor: pointer;" ng-show="chatCompatibility && admdron.corporateInformation.attentionPlan != 2"><i class="fa fa-comments pull-right text-corporate" style="font-size:25px"></i></a>
+                            <a ng-class="corpName=='vivawell' ? 'linkDisabled' : ''" ng-click="goTo(2,profile.profileId, profile.admPerson, profile)" style="cursor: pointer;" ng-show="videoCompatibility && admdron.corporateInformation.attentionPlan != 2"><i class="fa fa-video-camera pull-right text-corporate" style="font-size:25px"></i></a>                            
+                            
+                            <p style="font-size: 16px;">
+                                {{profile.admPerson.firstName + " " + profile.admPerson.lastName}}
+                            </p>
+                            
+                            <b ng-if="corpName!='sercomed'"><small ng-class="profile.kinshipId.kinshipId==-1? 'titular' : 'text-corporate'" style="font-size: 12px; display:inline-block;">{{profile.kinshipId.name }}</small></b>
+                            <b ng-if="corpName=='sercomed'"><small ng-class="profile.kinshipId.kinshipId==-1? 'titular' : 'text-corporate'" style="font-size: 12px; display:inline-block;">{{(profile.kinshipId.kinshipId==-1)?'Titular':profile.kinshipId.name }}</small></b>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top: 30px;">
+                        <a class="pull-right" ui-sref="pages.profile-edit({profileId: profile.profileId})" style="position: relative;">
+                            <button class="btn bgm-yellow" tooltip="{{ 'TOOLTIP_CAMBIAR' | translate }}" style="position: relative; box-shadow: none;  margin-left: 10px;"><i class="zmdi zmdi-edit"></i>  {{ 'PERFIL' | translate }}</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+<style>
+.whitout-padding{
+    padding: 0px !important;
+}
+p{
+    margin-bottom: 5px;
+}
+.border{
+    border-radius: 15px !important;
+}
+.tooltip {
+    position: absolute !important;
+    top: -4.2rem !important;
+}
+</style>

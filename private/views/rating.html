@@ -1,0 +1,96 @@
+<div class="container" ng-controller="RatingController">
+    <div class="row" align="center">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+            <div ng-if="showRating && admdron.corporateInformation.attentionPlan != 2 && enableRating" class="card"
+                style="border-radius: 10px; margin-bottom: 10px;">
+                <div class="card-body card-padding">
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <i class="zmdi zmdi-phone-in-talk zmdi-hc-4x"></i>
+                        </div>
+                        <div class="col-sm-10">
+                            <h4><b>{{ 'BAD_ORIENTATION' | translate }}</b></h4>
+                            <b><a style="cursor: pointer;"
+                                    ng-click="changeRatingView()">{{ 'CLICK_HERE' | translate }}</a></b>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card" style="border-radius: 10px;">
+                <div ng-show="showRating">
+                    <div class="card-header">
+                        <div ng-if="optionSelected != 4">
+                            <h2>
+                                {{ 'CONS_ENDED' | translate }}
+                                <br />
+                                {{corpName}}
+                            </h2>
+                        </div>
+                        
+                        <div ng-if="optionSelected == 4">
+                            <h2>
+                                {{ 'CONS_ENDED_DATA' | translate }}
+                                <br />
+                                {{corpName}}
+                            </h2>
+                        </div>
+                    </div>
+                    <div class="card-body card-padding">
+                        <strong>{{aspectCategory.aspect}}</strong>
+
+                        <div star-rating ng-model="rating" max="5" min="0" on-rating-select="rateFunction(rating)">
+                        </div>
+                        <br />
+                        <div>
+                            <textarea class="form-control" rows="3" placeholder="{{ 'COMMENT' | translate }}"
+                                ng-model="comment" maxlength="250" style="font-size: 14px;" ng-trim="false"></textarea>
+                        </div>
+                        <span class="text-muted pull-right">{{250-comment.length}} {{ 'LABEL_250_CARACTERES' | translate }}</span>
+                        <br /><br />
+                        <button class="btn btn-action-sm" ng-click="sendRating()">{{ 'ENVIAR' | translate }}</button>
+                        <button class="btn btn-demo btn-cancel btn-cancel btn-cancel" ng-click="cancel()"
+                            style="margin-left: 5px;">{{ 'CANCELAR' | translate }}</button><br /><br />
+                        {{ 'ALGUN_PRO' | translate }} <a style="cursor: pointer;"
+                            ng-click="report()">{{ 'INFO_CASO' | translate }}</a>
+                    </div>
+                </div>
+                <div ng-show="!showRating">
+                    <div class="card-body card-padding">
+                        <div>
+                            <h4><b>{{ 'BAD_ORIENTATION' | translate }}</b></h4><br />
+                            <p>{{ 'CONFIRM_NUMBER' | translate }}</p>
+                            <form name="ratingPhone">
+                                <div class="input-group m-b-5">
+                                    <span class="input-group-addon"><i class="zmdi zmdi-phone"></i></span>
+                                    <div> 
+                                        <input type="tel" name="currentPhone"
+                                            class="form-control" placeholder="{{ 'NUM_TELE' | translate }}"
+                                            ng-model="currentPhone" style="text-align: left;"
+                                            ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/"
+                                            required autocomplete="tel">
+                                            <small translate="PHONE_INFO"></small>
+                                    </div>
+                                </div>
+                                <p class="help-block"
+                                    ng-show="ratingPhone.currentPhone.$error.required">
+                                    {{ 'MOVIL_REQUIRED' | translate }}</p>
+                                <p class="help-block"
+                                    ng-show="ratingPhone.currentPhone.$error.pattern">
+                                    {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                                <p class="help-block"
+                                    ng-show="(ratingPhone.currentPhone.$error.maxlength)">
+                                    {{ 'MOVIL_LENGTH' | translate }}</p>
+                                <br />
+                                <button class="btn btn-action-sm" ng-disabled="ratingPhone.$invalid"
+                                    ng-click="callMe()">{{ 'CALLME' | translate }}</button>
+                                <button class="btn btn-demo btn-cancel" ng-click="showRating = true"
+                                    style="margin-left: 5px;">{{ 'CANCELAR' | translate }}</button><br />
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

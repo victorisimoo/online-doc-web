@@ -1,0 +1,30 @@
+<div class="container" ng-controller="RegisterController">
+    <div class="simpleContainer">
+        <div class="centerContainer">
+            <div class="planContainer" data-uia="plan-context-page-container">
+                <div class="stepLogoContainer" style="display: inline-block;">
+                    <img class="stepLogo planStepLogo" src="../img/check.png">
+                </div>
+                <div class="stepHeader-container" data-uia="header">
+                    <div class="stepHeader" data-a11y-focus="true"><span class="stepIndicator">PASO <b>1</b> DE
+                            <b>3</b></span>
+                        <h1 class="stepTitle" data-uia="stepTitle">{{(coronavirusRegister)?'Campaña Coronavirus':'Selecciona tu plan.'}}</h1>
+                    </div>
+                </div>
+                <div class="contextBody contextRow">
+                    <ul class="checkedList" style="margin-top: 20px; padding: 0px;">
+                        <li class="bullet" data-uia="plan-context-page-bullet">{{(coronavirusRegister)?'Atención médica GRATUITA.':'Sin compromisos, cancela cuando quieras.'}}
+                        </li>
+                        <li class="bullet" data-uia="plan-context-page-bullet">{{(coronavirusRegister)?'Resuelve tus dudas del coronavirus desde cualquier lugar.':'Recibe orientaciones médicas a un bajo costo.'}}</li>
+                        <li class="bullet" data-uia="plan-context-page-bullet">{{(coronavirusRegister)?'Atención 24/7.':'Disfruta sin límites de orientaciones médicas en
+                            todos tus
+                            dispositivos.'}}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="submitBtnContainer"><button type="button" autocomplete="off" class="btn btn-action"
+                    data-uia="continue-button" placeholder="button_see_plans" ng-click="nextStep1()">VER
+                    MÁS BENEFICIOS</button></div>
+        </div>
+    </div>
+</div>

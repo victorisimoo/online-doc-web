@@ -1,0 +1,33 @@
+<div class="modal-header alert-header">
+    <h1 class="modal-title"><i class="glyphicon glyphicon-warning-sign"></i>{{ 'ATENTION_TEXT' | translate }}</h1>
+</div>
+<div class="modal-body">
+    <form name="frm">
+        <h2>{{ 'ATENTION_MSG' | translate }}</h2>
+    </form>
+</div>
+<div class="modal-footer">  
+    <button class="btn btn-default btn-cancel" ng-click="cancel()">{{ 'CERRAR' | translate }}</button>
+</div>
+
+<style type="text/css">
+.alert-header
+{
+    color:white;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+    background-color: #d9534f;
+}
+.modal-title
+{
+    color: white !important;
+
+}
+
+.btn-default
+{
+    background-color: #d9534f !important;
+    color:white !important;
+}
+
+</style>

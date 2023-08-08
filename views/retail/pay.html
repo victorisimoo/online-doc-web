@@ -1,0 +1,211 @@
+<div class="simpleContainer" ng-controller="RegisterController">
+    <div class="centerContainer contextStep firstLoad with-mobile-mop-logos">
+        <div class="paymentContainer" data-uia="payment-container">
+            <div>
+                <div class="stepLogoContainer" style="display: inline-block;">
+                    <img class="stepLogo planStepLogo" ng-class="(freeAppointment) ? 'freeAppointment' : ''"
+                        src="../img/lock.png">
+                </div>
+                <div class="stepHeader-container" data-uia="header">
+                    <div class="stepHeader" data-a11y-focus="true"><span class="stepIndicator">PASO <b>3</b> DE
+                            <b>3</b></span>
+                        <h1 class="stepTitle" data-uia="stepTitle">Configura tu forma de pago.</h1>
+                    </div>
+                </div>
+                <div class="narrowContainer" data-uia="messagesContainer">
+                    <div class="contextRow contextRowFirst">
+                        <div><b>Sin compromisos.</b></div>
+                        <div><b>Cancela cuando quieras.</b></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="display: flex; justify-content: center;" ng-show="freeAppointment && !showFreeInfo">
+                <!--<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div>
+                        <div class="nfTabSelectionWrapper" id="creditOrDebitCardDisplayStringId"
+                            data-uia="payment-choice+creditOrDebitOption"><a
+                                class="nfTabSelection nfTabSelection--active paymentPicker standardHeight"
+                                style="cursor: pointer; color: inherit; padding: 10px 10px 10px !important;" ng-click="openInformationModal()">
+                                <div class="mopNameAndLogos" style="width: 100% !important; padding-bottom: 20px;">
+                                    <img style="float: right;" src="../img/no-tc.png" width="30" alt="free">
+                                    <h3 style="float: left;">{{demoTitle}}</h3>
+                                </div>
+                                <div>
+                                    <ul class="checkedlist" style="padding: 0px; margin: 0 auto; width: 80%;">
+                                        <li class="bulletPay">GRATIS</li>
+                                        <li class="bulletPay">{{amountOfAttendence}}</li>
+                                        <li class="bulletPay">Válido hasta {{lastDate}}</li>
+                                        <li class="bulletPay">Atención 24/7</li>
+                                    </ul>
+                                </div>
+                                <div class="nfTabSelectionWrapper" id="creditOrDebitCardDisplayStringId"
+                                    data-uia="payment-choice+creditOrDebitOption" style="margin-top: 20px;">
+                                    <div class="nfTabSelection-retail nfTabSelection--active paymentPicker standardHeight"
+                                    style="cursor: pointer; color: inherit; padding: 10px 0px 10px 0px; text-align: center;">
+                                        <div class="nfTabSelection--text card-type-text paymentActive"
+                                            style="display: inline-block; margin-left: 0px;"><span class="selectionLabel retailColor"
+                                                style="font-size: 16px;"><b>OBTENER</b></span></div>
+                                    </div>
+                                </div>
+                            </a></div>
+                    </div>
+                </div>-->
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <div>
+                        <div class="nfTabSelectionWrapper" id="creditOrDebitCardDisplayStringId"
+                            data-uia="payment-choice+creditOrDebitOption"><a
+                                class="nfTabSelection nfTabSelection--active paymentPicker standardHeight"
+                                style="cursor: pointer; color: inherit; padding: 10px 10px 10px !important;" ng-click="nextStep5()">
+                                <div class="mopNameAndLogos" style="width: 100% !important; padding-bottom: 20px;">
+                                    <div class="logosContainer" style="margin: 0px !important; float: right;"><span class="logos logos-inline" style="float: right;"
+                                        data-uia="cardLogos-comp" aria-label="Aceptamos VISA, MASTERCARD y AMEX."><img
+                                            alt="" class="logoIcon VISA" data-uia="logoIcon-VISA"
+                                            src="https://assets.nflxext.com//ffe/siteui/acquisition/payment/svg/visa.svg">
+                                            <img alt="" class="logoIcon MASTERCARD"
+                                            src="https://assets.nflxext.com//ffe/siteui/acquisition/payment/svg/mastercard.svg">
+                                            <img
+                                            alt="" class="logoIcon MASTERCARD" data-uia="logoIcon-MASTERCARD" 
+                                            src="https://logodownload.org/wp-content/uploads/2014/04/amex-american-express-logo-4.png">
+                                    </div>
+                                    <h3 style="float: left;">Premium</h3>
+                                </div>
+                                <div>
+                                    <ul class="checkedlist" style="padding: 0px; margin: 0 auto; width: 80%;">
+                                        <div ng-show="isDoctorOnline">
+                                            <li class="bulletPay">{{priceService}}</li>
+                                        </div>
+                                        <div ng-show="!isDoctorOnline">
+                                            <li class="bulletPay">¨{{suscriptionPrice}}</li>
+                                        </div>
+                                        <li class="bulletPay">Primer mes gratis</li>
+                                        <li class="bulletPay">Orientaciones ilimitadas</li>
+                                        <li class="bulletPay">Atención 24/7</li>
+                                    </ul>
+                                </div>
+                                <div class="nfTabSelectionWrapper" id="creditOrDebitCardDisplayStringId"
+                                    data-uia="payment-choice+creditOrDebitOption" style="margin-top: 20px;">
+                                    <div class="nfTabSelection-retail nfTabSelection--active paymentPicker standardHeight"
+                                    style="cursor: pointer; color: inherit; padding: 10px 0px 10px 0px; text-align: center;">
+                                        <div class="nfTabSelection--text card-type-text paymentActive"
+                                            style="display: inline-block; margin-left: 0px;"><span class="selectionLabel retailColor"
+                                                style="font-size: 16px;"><b>OBTENER</b></span></div>
+                                    </div>
+                                </div>
+                            </a></div>
+                    </div>
+                </div>
+            </div>
+            <div class="paymentCard" ng-show="!freeAppointment">
+                <div class="nfTabSelectionWrapper" id="creditOrDebitCardDisplayStringId"
+                data-uia="payment-choice+creditOrDebitOption"><a
+                    class="nfTabSelection nfTabSelection--active paymentPicker standardHeight"
+                    style="cursor: pointer; color: inherit; padding: 10px 10px 10px !important;" ng-click="nextStep5()">
+                    <div class="mopNameAndLogos" style="width: 100% !important; padding-bottom: 20px;">
+                        <div class="logosContainer" style="margin: 0px !important; float: right;"><span class="logos logos-inline" style="float: right;"
+                            data-uia="cardLogos-comp" aria-label="Aceptamos VISA, MASTERCARD y AMEX."><img
+                                alt="" class="logoIcon VISA" data-uia="logoIcon-VISA"
+                                src="https://assets.nflxext.com//ffe/siteui/acquisition/payment/svg/visa.svg"><img
+                                alt="" class="logoIcon MASTERCARD" data-uia="logoIcon-MASTERCARD" 
+                                src="https://assets.nflxext.com//ffe/siteui/acquisition/payment/svg/mastercard.svg">    
+                                <img alt="" class="logoIcon MASTERCARD" data-uia="logoIcon-MASTERCARD" src="https://logodownload.org/wp-content/uploads/2014/04/amex-american-express-logo-4.png">
+                        </div>
+                        <h3 style="float: left;">Premium</h3>
+                    </div>
+                    <div>
+                        <ul class="checkedlist" style="padding: 0px; margin: 0 auto; width: 80%;">
+                            <li class="bulletPay">{{suscriptionPrice}}</li>
+                            <!--<div ng-show="isDoctorOnline">
+                                <li class="bulletPay">{{priceService}}</li>
+                            </div>
+                            <div ng-show="!isDoctorOnline">
+                                <li class="bulletPay">{{suscriptionPrice}}</li>
+                            </div>---->
+                            <li class="bulletPay">Orientaciones ilimitadas</li>
+                            <li class="bulletPay">Atención 24/7</li>
+                            <li class="bulletPay">Envío de recomendaciones médicas via email</li>
+                        </ul>
+                    </div>
+                    <div class="nfTabSelectionWrapper" id="creditOrDebitCardDisplayStringId"
+                        data-uia="payment-choice+creditOrDebitOption" style="margin-top: 20px;">
+                        <div class="nfTabSelection-retail nfTabSelection--active paymentPicker standardHeight"
+                        style="cursor: pointer; color: inherit; padding: 10px 0px 10px 0px; text-align: center;">
+                            <div class="nfTabSelection--text card-type-text paymentActive"
+                                style="display: inline-block; margin-left: 0px;"><span class="selectionLabel retailColor"
+                                    style="font-size: 16px;"><b>CONTINUAR</b></span></div>
+                        </div>
+                    </div>
+                </a></div>
+            </div>
+            <div class="cvvTooltipFree" ng-show='showFreeInfo'><span class="icon-close close-button"
+                    ng-click='openInformationModal()' style="cursor: pointer;">
+                    <i class="fa fa-times fa-2x" aria-hidden="true"></i>
+                </span>
+                <div class="tooltipDesc" style="max-width: 75%;">
+                    <h3><b>Conversa con uno de nuestros médicos de forma GRATUITA</b></h3><br />
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <img src="../img/Doctor_Dispositivos.png" class="img-fluid" alt="" style="max-width: 100%; height: auto;">
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                            <div>
+                                <ul class="checkedlist" style="padding: 0px; margin: 3%;">
+                                    <div ng-show="isDoctorOnline">
+                                        <li class="bulletPay">{{priceService}}</li>
+                                    </div>
+                                    <div ng-show="!isDoctorOnline">
+                                        <li class="bulletPay">{{suscriptionPrice}}</li>
+                                    </div>
+                                    <li class="bulletPay">Válido hasta {{lastDate}}</li>
+                                    <li class="bulletPay">Atención 24/7</li>
+                                    <li class="bulletPay">Al terminar tu prueba gratis puedes suscribirte</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 3%;">
+                        <p>Completa los siguientes datos para obtener tu prueba gratis.</p>
+                        <form role="form" name="registerForm" novalidate>
+                            <div class="demoForm">
+                                <div class="nfInput nfInputOversize" style="margin-bottom: 10px;">
+                                    <div class="nfInputPlacement">
+                                        <input data-uia="field-email" class="nfTextField form-control" name="personName" id="id_nombre"
+                                            type="text" ng-model="personName" tabindex="0" placeholder="Nombre completo" autocomplete="name"
+                                            maxlength="100" minlength="5" dir="" value="" required
+                                            ng-pattern="/^[a-zA-ZñÑáéíóúÁÉÍÓÚ ]*$/">
+                                    </div>
+                                    <div ng-show="registerForm.personName.$error.required && (registerForm.personName.$touched || registerForm.$submitted)"
+                                        class="inputError" style="text-align: end;">El nombre es obligatorio.</div>
+                                    <div ng-show="registerForm.personName.$error.pattern && (registerForm.personName.$touched || registerForm.$submitted)"
+                                        class="inputError" style="text-align: end;">Formato inválido.</div>
+                                </div>
+                                <div class="nfInput nfInputOversize">
+                                    <div class="nfInputPlacement">
+                                        <input type="tel" data-uia="field-phone" class="nfTextField form-control" name="personPhone" id="id_phone"
+                                            ng-model="personPhone" tabindex="0" placeholder="Teléfono" 
+                                            ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/" autocomplete="tel" required>
+                                        <small><i class="zmdi zmdi-info-outline"></i> Te recomendamos colocar el código de area.</small>
+                                    </div>
+                                    <div ng-show="registerForm.personPhone.$error.required && (registerForm.personPhone.$touched || registerForm.$submitted)"
+                                        class="inputError" style="text-align: end;">El teléfono es obligatorio.</div>
+                                    <div ng-show="registerForm.personPhone.$error.pattern && !registerForm.personPhone.$pristine"
+                                        class="inputError" style="text-align: end;">El formato del teléfono es inválido.</div>
+                                    <div ng-show="registerForm.personPhone.$error.maxlength && !registerForm.personPhone.$pristine"
+                                        class="inputError" style="text-align: end;">Longitud máxima de 30 caracteres.</div>
+                                </div>
+                            </div>
+                            <div class="nfTabSelectionWrapper" id="testitbutton"
+                                data-uia="payment-choice+creditOrDebitOption" style="margin-top: 3%; margin-bottom: 3%;">
+                                <button id="registerButton" type="submit" autocomplete="off"
+                                    class="btn btn-action demoForm" data-uia="cta-registration" placeholder="regForm_button_continue"
+                                    ng-disabled="registerForm.$invalid || loadingProcess" ng-click="demoSuscribe()">
+                                    <i class="fa fa-circle-o-notch fa-pulse fa-2x fa-fw buttonIcon" aria-hidden="true"></i>
+                                    <span class="buttonText">¡Pruébalo ahora!</span>
+                                </button>                            
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

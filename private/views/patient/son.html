@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="block-header">
+        <h2>{{ 'ADD_SON' | translate }}</h2>
+    </div>
+    <div class="card">
+        <div class="card-body card-padding">
+            <div class="form-group fg-float m-b-30">
+                <div class="fg-line">
+                    <input type="text" class="input-lg form-control fg-input">
+                    <label class="fg-label">{{ 'SON_NAME' | translate }}</label>
+                </div>
+            </div>
+            <div class="form-group fg-float m-b-30">
+                <div class="fg-line">
+                    <input type="text" class="input-lg form-control fg-input">
+                    <label class="fg-label">{{ 'SON_LASTNAME' | translate }}</label>
+                </div>
+            </div>
+
+            <label class="radio radio-inline m-r-20">
+                <input type="radio" name="inlineRadioOptions" value="option1">
+                <i class="input-helper"></i>
+                {{ translate.SON_GENDER_MALE }}
+            </label>
+
+            <label class="radio radio-inline m-r-20">
+                <input type="radio" name="inlineRadioOptions" value="option2">
+                <i class="input-helper"></i>
+                {{ translate.SON_GENDER_FEMALE}}
+            </label>
+            <br/>
+            <br/>
+            <br/>
+
+            <label class="fg-label">{{ translate.SON_BORN_DATE }}</label>
+            <br/>
+            <br/>
+            <div class="row" data-ng-controller="DatepickerDemoCtrl">
+                <div class="col-sm-4">
+
+                    <div class="date-picker input-group" ng-class="{ 'is-opened': opened == true }">
+                        <span class="input-group-addon"><i class="zmdi zmdi-calendar ma-icon"></i></span>
+                        <div class="fg-line" ng-class="{ 'fg-toggled': opened == true }">
+                            <input ng-click="open($event, 'opened')" type="text" class="form-control" uib-datepicker-popup="{{format}}" show-weeks="false" ng-model="dtPopup" is-open="opened" min-date="minDate" datepicker-options="dateOptions" ng-required="true" close-text="Close" placeholder="{{ translate.SON_PICK_DATE }}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <button class="btn bgm-gray">{{ translate.CANCELAR }}</button>
+            <button class="btn btn-success">{{ translate.ENVIAR }}</button>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,120 @@
+<div class="container">
+    <div>
+        <div class="card-header text-center">
+            <img class="i-logo" src="../img/logo_dr_online_color.png" alt="">
+        </div>
+        <div class="row">
+            <div class="divider"></div>
+        </div>
+
+        <div class="row center-block">
+            <div class="col-sm-3"></div>
+            <div class="col-sm-6">                                                  
+                <div class="login-content">
+                    <p><strong>Regístrate con tu dirección de email</strong></p>
+                    <div class="lcb-form">
+                        <form id="formNuevo" name="formNuevo" action="" method="post" enctype="multipart/form-data">
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon"><i class="zmdi zmdi-email"></i></span>
+                                <div class="fg-line">
+                                    <input type="text" class="form-control" placeholder="Correo eléctronico" name="email"
+                                           required ng-model="email">
+                                </div>
+                            </div>
+
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                                <div class="fg-line input-password">
+                                    <input type="password" class="form-control" placeholder="Contraseña" name="password"
+                                           required ng-model="password" ng-maxlength="30" ng-minlength="6" maxlength="30">
+                                </div>
+                                <div class="has-error" ng-if="formNuevo.password.$dirty && !formNuevo.password.$valid">
+                                    <small class="help-block">Al menos 6 caracteres</small>
+                                </div>
+                            </div>   
+
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon"><i class="zmdi zmdi-lock"></i></span>
+                                <div class="fg-line input-password">
+                                    <input type="password" class="form-control" placeholder="Confirmar Contraseña" name="passwordConfirm"
+                                           required ng-model="passwordConfirm" ng-maxlength="30" ng-minlength="6" maxlength="30">
+                                </div>
+                                <div class="has-error" ng-if="formNuevo.passwordConfirm.$dirty && password !== passwordConfirm">
+                                    <small class="help-block">Las contraseñas no coinciden</small>
+                                </div>
+                            </div>   
+
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                <div class="fg-line">
+                                    <input type="text" class="form-control" placeholder="Nombres" name="firstName"
+                                           required ng-model="firstName">
+                                </div>
+                            </div>
+
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon"><i class="zmdi zmdi-account"></i></span>
+                                <div class="fg-line">
+                                    <input type="text" class="form-control" placeholder="Apellidos" name="lastName"
+                                           required ng-model="lastName">
+                                </div>
+                            </div> 
+
+                            <div class="input-group m-b-20" style="text-align: left !important;">
+                                <span class="input-group-addon"><i class="zmdi zmdi-male-female"></i></span>
+                                <div class="checkbox" ng-init="gender = 0">                                        
+                                    <label class="radio radio-inline m-r-20">
+                                        <input type="radio" name="gender" value="1" ng-model="gender">
+                                        <i class="input-helper"></i> Masculino
+                                    </label>
+                                    <label class="radio radio-inline m-r-20">
+                                        <input type="radio" name="gender" value="0" ng-model="gender">
+                                        <i class="input-helper"></i> Femenino
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="input-group m-b-20" style="text-align: left !important;">
+                                <span class="input-group-addon"><i class="zmdi zmdi-calendar"></i></span>
+                                <div class="fg-line">
+                                    <md-datepicker ng-model="birthday" 
+                                                   tooltip="Fecha de nacimiento"
+                                                   md-hide-icons="calendar" 
+                                                   md-min-date="rootMinBirthday"
+                                                   md-max-date="rootMaxBirthday" 
+                                                   required
+                                                   md-placeholder="Fecha Nacimiento">
+                                    </md-datepicker>
+                                    <div class="has-error" ng-if="frm.birthday.$invalid">
+                                        <small class="help-block">Fechas en formato dd/MM/yyyy entre 01/01/1900 y {{rootMaxBirthday| date : 'dd/MM/yyyy'}}</small>
+                                    </div>
+                                </div>
+                            </div>  
+
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon"><i class="zmdi zmdi-graduation-cap"></i></span>
+                                <div class="fg-line">                                        
+                                    <md-select ng-model="speciality" name="speciality" placeholder="Especialidad" class="md-no-underline">
+                                        <md-option ng-repeat="option in specialities" value="{{option.specialityId}}">{{option.name}}</md-option>
+                                    </md-select>
+                                </div>
+                            </div>
+
+                            <div class="input-group m-b-20">
+                                <span class="input-group-addon">Carga tu CV</span>
+                                <div class="fg-line">
+                                    <input type="file" name="cv-file" placeholder="Cargue su CV" required>
+                                </div>
+                            </div>
+
+                            <p>Al hacer click en Registrarse, aceptas los <a href="#">términos y condiciones</a> y la <a href="#">política de privacidad de Doctor Online.</a></p>
+                            <button class="btn bgm-green" type="submit" name="login" onclick="$('.md-datepicker-input').attr('name', 'birthday');"
+                                    ng-disabled="formNuevo.$invalid || password !== passwordConfirm">REGISTRARSE</button>
+                            <p>¿Ya tienes una cuenta?  <a href="login-doc.php">Iniciar sesión</a></p> 
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>  
+</div>

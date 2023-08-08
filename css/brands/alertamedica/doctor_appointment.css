@@ -1,0 +1,46 @@
+.corporate-background{
+    background-color: #323B76 !important;
+}
+
+.corporate-color{
+    color: #323B76 !important;
+}
+
+.bd-callout-warning {
+    border-left-color: #323B76 !important;
+}
+
+.corporate-button{
+    background-color: #323B76 !important;
+	border-radius: 10px;
+	color: #FFF !important;
+	border-bottom: 5px solid #323B76;
+	font-weight: bold;
+}
+
+.opposite-color{
+    color: #FFF !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: #323B76;
+}
+
+.fg-line:not([class*=has-]):after {
+    background: #323B76 !important;
+}
+
+.form-control:focus{
+    border-color: #323B76 !important;
+}
+.wrap-logo-medical-appointment img{
+    padding: 10px!important;
+}
+:root{
+    --corporate-color : #323B76;
+}

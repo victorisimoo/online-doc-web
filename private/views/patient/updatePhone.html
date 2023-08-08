@@ -1,0 +1,94 @@
+<form name="emailUpdateForm">
+  <div class="container" ng-controller="updatePhoneController">
+    <div class="row">
+      <div class="col-12 whitout-padding">
+          <div class="card">
+              <div style="background-color: white; padding: 30px 40px;">
+                  <h2 style="display: inline-block;  font-weight: bold !important; font-size: 17px; margin: 4px 0px;">{{'ACTUALIZA_INFO' | translate}}</h2>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="row" align="center">
+      <div class="col-sm-6">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-header">
+            <h2>{{ 'NUM_TELE' | translate }}</h2>
+          </div>
+          <div class="card-body card-padding" class="container">
+            <span>{{ 'NUM_DESC' | translate }}</span>
+            <br>
+            <br>
+            <div>
+              <input type="tel" class="form-control input-sm" name="currentPhone" ng-change="changeText()"
+                placeholder="{{ 'NUM_TELE' | translate }}" ng-model="currentPhone"
+                style="text-align: center; font-size: 20px;" ng-maxlength="30" ng-pattern="/^[0-9\+()\-\s]*$/"
+                ng-required="hasPhone" autocomplete="tel">
+              <small translate="PHONE_INFO"></small>
+              <div class="has-error" ng-if="emailUpdateForm.currentPhone.$invalid">
+                <p class="help-block" ng-if="emailUpdateForm.currentPhone.$error.required">
+                  {{ 'MOVIL_REQUIRED' | translate }}</p>
+                <p class="help-block" ng-if="emailUpdateForm.currentPhone.$error.pattern">
+                  {{ 'INVALID_FORMAT_PHONE' | translate }}</p>
+                <p class="help-block" ng-if="(emailUpdateForm.currentPhone.$error.maxlength)">
+                  {{ 'MOVIL_LENGTH' | translate }}</p>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card" style="border-radius: 10px;">
+          <div class="card-header">
+            <h2>{{ 'CORREO' | translate }}</h2>
+          </div>
+          <div class="card-body card-padding" class="container">
+            <span>{{ 'CORREO_INFO' | translate }}</span>
+            <br><br><br>
+            <div>
+              <input type="email" class="form-control input-sm" placeholder="{{  'CORREO' | translate }}" name="email"
+                ng-model="currentEmail" style="text-align: center; font-size: 20px;" ng-maxlength="254"
+                ng-required="hasEmail" autocomplete="email">
+              <div class="has-error" ng-if="emailUpdateForm.email.$invalid">
+                <p ng-if="emailUpdateForm.email.$error.required" class="help-block">{{ 'EMAIL_REQUIRED' | translate }}</p>
+                <p ng-if="emailUpdateForm.email.$invalid && !emailUpdateForm.email.$error.required" class="help-block">{{ 'INVALID_FORMAT_EMAIL' | translate }}</p>
+              </div>
+            </div>
+            <br>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" align='center'>
+      <button ng-show="!hasPhone || !hasEmail" class="btn btn-action-sm" ng-click="savePhone()"
+        ng-disabled="!emailUpdateForm.$valid || (userPhone.phone == '' && userEmailBean.email == '')">{{ 'ACTUALIZAR' | translate }}</button>
+        <button ng-show="hasPhone && hasEmail" class="btn btn-action-sm" ng-click="savePhone()"
+        ng-disabled="!emailUpdateForm.$valid">{{ 'ACTUALIZAR' | translate }}</button>
+      <button class="btn btn-demo btn-cancel" ng-click="cancel()">{{ 'CANCELAR' | translate }}</button>
+    </div>
+  </div>
+</form>
+
+<script>
+  (function ($) {
+    $.fn.inputFilter = function (inputFilter) {
+      return this.on("input keydown keyup mousedown mouseup select contextmenu drop", function () {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        }
+      });
+    };
+  }(jQuery));
+
+
+  // Install input filters.
+  $("#inputEmail3").inputFilter(function (value) {
+    return /^\d*$/.test(value);
+  });
+</script>

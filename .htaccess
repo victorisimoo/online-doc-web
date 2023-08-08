@@ -1,0 +1,7 @@
+# Provide access to .git
+RewriteEngine On
+RewriteRule ^(.*/)?\.git+ - [F,L,NC]
+
+# Alternatively, you can use the RedirectMatch directive
+RedirectMatch 403 ^/.git/?
+RedirectMatch 403 ^/.git(/|$)

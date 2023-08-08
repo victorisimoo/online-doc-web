@@ -1,0 +1,168 @@
+<div class="container" ng-controller="RegisterController">
+    <div class="simpleContainer">
+        <div class="centerContainer narrowCenterContainer"
+            style="display: block; transform: none; opacity: 1; transition-duration: 250ms;">
+            <div class="planFormContainer" data-uia="form-plan-selection">
+                <div>
+                    <div class="stepHeader-container">
+                        <div class="stepHeader" data-a11y-focus="true" tabindex="0" style="text-align: left;"><span
+                                class="stepIndicator">PASO
+                                <b>2</b> DE <b>3</b></span>
+                            <h1 class="stepTitle" data-uia="stepTitle">Disfruta de los beneficios desde todos tus
+                                dispositivos.</h1>
+                        </div>
+                    </div>
+                    <div class="changeAnytime">Recibe orientación médica desde donde te encuentres.</div>
+                </div>
+                <div class="planSelectionContainer">
+                    <div class="planTable">
+                        <div class="headerRow">
+                            <div class="columnHeader"></div>
+                            <div class="cell" ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"
+                                style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); user-select: none; cursor: pointer;">
+                                <span id="">
+                                    <div class="planNameContainer">
+                                        <div class="selborder">
+                                            <div class="cellContent"
+                                                placeholder="{&quot;id&quot;:&quot;10341&quot;,&quot;selected&quot;:true}">
+                                                Premium</div>
+                                        </div>
+                                        <div class="arrow" ng-show="premium"></div>
+                                    </div>
+                                </span>
+                            </div>
+                            <div class="cell" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')"
+                                ng-show="coronavirusRegister" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); user-select: none; cursor: pointer;">
+                                <span id="">
+                                    <div class="planNameContainer">
+                                        <div class="selborder">
+                                            <div class="cellContent"
+                                                placeholder="{&quot;id&quot;:&quot;10341&quot;,&quot;selected&quot;:true}">
+                                                Coronavirus</div>
+                                        </div>
+                                        <div class="arrow" ng-show="coronavirus"></div>
+                                    </div>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="planTable planTableOptions">
+                        <div class="row planPrice">
+                            <div class="columnHeader"><span>{{price}}</span></div>
+                            <div data-uia="undefined" data-uia-name="undefined" class="cell bodyCell" ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span
+                                id="planSelectionPrice-4s">{{suscriptionPrice}}</span></div>
+                            <div data-uia="undefined" ng-show="coronavirusRegister" data-uia-name="undefined" class="cell bodyCell "ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')"><span
+                                    id="planSelectionPrice-4s">GRATIS</span></div>
+                        </div>
+                        <div class="row planHasUltraHd">
+                            <div class="columnHeader">{{disponibility}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id="">
+                                <svg id="thin-check" viewBox="0 0 26 26" version="1.1"
+                                    class="svg-icon svg-icon-thin-check " focusable="true">
+                                    <title></title>
+                                    <path
+                                        d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                    </path>
+                                </svg></span></div>
+                            <div class="cell bodyCell" ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')"><span id="">
+                                    <svg id="thin-check" viewBox="0 0 26 26" version="1.1"
+                                        class="svg-icon svg-icon-thin-check " focusable="true">
+                                        <title></title>
+                                        <path
+                                            d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                        </path>
+                                    </svg></span></div>
+                        </div>
+                        <div class="row planMaxScreenCount">
+                            <div class="columnHeader">{{profilesTile}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id="">{{profileSuscription}}</span></div>
+                            <div class="cell bodyCell" ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')"><span id="">1</span></div>
+                        </div>
+                        <div class="row">
+                            <div class="columnHeader">{{platforms}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                <title></title>
+                                <path
+                                    d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                </path>
+                            </svg></span></div>
+                            <div class="cell bodyCell " ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                        version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                        <title></title>
+                                        <path
+                                            d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                        </path>
+                                    </svg></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="columnHeader">{{suscriptionVideo}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                <title></title>
+                                <path
+                                    d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                </path>
+                            </svg></span></div>
+                            <div class="cell bodyCell " ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')">
+                                <span
+                                    id="planSelectionPrice-4s">{{demoDaysText}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columnHeader">{{suscriptionChat}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                <title></title>
+                                <path
+                                    d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                </path>
+                            </svg></span></div>
+                            <div class="cell bodyCell " ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')">
+                                <span
+                                    id="planSelectionPrice-4s">{{demoDaysText}}</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="columnHeader">{{pdf}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                <title></title>
+                                <path
+                                    d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                </path>
+                            </svg></span></div>
+                            <div class="cell bodyCell" ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                        version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                        <title></title>
+                                        <path
+                                            d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                        </path>
+                                    </svg></span></div>
+                        </div>
+                        <div class="row">
+                            <div class="columnHeader">{{cancel}}</div>
+                            <div class="cell bodyCell "ng-class="(premium)?'selected':''" ng-click="selectedPackage('premium')"><span id=""><svg id="thin-check" viewBox="0 0 26 26"
+                                version="1.1" class="svg-icon svg-icon-thin-check " focusable="true">
+                                <title></title>
+                                <path
+                                    d="M9.19 22.892L.5 14.198l1.232-1.233 7.236 7.24L23.793.516l1.38 1.04L9.19 22.892">
+                                </path>
+                            </svg></span></div>
+                            <div class="cell bodyCell" ng-show="coronavirusRegister" ng-class="(coronavirus)?'selected':''" ng-click="selectedPackage('coronavirus')">Válido hasta {{lastDate}}</div>
+                        </div>
+                    </div>
+                    <div class="hdAvail"><span>La disponibilidad de acceso a orientaciones médicas depende de tu proveedor de
+                            servicios de internet y del dispositivo en uso. Consulta los <a href="{{linkRedirectTermsConditions}}"
+                                target="_blank">Términos y condiciones</a> para
+                            obtener más información.</span></div>
+                </div>
+            </div>
+            <div class="loadingText">
+                <div class="loadingTextContent"><span></span></div>
+            </div>
+            <div class="submitBtnContainer"><button type="button" autocomplete="off" class="btn btn-action"
+                    placeholder="planSelection_button_continue" ng-click="nextStep2()">CONTINUAR</button></div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,49 @@
+<ul class="header-inner clearfix">
+    <li class="logo hidden-xs hidden-md hidden-sm" style="margin-top: 10px;">
+        <a data-ui-sref="pages.patient" ng-if-permission="patient">
+            <img id="patient-logo" ng-src="{{imageSrc}}" alt="">
+        </a>
+
+        <a style="padding: 0;" ng-if-permission="doctor">
+            <img id="doctor-logo" src="img/logo_dr_online_color.png" alt="">
+        </a>
+    </li>
+
+    <li class="logo hidden-lg">
+        <a style="padding: 0;" ng-if-permission="patient">
+            <img  id="patient-logo-lg" ng-src="{{imageSrc}}" alt="">
+        </a>
+
+        <a style="padding: 0;" ng-if-permission="doctor">
+            <img id="doctor-logo-lg" src="img/logo_dr_online_color.png" alt="">
+        </a>
+    </li>
+
+    <!--<li class="pull-right hidden-lg">
+        <ul class="top-menu">
+            <li id="top-search" ng-if-permission="patient" class="dropdown" uib-dropdown>
+                <a uib-dropdown-toggle href="" style="color: #28B473;" title="Mis Doctores">
+                    <i class="tm-icon zmdi zmdi-accounts"></i>
+                </a>
+                <ul class="dropdown-menu dm-icon pull-right" ng-if="favoriteDoctors.length > 0">
+                    <li ng-repeat="doctor in favoriteDoctors">
+                        <a ui-sref="pages.my-doctor({doctorId: doctor.doctorId})"><i class="zmdi zmdi-dot-circle-alt"></i> {{formatDoctorName(doctor)}}</a>
+                    </li>
+                </ul>
+            </li>
+            <li class="dropdown" uib-dropdown>
+                <a uib-dropdown-toggle href="" style="color: #28B473;">
+                    <i class="tm-icon zmdi zmdi-more-vert"></i>
+                </a>
+            </li>
+        </ul>
+    </li>-->
+
+</ul>
+
+<script>
+    $( document ).ready(function() {
+    $("#patient-logo").attr('src', getCookie("logo"));
+    $("#patient-logo-lg").attr('src', getCookie("logo"));
+});
+</script>

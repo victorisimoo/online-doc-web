@@ -1,0 +1,33 @@
+<style type="text/css">
+    .modal .modal-content{
+        border-radius: 10px;
+    }
+</style>
+<div class="modal-header alert-header corporate" style="text-align: center; border-radius: 10px 10px 0px 0px;">
+    <h1 class="modal-title"><i class="zmdi zmdi-close-circle"></i> {{ 'TITLE_CANCEL_SUB' | translate }}</h1>
+</div>
+<div class="modal-body">
+<br>
+    <form name="frm">
+        <h3>¿{{ 'QUEST_CANCEL_SUB' | translate }}?</h3>
+    </form>
+</div>
+<div class="modal-footer">  
+    <button class="btn btn-default" ng-click="cancelSubscription()"> {{ 'ACEPTAR' | translate }}</button>
+    <button class="btn btn-default btn-cancel" ng-click="cancel()"> {{ 'CERRAR' | translate }}</button>
+</div>
+
+<style type="text/css">
+.alert-header
+{
+    color:white;
+    padding:9px 15px;
+    border-bottom:1px solid #eee;
+}
+.modal-title
+{
+    color: white !important;
+
+}
+
+</style>

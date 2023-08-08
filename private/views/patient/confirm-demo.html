@@ -1,0 +1,27 @@
+<div class="modal-header alert-header corporate" style="text-align: center;">
+        <h1 class="modal-title">{{ 'TITLE_GET_DEMO' | translate }}</h1>
+    </div>
+    <div class="modal-body">
+        <form name="frm">
+            <h2>¿{{ 'ESTAS SEGURO QUE DESEAS CONTRATAR LA SUSCRIPCIÓN DEMO' | translate }}?</h2>
+        </form>
+    </div>
+    <div class="modal-footer">  
+        <button class="btn btn-default" ng-click="SuscribeDemoPay()">{{ 'ACEPTAR' | translate }}</button>
+        <button class="btn btn-default btn-cancel" ng-click="cancel()">{{ 'CERRAR' | translate }}</button>
+    </div>
+    
+    <style type="text/css">
+    .alert-header
+    {
+        color:white;
+        padding:9px 15px;
+        border-bottom:1px solid #eee;
+    }
+    .modal-title
+    {
+        color: white !important;
+    
+    }
+    
+    </style>

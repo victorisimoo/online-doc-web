@@ -1,0 +1,44 @@
+.corporate-background{
+    background-color: #0c329e !important;
+}
+
+.corporate-color{
+    color: #0c329e !important;
+}
+
+.bd-callout-warning {
+    border-left-color: #0c329e !important;
+}
+
+.corporate-button{
+    background-color: #0c329e !important;
+	border-radius: 10px;
+	color: #FFF !important;
+	border-bottom: 5px solid #0c329e;
+	font-weight: bold;
+}
+
+.opposite-color{
+    color: #FFF !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: #0c329e;
+}
+
+.fg-line:not([class*=has-]):after {
+    background: #0c329e !important;
+}
+
+.form-control:focus{
+    border-color: #0c329e !important;
+}
+
+:root{
+    --corporate-color : #0c329e;
+}

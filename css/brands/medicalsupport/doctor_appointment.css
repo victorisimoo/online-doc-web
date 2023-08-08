@@ -1,0 +1,80 @@
+/* GLOBAL VARIABLES FOR CORPORATION MAIN AND SECONDARY COLORS */
+:root {
+	--main-color: #B8230F;
+	--secondary-color:#ffffff;
+  --btn-text-color: #B8230F;
+	--btn-text-hover: #B8230F;
+}
+/* END GLOBAL VARIABLES */
+
+/* Scrollbar width */
+::-webkit-scrollbar {
+    width: 15px;
+  }
+  
+/* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+  }
+   
+/* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: grey; 
+    border-radius: 10px;
+  }
+  
+/* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: grey; 
+  }
+
+#PatientInfo div div img {
+    max-height:200px !important;
+    max-width: 100% !important;
+}
+
+.corporate-background{
+    background-color: var(--main-color) !important;
+}
+
+.corporate-color{
+    color: var(--main-color) !important;
+}
+
+.bd-callout-warning {
+    border-left-color: var(--main-color) !important;
+}
+
+.corporate-button{
+    background-color: var(--main-color) !important;
+	border-radius: 10px;
+	color: #FFF !important;
+	border-bottom: 5px solid var(--main-color);
+	font-weight: bold;
+}
+
+.opposite-color{
+    color: #FFF !important;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb{
+    width: 5px;
+    background-color: var(--main-color);
+}
+
+.fg-line:not([class*=has-]):after {
+    background: var(--main-color) !important;
+}
+
+.form-control:focus{
+    border-color: var(--main-color) !important;
+}
+
+:root{
+    --corporate-color : #203c65;
+}

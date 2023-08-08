@@ -1,0 +1,32 @@
+<header style="background: white;" ng-controller='RegisterController'>
+    <ul class="header-inner clearfix" style="border-bottom: 1px solid #e6e6e6;">
+        <li class="logo hidden-xs hidden-md hidden-sm" style="margin-top: 10px; margin-left: 3%;">
+            <div ng-show="isDoctorOnline">
+                <a href="https://www.doctor-online.co" style="padding: 15px 0 15px 0 !important;">
+                    <img id="patient-logo" ng-src="../img/DoctorOnline.jpg" alt="">
+                </a>
+            </div>
+            <div ng-show="!isDoctorOnline">
+                <a href="https://seguros.doctor-online.co/web/views/login.php?resource=07b3dce8307411eda2610242ac120002" style="padding: 15px 0 15px 0 !important;">
+                    <img id="patient-logo" ng-src="../img/DoctorVirtualBW.png" alt="">
+                </a>
+            </div>
+        </li>
+        <li class="logo hidden-lg">
+            <a href="" class="linkRedirectDrOnline" style="margin-top: 10px; margin-left: 5%;">
+                <div ng-show="isDoctorOnline">
+                    <img id="patient-logo-lg" ng-src="../img/DoctorOnline.jpg" alt="">
+                </div>
+                <div ng-show="!isDoctorOnline">
+                    <img style="max-width: 40px !important" id="patient-logo-lg" ng-src="../img/DoctorVirtualBW.png" alt="">
+                </div>
+            </a>
+        </li>
+        <li style="float: right; margin: 0 3%;" class="login">
+            <a class="authLinks" ng-click="toLogin()">Cancelar</a>
+        </li>
+        <li style="float: right; margin: 0 3%;" class="logout hide">
+            <a class="authLinks" ng-click="logout()">Cerrar sesión</a>
+        </li>
+    </ul>
+</header>

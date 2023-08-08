@@ -1,0 +1,50 @@
+<div class="container" ng-controller="DoctorProfileController">
+    <div class="card" id="profile-main">
+        <div class="pm-overview">
+            <div class="pmo-pic">
+                <div class="p-relative">
+                    <a>
+                        <img style="width: 100% !important" class="img-responsive" ng-src="{{doctorPhotoURL}}"  alt="">
+                    </a>
+                </div>
+                <div class="pmo-stat corporate" style="background: #0D683D;">
+                    <h2 class="m-0 c-white">{{doctor.professionalId}}</h2>
+                    {{(corpName != 'sercomed')?'NUM_PROF':'RUT' | translate}}
+                </div>
+            </div>
+        </div>
+
+        <div class="pm-body clearfix">
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2><i class="zmdi zmdi-info m-r-5"></i> {{ 'INFO_GENE' | translate }} </h2>                            
+                </div>
+                <div class="pmbb-body p-l-30">
+                    <div class="pmbb-view">
+                        <dl class="dl-horizontal">
+                            <dt>{{ 'NOMBRE' | translate }}</dt>
+                            <dd>{{doctorName}}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>{{ 'ESPECIALIDADES' | translate }}</dt>
+                            <dd>
+                                <span ng-repeat="item in doctor.docDoctorDocSpecialityList">{{item.specialityId.name + " - " + item.universityId.name}}<br/></span>
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pmb-block">
+                <div class="pmbb-header">
+                    <h2><i class="zmdi zmdi-info m-r-5"></i>{{ 'DOCTOR_SUMMARY' | translate }}</h2>                            
+                </div>
+                <div class="pmbb-body p-l-30">
+                    <div class="pmbb-view" style="text-align : justify; ">
+                        {{ doctor.summary}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

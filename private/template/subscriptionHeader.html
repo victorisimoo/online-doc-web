@@ -1,0 +1,60 @@
+<ul class="header-inner clearfix">
+    <li class="logo hidden-xs hidden-md hidden-sm" style="margin-top: 10px;">
+        <a
+           ng-if-permission="patient">
+            <img id="patient-logo" ng-src="{{imageSrc}}" alt="">
+        </a>
+    </li>
+
+    <li class="logo hidden-lg">
+        <a
+           style="padding: 0;" ng-if-permission="patient">
+            <img  id="patient-logo-lg" ng-src="{{imageSrc}}" alt="">
+        </a>
+    </li>
+
+    <li class="pull-right hidden-xs hidden-md hidden-sm">
+        <br/>
+        <ul class="top-menu">
+            <li>
+                <a id="btn-regresar-doc" class="btn btn-xs btn-danger" ng-if-permission="patient" class="btn btn-xs btn-success" href="" ng-click="hctrl.logout('patient')"><span class="tm-label">{{ 'CERRAR_SESION' | translate }}</span></a>
+            </li>
+        </ul>
+    </li>
+
+    <li class="pull-right hidden-lg">
+        <ul class="top-menu" style="margin-top: 30%">
+            <li class="dropdown" uib-dropdown>
+                <a uib-dropdown-toggle href="" style="color: #ffffff;">
+                    <i class="tm-icon zmdi zmdi-more-vert"></i>
+                </a>
+                <ul class="dropdown-menu dm-icon pull-right">
+                    <li>
+                        <a href="" ng-if-permission="patient" ng-click="hctrl.logout('patient')"><i class="zmdi zmdi-arrow-missed"></i> {{ 'CERRAR_SESION' | translate }}</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </li>
+
+</ul>
+
+<script>
+    $( document ).ready(function() {
+    //alert(getCookie("logo"));
+    //alert(getCookie("buttons"));
+    $("#patient-logo").attr('src', getCookie("logo"));
+    //$("#doctor-logo").attr('src', getCookie("logo"));
+    $("#patient-logo-lg").attr('src', getCookie("logo"));
+    //$("#doctor-logo-lg").attr('src', getCookie("logo"));
+
+    $("#btn-mi-salud").attr('class', getCookie("buttons"));
+    $("#btn-mis-doctores").attr('class', getCookie("buttons"));
+    //$("#btn-mis-pacientes").attr('class', getCookie("buttons"));
+    $("#btn-mi-cuenta-paciente").attr('class', getCookie("buttons"));
+    //$("#btn-mi-cuenta-doctor").attr('class', getCookie("buttons"));
+    $("#cerrar-sesion").attr('class', getCookie("buttons"));
+    //$("#cerrar-sesion-doctor").attr('class', getCookie("buttons"));
+    //alert(getCookie("logouto"));
+});
+</script>
